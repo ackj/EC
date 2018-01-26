@@ -19,10 +19,22 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    api fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    //商品分类。
+    implementation project(':classify')
+    //配送地址。
+    implementation project(':delivery')
+    //商品详情。
+    implementation project(':goodsdetail')
+    //商品首页。
+    implementation project(':goodshome')
+    //商品搜索。
+    implementation project(':goodssearch')
+    //商品订单。
+    implementation project(':order')
+    //购物车。
+    implementation project(':shoppingcart')
 }
