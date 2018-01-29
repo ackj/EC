@@ -5,12 +5,18 @@
     <color name="colorAccent">@color/base_color</color>
 
     <!-- 常用颜色值 -->
-    <color name="base_color">#FC0</color>
-    <color name="default_color">#FC0</color>
-    <color name="base_line">#E7E7E7</color>
-    <color name="base_gray">#F3F5F7</color>
-    <color name="default_gray">#999</color>
-    <color name="base_black">#222222</color>
+    <!--基色-->
+    <color name="base_color">#ED8515</color>
+    <color name="default_color">#E33431</color>
+    <!--基础黑色-->
+    <color name="base_black">#222</color>
+    <color name="default_black">#666</color>
+    <!--基础灰色-->
+    <color name="base_gray">#999</color>
+    <color name="default_gray">#CCC</color>
+    <!--基础白色-->
+    <color name="base_white">#E5E5E5</color>
+    <color name="default_white">#F2F2F2</color>
 
     <color name="white">#FFF</color>
     <color name="black">#000</color>
