@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--备用-->
+    <dimen name="H0">0</dimen>
+    <!--对应的是常用的尺寸大小-->
+    <dimen name="H1">17dp</dimen>
+    <dimen name="H2">16dp</dimen>
+    <dimen name="H3">15dp</dimen>
+    <dimen name="H4">14dp</dimen>
+    <dimen name="H5">13dp</dimen>
+    <dimen name="H6">12dp</dimen>
+    <dimen name="H7">11dp</dimen>
+</resources>
