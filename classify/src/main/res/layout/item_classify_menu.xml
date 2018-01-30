@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="14dp"
+    android:paddingTop="14dp">
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="20dp"
+        android:background="@color/base_color"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_name" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="智能主机"
+        android:textColor="@color/base_color"
+        android:textSize="@dimen/H5" />
+
+
+</LinearLayout>
