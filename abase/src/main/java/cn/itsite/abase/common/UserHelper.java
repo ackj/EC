@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
-import cn.itsite.abase.BaseApplication;
+import cn.itsite.abase.BaseApp;
 
 /**
  * Author：leguang on 2016/5/4 0009 15:49
@@ -90,7 +90,7 @@ public class UserHelper {
     }
 
     private static SharedPreferences getSp() {
-        return BaseApplication.mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+        return BaseApp.mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
     }
 
     private static SharedPreferences.Editor getEditor() {
