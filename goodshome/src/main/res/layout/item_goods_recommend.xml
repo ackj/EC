@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:background="@color/default_white">
+
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="智能安全小卫士"
+        android:textColor="@color/base_black"
+        android:textSize="@dimen/H3"
+        app:layout_constraintBottom_toTopOf="@+id/tv_desc"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/iv_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/tv_desc"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="智能安全小卫士"
+        android:textColor="@color/base_black"
+        android:textSize="@dimen/H5"
+        app:layout_constraintBottom_toTopOf="@+id/tv_price"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/iv_icon"
+        app:layout_constraintTop_toBottomOf="@id/tv_name"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:ellipsize="end"
+        android:gravity="left"
+        android:lines="1"
+        android:text="￥ 589.00"
+        android:textColor="@color/default_color"
+        android:textSize="13dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/iv_icon"
+        app:layout_constraintTop_toBottomOf="@id/tv_desc" />
+</android.support.constraint.ConstraintLayout>

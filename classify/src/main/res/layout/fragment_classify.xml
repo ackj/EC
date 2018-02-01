@@ -64,7 +64,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/ll_unfoldable"
+                android:id="@+id/ll_stretchable"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
                 android:background="@color/default_white">
@@ -76,7 +76,7 @@
                     android:layout_weight="1" />
 
                 <ImageView
-                    android:id="@+id/iv_unfold"
+                    android:id="@+id/iv_stretch"
                     android:layout_width="wrap_content"
                     android:layout_height="33dp"
                     android:background="@color/red"

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/line_1"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/default_white" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginLeft="12dp"
+        android:gravity="center_vertical"
+        android:text="克拉家园便利店"
+        android:textColor="@color/base_black"
+        android:textSize="@dimen/H3"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:text="送货上门"
+        android:textSize="@dimen/H5"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_name"
+        app:layout_constraintLeft_toRightOf="@id/tv_name" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/base_white"
+        app:layout_constraintTop_toBottomOf="@id/tv_name" />
+
+</android.support.constraint.ConstraintLayout>

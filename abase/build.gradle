@@ -102,4 +102,6 @@ dependencies {
     //下拉刷新框架
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-5'
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-5'//没有使用特殊Header，可以不加这行
+    //Banner
+    compile 'com.youth.banner:banner:1.4.10'
 }

@@ -3,7 +3,6 @@ package cn.itsite.ec;
 import android.os.Bundle;
 
 import cn.itsite.abase.mvp.view.base.BaseActivity;
-import cn.itsite.classify.ClassifyFragment;
 
 public class MainActivity extends BaseActivity {
 
@@ -13,8 +12,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
-            loadRootFragment(R.id.fl_main_activity, ClassifyFragment.newInstance());
+            loadRootFragment(R.id.fl_main_activity, MainFragment.newInstance());
         }
-
     }
 }

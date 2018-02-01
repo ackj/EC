@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginRight="12dp"
+        android:gravity="center_vertical"
+        android:text="共3件产品      合计：￥ 5.00"
+        android:textColor="@color/base_black"
+        android:textSize="@dimen/H3"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <View
+        android:id="@+id/line_1"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@color/base_white"
+        app:layout_constraintTop_toBottomOf="@id/tv_amount" />
+
+    <TextView
+        android:id="@+id/tv_contactway"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="10dp"
+        android:text="收货人：黄沙      184****2626"
+        android:textColor="@color/base_black"
+        android:textSize="@dimen/H3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line_1" />
+
+    <TextView
+        android:id="@+id/tv_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="10dp"
+        android:text="广东省惠州市凯宾斯基C座 云山西路2号-801"
+        android:textColor="@color/base_gray"
+        android:textSize="@dimen/H3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_contactway" />
+
+    <View
+
+        android:id="@+id/line_2"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/base_white"
+        app:layout_constraintTop_toBottomOf="@id/tv_location" />
+
+    <TextView
+        android:id="@+id/anchor_1"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginLeft="12dp"
+        android:gravity="center_vertical"
+        android:text="买家留言："
+        android:textColor="@color/default_black"
+        android:textSize="@dimen/H3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line_2" />
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginRight="12dp"
+        android:background="@null"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:hint="其他要求（如带一包芙蓉王，到付）"
+        android:lines="1"
+        android:textColorHint="@color/default_gray"
+        android:textSize="@dimen/H3"
+        app:layout_constraintLeft_toRightOf="@id/anchor_1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line_2" />
+
+</android.support.constraint.ConstraintLayout>

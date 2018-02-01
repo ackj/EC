@@ -11,10 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.nineoldandroids.animation.ValueAnimator;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.itsite.abase.BaseApplication;
+import cn.itsite.abase.BaseApp;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.DensityUtils;
 import cn.itsite.abase.utils.ScreenUtils;
@@ -35,18 +37,19 @@ public class ClassifyFragment extends BaseFragment {
     private RecyclerView mRvContent;
     private RecyclerView mRvSubMenu;
     private LinearLayout mLlToolbar;
-    private ImageView mIvSwitch;
-    private ImageView mIvUnfold;
+    private ImageView mIvSwitchView;
+    private ImageView mIvStretchMenu;
 
     private ClassifyMenuRVAdapter mAdapterMenu;
     private ClassifySubMenuRVAdapter mAdapterSubMenu;
     private ClassifyContentGridRVAdapter mAdapterContentGrid;
     private ClassifyContentLinearRVAdapter mAdapterContentLinear;
-    private LinearLayout mLlUnfoldable;
+    private LinearLayout mLlStretchable;
 
     private GridLayoutManager mContentLayoutManager;
 
-    private static final int ONE_UNFOLD_LINE_HEIGHT = DensityUtils.dp2px(BaseApplication.mContext,33);
+    private static final int ONE_UNFOLD_LINE_HEIGHT = DensityUtils.dp2px(BaseApp.mContext, 33);
+    private static final int ANIMATION_DURATION = 400;
     private int maxUnfoldHeight;//展开的最大高度，不能超过(ONE_UNFOLD_LINE_HEIGHT)的4倍高
 
     public static ClassifyFragment newInstance() {
@@ -65,10 +68,10 @@ public class ClassifyFragment extends BaseFragment {
         mLlToolbar = view.findViewById(R.id.ll_toolbar);
         mRvMenu = view.findViewById(R.id.rv_menu);
         mRvContent = view.findViewById(R.id.rv_content);
-        mIvSwitch = view.findViewById(R.id.iv_switch);
+        mIvSwitchView = view.findViewById(R.id.iv_switch);
         mRvSubMenu = view.findViewById(R.id.rv_sub_menu);
-        mLlUnfoldable = view.findViewById(R.id.ll_unfoldable);
-        mIvUnfold = view.findViewById(R.id.iv_unfold);
+        mLlStretchable = view.findViewById(R.id.ll_stretchable);
+        mIvStretchMenu = view.findViewById(R.id.iv_stretch);
         return attachToSwipeBack(view);
     }
 
@@ -102,11 +105,9 @@ public class ClassifyFragment extends BaseFragment {
 
 
         List<String> data = new ArrayList<>();
-        data.add("");
-        data.add("");
-        data.add("");
-        data.add("");
-        data.add("");
+        for (int i = 0; i < 15; i++) {
+            data.add("");
+        }
         mAdapterMenu.setNewData(data);
         mAdapterSubMenu.setNewData(data);
         mAdapterContentGrid.setNewData(data);
@@ -115,7 +116,7 @@ public class ClassifyFragment extends BaseFragment {
     }
 
     private void initListener() {
-        mIvSwitch.setOnClickListener(new View.OnClickListener() {
+        mIvSwitchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mContentLayoutManager.getSpanCount() == SPAN_COUNT_ONE) {
@@ -128,14 +129,35 @@ public class ClassifyFragment extends BaseFragment {
             }
         });
 
-        mIvUnfold.setOnClickListener(new View.OnClickListener() {
+        mIvStretchMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mLlUnfoldable.getLayoutParams();
-                layoutParams.height = DensityUtils.dp2px(_mActivity,60);
-                mLlUnfoldable.setLayoutParams(layoutParams);
+                int dataCount = 13;
+                maxUnfoldHeight = (int) (Math.min(Math.ceil(dataCount / 3.0), 4) * ONE_UNFOLD_LINE_HEIGHT);
+                if (mIvStretchMenu.isSelected()) {
+                    stretch(ONE_UNFOLD_LINE_HEIGHT);
+                } else {
+                    stretch(maxUnfoldHeight);
+                }
+                mIvStretchMenu.setSelected(!mIvStretchMenu.isSelected());
             }
         });
+    }
+
+    //把三级菜单伸缩至指定的高度
+    private void stretch(int end) {
+        final ViewGroup.LayoutParams layoutParams = mLlStretchable.getLayoutParams();
+        ValueAnimator animator = ValueAnimator.ofInt(layoutParams.height, end);
+        animator.setDuration(ANIMATION_DURATION);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (int) animation.getAnimatedValue();
+                layoutParams.height = value;
+                mLlStretchable.setLayoutParams(layoutParams);
+            }
+        });
+        animator.start();
     }
 
 
