@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.alibaba.android.arouter.launcher.ARouter;
+
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ScreenUtils;
 import q.rorbin.badgeview.QBadgeView;
@@ -57,24 +59,38 @@ public class StoreHomeFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         initStatusBar();
         initData();
+        initListener();
     }
 
     private void initStatusBar() {
         mLlToolbar.setPadding(mLlToolbar.getPaddingLeft(), mLlToolbar.getPaddingTop() + ScreenUtils.getStatusBarHeight(_mActivity), mLlToolbar.getPaddingRight(), mLlToolbar.getPaddingBottom());
     }
 
+
     private void initData() {
         StoreHomeVPAdapter mAdapter = new StoreHomeVPAdapter(getChildFragmentManager());
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
+        //购物车上的小红点数字
         new QBadgeView(_mActivity)
                 .bindTarget(mIvShopCart)
                 .setBadgeTextSize(10, true)
                 .setBadgeGravity(Gravity.END | Gravity.TOP)
                 .setBadgeBackgroundColor(0xA0FF0000)
                 .setBadgeTextColor(0x99FFFFFF)
-                .setBadgeNumber(999);
+                .setBadgeNumber(2);
+    }
+
+    private void initListener() {
+        mIvShopCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance()
+                        .build("/test/shopcart")
+                        .navigation();
+            }
+        });
     }
 
 }

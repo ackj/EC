@@ -47,4 +47,5 @@ dependencies {
     implementation project(':order')
     //购物车。
     implementation project(':shoppingcart')
+
 }

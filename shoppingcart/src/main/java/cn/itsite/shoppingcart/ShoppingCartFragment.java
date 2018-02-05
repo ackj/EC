@@ -24,7 +24,6 @@ import cn.itsite.abase.utils.ScreenUtils;
 
 public class ShoppingCartFragment extends BaseFragment {
 
-
     public static final String TAG = ShoppingCartFragment.class.getSimpleName();
 
     private RelativeLayout mRlToolbar;

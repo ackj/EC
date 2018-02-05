@@ -1,13 +1,18 @@
 package cn.itsite.goodshome;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.alibaba.android.arouter.facade.annotation.Route;
+
+import cn.itsite.abase.mvp.view.base.BaseActivity;
+@Route(path="/test/storehome")
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        if (savedInstanceState == null) {
+            loadRootFragment(android.R.id.content, StoreHomeFragment.newInstance());
+        }
     }
 }

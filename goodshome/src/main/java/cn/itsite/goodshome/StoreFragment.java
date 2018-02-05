@@ -86,7 +86,6 @@ public class StoreFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(new GridLayoutManager(_mActivity, 2));
         mRecyclerView.setAdapter(mAdatper);
 
-
         //todo:待删
         final List<StoreItemBean> data = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
