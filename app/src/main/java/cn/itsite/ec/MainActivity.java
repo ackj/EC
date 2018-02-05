@@ -9,10 +9,10 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
-            loadRootFragment(R.id.fl_main_activity, MainFragment.newInstance());
+            loadRootFragment(android.R.id.content, MainFragment.newInstance());
         }
     }
 }
