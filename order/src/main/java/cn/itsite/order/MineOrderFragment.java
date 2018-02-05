@@ -39,7 +39,7 @@ public class MineOrderFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mine_order, container, false);
-        mLlToolbar = view.findViewById(R.id.ll_toolbar);
+        mLlToolbar = view.findViewById(R.id.rl_toolbar);
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
         return attachToSwipeBack(view);

@@ -42,7 +42,7 @@ public class SubmitOrderFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_submit_order, container, false);
         mRecyclerView = view.findViewById(R.id.recyclerView);
-        mLlToolbar = view.findViewById(R.id.ll_toolbar);
+        mLlToolbar = view.findViewById(R.id.rl_toolbar);
         return attachToSwipeBack(view);
     }
 

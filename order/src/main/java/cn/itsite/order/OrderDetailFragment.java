@@ -40,7 +40,7 @@ public class OrderDetailFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_detail, container, false);
-        mRlToolbar = view.findViewById(R.id.ll_toolbar);
+        mRlToolbar = view.findViewById(R.id.rl_toolbar);
         mRecyclerView = view.findViewById(R.id.recyclerView);
         return attachToSwipeBack(view);
     }

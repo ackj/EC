@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class SelectShoppingAddressFragment extends BaseFragment {
     private static final String TAG = SelectShoppingAddressFragment.class.getSimpleName();
 
     private RecyclerView mRecyclerView;
-    private LinearLayout mLlToolbar;
+    private RelativeLayout mRlToolbar;
     private TextView mTvAdd;
 
     private AddressRVAdapter mAdapter;
@@ -44,7 +44,7 @@ public class SelectShoppingAddressFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_select_shopping_address, container, false);
-        mLlToolbar = view.findViewById(R.id.ll_toolbar);
+        mRlToolbar = view.findViewById(R.id.rl_toolbar);
         mTvAdd = view.findViewById(R.id.tv_add);
         mRecyclerView = view.findViewById(R.id.recyclerView);
         return view;
@@ -59,7 +59,7 @@ public class SelectShoppingAddressFragment extends BaseFragment {
     }
 
     private void initStatusBar() {
-        mLlToolbar.setPadding(mLlToolbar.getPaddingLeft(), mLlToolbar.getPaddingTop() + ScreenUtils.getStatusBarHeight(_mActivity), mLlToolbar.getPaddingRight(), mLlToolbar.getPaddingBottom());
+        mRlToolbar.setPadding(mRlToolbar.getPaddingLeft(), mRlToolbar.getPaddingTop() + ScreenUtils.getStatusBarHeight(_mActivity), mRlToolbar.getPaddingRight(), mRlToolbar.getPaddingBottom());
     }
 
     private void initData() {

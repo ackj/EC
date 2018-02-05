@@ -1,11 +1,13 @@
 package cn.itsite.classify;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -50,7 +52,8 @@ public class ClassifyFragment extends BaseFragment {
 
     private static final int ONE_UNFOLD_LINE_HEIGHT = DensityUtils.dp2px(BaseApp.mContext, 33);
     private static final int ANIMATION_DURATION = 400;
-    private int maxUnfoldHeight;//展开的最大高度，不能超过(ONE_UNFOLD_LINE_HEIGHT)的4倍高
+    //    private int maxUnfoldHeight;//展开的最大高度，不能超过(ONE_UNFOLD_LINE_HEIGHT)的4倍高
+    private boolean subMenuCanScroll = false;//控制三级菜单能否滚动
 
     public static ClassifyFragment newInstance() {
         return new ClassifyFragment();
@@ -99,13 +102,19 @@ public class ClassifyFragment extends BaseFragment {
         mAdapterContentLinear = new ClassifyContentLinearRVAdapter();
         mRvContent.setAdapter(mAdapterContentGrid);
 
-        mRvSubMenu.setLayoutManager(new GridLayoutManager(_mActivity, 3));
+        mRvSubMenu.setLayoutManager(new GridLayoutManager(_mActivity, 3) {
+            @Override
+            public boolean canScrollVertically() {
+                return subMenuCanScroll;
+            }
+        });
         mAdapterSubMenu = new ClassifySubMenuRVAdapter();
         mRvSubMenu.setAdapter(mAdapterSubMenu);
 
 
+
         List<String> data = new ArrayList<>();
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 100; i++) {
             data.add("");
         }
         mAdapterMenu.setNewData(data);
@@ -115,6 +124,7 @@ public class ClassifyFragment extends BaseFragment {
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void initListener() {
         mIvSwitchView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,15 +143,24 @@ public class ClassifyFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 int dataCount = 13;
-                maxUnfoldHeight = (int) (Math.min(Math.ceil(dataCount / 3.0), 4) * ONE_UNFOLD_LINE_HEIGHT);
+                int maxUnfoldHeight = (int) (Math.min(Math.ceil(dataCount / 3.0), 4) * ONE_UNFOLD_LINE_HEIGHT);
                 if (mIvStretchMenu.isSelected()) {
-                    stretch(ONE_UNFOLD_LINE_HEIGHT);
+                    closeSubMenu();
                 } else {
-                    stretch(maxUnfoldHeight);
+                    openSubMenu(maxUnfoldHeight);
                 }
                 mIvStretchMenu.setSelected(!mIvStretchMenu.isSelected());
             }
         });
+
+        mRvContent.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                closeSubMenu();
+                return false;
+            }
+        });
+
     }
 
     //把三级菜单伸缩至指定的高度
@@ -160,6 +179,16 @@ public class ClassifyFragment extends BaseFragment {
         animator.start();
     }
 
+    private void closeSubMenu() {
+        stretch(ONE_UNFOLD_LINE_HEIGHT);
+        mRvSubMenu.scrollToPosition(0);//回到顶部
+        subMenuCanScroll = false;
+    }
+
+    private void openSubMenu(int maxUnfoldHeight) {
+        stretch(maxUnfoldHeight);
+        subMenuCanScroll = true;
+    }
 
     @Override
     public void onDestroyView() {

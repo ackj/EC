@@ -62,25 +62,25 @@ public class StoreFragment extends BaseFragment {
     private void initData() {
         //添加Banner头
         mAdatper = new StoreRVAdapter();
-        Banner banner = new Banner(_mActivity);
-        banner.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DensityUtils.dp2px(_mActivity, 150)));
         List<Integer> images = new ArrayList<>();
         List<String> bannerDatas = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             images.add(R.drawable.test);
             bannerDatas.add("一二三四五，上山打老虎");
         }
+        Banner banner = (Banner) LayoutInflater.from(_mActivity).inflate(R.layout.item_store_banner,null);
+        banner.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DensityUtils.dp2px(_mActivity, 150)));
         banner.setImageLoader(new ImageLoader() {
             @Override
             public void displayImage(Context context, Object path, ImageView imageView) {
                 Glide.with(context).load(path).into(imageView);
             }
-        });
-        banner.setImages(images);
-        banner.setBannerTitles(bannerDatas);
-        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
-        banner.isAutoPlay(true);
-        banner.start();
+        })
+                .setBannerTitles(bannerDatas)
+                .setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE)
+                .setImages(images)
+                .isAutoPlay(true)
+                .start();
         mAdatper.addHeaderView(banner);
 
         mRecyclerView.setLayoutManager(new GridLayoutManager(_mActivity, 2));
