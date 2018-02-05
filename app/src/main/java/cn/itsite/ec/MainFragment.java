@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alibaba.android.arouter.launcher.ARouter;
+
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.classify.ClassifyFragment;
 import cn.itsite.delivery.SelectShoppingAddressFragment;
@@ -67,7 +69,9 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_1:
-                start(StoreHomeFragment.newInstance());
+//                start(StoreHomeFragment.newInstance());
+                ARouter.getInstance().build("/app/main").navigation();
+
                 break;
             case R.id.btn_2:
                 start(SearchGoodsFragment.newInstance());

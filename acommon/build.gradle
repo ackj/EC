@@ -12,7 +12,11 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
     }
 
     buildTypes {
@@ -30,5 +34,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     //基础依赖Module
     api project(':abase')
-
+    //阿里巴巴开源基础路由
+    annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
 }
