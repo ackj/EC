@@ -1,0 +1,168 @@
+package cn.itsite.classify;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import com.nineoldandroids.animation.ValueAnimator;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.itsite.abase.BaseApp;
+import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.abase.utils.DensityUtils;
+import cn.itsite.abase.utils.ScreenUtils;
+
+/**
+ * Author： Administrator on 2018/1/29 0029.
+ * Email： liujia95me@126.com
+ */
+
+public class ClassifyFragment extends BaseFragment {
+
+    public static final String TAG = ClassifyFragment.class.getSimpleName();
+
+    private static final int SPAN_COUNT_ONE = 1;
+    private static final int SPAN_COUNT_TWO = 2;
+
+    private RecyclerView mRvMenu;
+    private RecyclerView mRvContent;
+    private RecyclerView mRvSubMenu;
+    private LinearLayout mLlToolbar;
+    private ImageView mIvSwitchView;
+    private ImageView mIvStretchMenu;
+
+    private ClassifyMenuRVAdapter mAdapterMenu;
+    private ClassifySubMenuRVAdapter mAdapterSubMenu;
+    private ClassifyContentGridRVAdapter mAdapterContentGrid;
+    private ClassifyContentLinearRVAdapter mAdapterContentLinear;
+    private LinearLayout mLlStretchable;
+
+    private GridLayoutManager mContentLayoutManager;
+
+    private static final int ONE_UNFOLD_LINE_HEIGHT = DensityUtils.dp2px(BaseApp.mContext, 33);
+    private static final int ANIMATION_DURATION = 400;
+    private int maxUnfoldHeight;//展开的最大高度，不能超过(ONE_UNFOLD_LINE_HEIGHT)的4倍高
+
+    public static ClassifyFragment newInstance() {
+        return new ClassifyFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_classify, container, false);
+        mLlToolbar = view.findViewById(R.id.ll_toolbar);
+        mRvMenu = view.findViewById(R.id.rv_menu);
+        mRvContent = view.findViewById(R.id.rv_content);
+        mIvSwitchView = view.findViewById(R.id.iv_switch);
+        mRvSubMenu = view.findViewById(R.id.rv_sub_menu);
+        mLlStretchable = view.findViewById(R.id.ll_stretchable);
+        mIvStretchMenu = view.findViewById(R.id.iv_stretch);
+        return attachToSwipeBack(view);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initStatusBar();
+        initData();
+        initListener();
+    }
+
+    private void initStatusBar() {
+        mLlToolbar.setPadding(mLlToolbar.getPaddingLeft(), mLlToolbar.getPaddingTop() + ScreenUtils.getStatusBarHeight(_mActivity), mLlToolbar.getPaddingRight(), mLlToolbar.getPaddingBottom());
+    }
+
+    private void initData() {
+        mContentLayoutManager = new GridLayoutManager(_mActivity, SPAN_COUNT_TWO);
+
+        mRvMenu.setLayoutManager(new LinearLayoutManager(_mActivity));
+        mAdapterMenu = new ClassifyMenuRVAdapter();
+        mRvMenu.setAdapter(mAdapterMenu);
+
+        mRvContent.setLayoutManager(mContentLayoutManager);
+        mAdapterContentGrid = new ClassifyContentGridRVAdapter();
+        mAdapterContentLinear = new ClassifyContentLinearRVAdapter();
+        mRvContent.setAdapter(mAdapterContentGrid);
+
+        mRvSubMenu.setLayoutManager(new GridLayoutManager(_mActivity, 3));
+        mAdapterSubMenu = new ClassifySubMenuRVAdapter();
+        mRvSubMenu.setAdapter(mAdapterSubMenu);
+
+
+        List<String> data = new ArrayList<>();
+        for (int i = 0; i < 15; i++) {
+            data.add("");
+        }
+        mAdapterMenu.setNewData(data);
+        mAdapterSubMenu.setNewData(data);
+        mAdapterContentGrid.setNewData(data);
+        mAdapterContentLinear.setNewData(data);
+
+    }
+
+    private void initListener() {
+        mIvSwitchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mContentLayoutManager.getSpanCount() == SPAN_COUNT_ONE) {
+                    mContentLayoutManager.setSpanCount(SPAN_COUNT_TWO);
+                    mRvContent.setAdapter(mAdapterContentGrid);
+                } else {
+                    mContentLayoutManager.setSpanCount(SPAN_COUNT_ONE);
+                    mRvContent.setAdapter(mAdapterContentLinear);
+                }
+            }
+        });
+
+        mIvStretchMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int dataCount = 13;
+                maxUnfoldHeight = (int) (Math.min(Math.ceil(dataCount / 3.0), 4) * ONE_UNFOLD_LINE_HEIGHT);
+                if (mIvStretchMenu.isSelected()) {
+                    stretch(ONE_UNFOLD_LINE_HEIGHT);
+                } else {
+                    stretch(maxUnfoldHeight);
+                }
+                mIvStretchMenu.setSelected(!mIvStretchMenu.isSelected());
+            }
+        });
+    }
+
+    //把三级菜单伸缩至指定的高度
+    private void stretch(int end) {
+        final ViewGroup.LayoutParams layoutParams = mLlStretchable.getLayoutParams();
+        ValueAnimator animator = ValueAnimator.ofInt(layoutParams.height, end);
+        animator.setDuration(ANIMATION_DURATION);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (int) animation.getAnimatedValue();
+                layoutParams.height = value;
+                mLlStretchable.setLayoutParams(layoutParams);
+            }
+        });
+        animator.start();
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+}

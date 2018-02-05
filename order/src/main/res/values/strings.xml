@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Order</string>
+
+    <array name="mine_order_tabs">
+        <item>全部</item>
+        <item>代付款</item>
+        <item>待收货</item>
+        <item>退款/售后</item>
+    </array>
 </resources>

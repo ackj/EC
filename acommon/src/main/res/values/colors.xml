@@ -34,6 +34,10 @@
     <color name="transparent">#0000</color>
     <color name="lightest_gray">#0a000000</color>
 
+    <!--提示色-->
+    <color name="warn">#FFA940</color>
+    <color name="error">#E33431</color>
+
     <!--———————————————— Material Color Palette ————————————-->
     <!-- Red -->
     <color name="material_red_50">#fde0dc</color>

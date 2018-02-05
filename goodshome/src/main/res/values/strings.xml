@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">GoodsHome</string>
+
+    <string-array name="store_home_tabs">
+        <item>智能商店</item>
+        <item>便利商店</item>
+    </string-array>
 </resources>

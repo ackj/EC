@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/tv_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginRight="12dp"
+        android:gravity="center_vertical"
+        android:text="共3件产品      合计：￥ 5.00"
+        android:textColor="@color/base_black"
+        android:textSize="@dimen/H3"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <View
+        android:id="@+id/line_1"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@color/base_white"
+        app:layout_constraintTop_toBottomOf="@id/tv_amount" />
+
+    <TextView
+        android:id="@+id/tv_contactway"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="10dp"
+        android:text="收货人：黄沙      184****2626"
+        android:textColor="@color/base_black"
+        android:textSize="@dimen/H3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line_1" />
+
+    <TextView
+        android:id="@+id/tv_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="10dp"
+        android:text="广东省惠州市凯宾斯基C座 云山西路2号-801"
+        android:textColor="@color/base_gray"
+        android:textSize="@dimen/H3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_contactway" />
+
+    <View
+        android:id="@+id/line_2"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/base_white"
+        app:layout_constraintTop_toBottomOf="@id/tv_location" />
+
+    <TextView
+        android:id="@+id/anchor_1"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginLeft="12dp"
+        android:gravity="center_vertical"
+        android:text="买家留言："
+        android:textColor="@color/default_black"
+        android:textSize="@dimen/H3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line_2" />
+
+    <TextView
+        android:id="@+id/tv_leave_words"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="12dp"
+        android:background="@null"
+        android:gravity="center_vertical"
+        android:text="带一包芙蓉王，到付"
+        android:textColor="@color/base_gray"
+        android:textSize="@dimen/H3"
+        app:layout_constraintLeft_toRightOf="@id/anchor_1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line_2" />
+
+    <View
+        android:id="@+id/line_3"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/base_white"
+        app:layout_constraintTop_toBottomOf="@id/anchor_1" />
+
+    <TextView
+        android:id="@+id/anchor_2"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginLeft="12dp"
+        android:gravity="center_vertical"
+        android:text="订单号："
+        android:textColor="@color/default_black"
+        android:textSize="@dimen/H3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line_3" />
+
+    <TextView
+        android:id="@+id/tv_order_num"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="12dp"
+        android:background="@null"
+        android:gravity="center_vertical"
+        android:text="23123123154212342132"
+        android:textColor="@color/base_gray"
+        android:textSize="@dimen/H3"
+        app:layout_constraintLeft_toRightOf="@id/anchor_1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line_3" />
+
+    <View
+        android:id="@+id/line_4"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/base_white"
+        app:layout_constraintTop_toBottomOf="@id/anchor_2" />
+
+    <TextView
+        android:id="@+id/anchor_3"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginLeft="12dp"
+        android:gravity="center_vertical"
+        android:text="下单时间："
+        android:textColor="@color/default_black"
+        android:textSize="@dimen/H3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line_4" />
+
+    <TextView
+        android:id="@+id/tv_order_time"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="12dp"
+        android:background="@null"
+        android:gravity="center_vertical"
+        android:text="2017-08-01 20:36:23"
+        android:textColor="@color/base_gray"
+        android:textSize="@dimen/H3"
+        app:layout_constraintLeft_toRightOf="@id/anchor_1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line_4" />
+
+</android.support.constraint.ConstraintLayout>

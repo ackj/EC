@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ACommon</string>
+
+    <string name="search_you_want_to_need_goods">搜索你想要的智能商品</string>
 </resources>

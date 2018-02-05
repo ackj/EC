@@ -8,6 +8,7 @@ import cn.itsite.abase.BaseApp;
  * Email：langmanleguang@qq.com
  */
 public class App extends BaseApp {
+
     private static final String TAG = App.class.getSimpleName();
 
     @Override
