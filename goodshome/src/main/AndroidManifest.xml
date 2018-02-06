@@ -3,7 +3,8 @@
     package="cn.itsite.goodshome">
 
     <application>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity"
+            android:theme="@style/Transparent"/>
     </application>
 
 </manifest>

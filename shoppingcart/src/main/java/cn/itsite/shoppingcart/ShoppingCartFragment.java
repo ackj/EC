@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import cn.itsite.abase.utils.ScreenUtils;
  * Author： Administrator on 2018/1/31 0031.
  * Email： liujia95me@126.com
  */
-
+@Route(path = "/shoppingcart/shoppingcartfragment")
 public class ShoppingCartFragment extends BaseFragment {
 
     public static final String TAG = ShoppingCartFragment.class.getSimpleName();

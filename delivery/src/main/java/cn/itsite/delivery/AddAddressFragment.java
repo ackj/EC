@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ScreenUtils;
 
@@ -14,7 +16,7 @@ import cn.itsite.abase.utils.ScreenUtils;
  * Author： Administrator on 2018/1/31 0031.
  * Email： liujia95me@126.com
  */
-
+@Route(path="/delivery/addaddressfragment")
 public class AddAddressFragment extends BaseFragment {
 
     private static final String TAG = AddAddressFragment.class.getSimpleName();
@@ -35,7 +37,7 @@ public class AddAddressFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_address, container, false);
         mRlToolbar = view.findViewById(R.id.rl_toolbar);
-        return view;
+        return attachToSwipeBack(view);
     }
 
     @Override

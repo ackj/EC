@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +21,7 @@ import cn.itsite.abase.utils.ScreenUtils;
  * Author： Administrator on 2018/2/1 0001.
  * Email： liujia95me@126.com
  */
-
+@Route(path="/order/submitorderfragment")
 public class SubmitOrderFragment extends BaseFragment {
 
     public static final String TAG = SubmitOrderFragment.class.getSimpleName();

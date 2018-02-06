@@ -2,10 +2,8 @@ package cn.itsite.goodshome;
 
 import android.os.Bundle;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
-
 import cn.itsite.abase.mvp.view.base.BaseActivity;
-@Route(path="/test/storehome")
+
 public class MainActivity extends BaseActivity {
 
     @Override

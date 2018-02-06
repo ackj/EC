@@ -9,7 +9,6 @@ import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 
-import cn.itsite.abase.exception.AppExceptionHandler;
 import me.yokeyword.fragmentation.Fragmentation;
 import me.yokeyword.fragmentation.helper.ExceptionHandler;
 
@@ -45,7 +44,7 @@ public class BaseApp extends MultiDexApplication {
             }
         });
 
-        if (BuildConfig.DEBUG) {
+//        if (BuildConfig.DEBUG) {
             Fragmentation.builder()
                     // 设置 栈视图 模式为 悬浮球模式   SHAKE: 摇一摇唤出   NONE：隐藏
                     .stackViewMode(Fragmentation.BUBBLE)
@@ -68,9 +67,9 @@ public class BaseApp extends MultiDexApplication {
 
             // 初始化卡顿监听
 //        BlockCanary.install(this, new AppContext()).start();
-        } else {
-            Thread.setDefaultUncaughtExceptionHandler(AppExceptionHandler.getInstance(this));//在release版中处理全局异常。
-        }
+//        } else {
+//            Thread.setDefaultUncaughtExceptionHandler(AppExceptionHandler.getInstance(this));//在release版中处理全局异常。
+//        }
     }
 
     private void initStrictMode() {

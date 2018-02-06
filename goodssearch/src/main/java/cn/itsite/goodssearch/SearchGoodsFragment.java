@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import cn.itsite.abase.utils.ScreenUtils;
  * Author： Administrator on 2018/1/30 0030.
  * Email： liujia95me@126.com
  */
-
+@Route(path="/goodssearch/searchgoodsfragment")
 public class SearchGoodsFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = SearchGoodsFragment.class.getSimpleName();
@@ -57,7 +58,7 @@ public class SearchGoodsFragment extends BaseFragment implements View.OnClickLis
         mEtInput = view.findViewById(R.id.et_input);
         mIvBack = view.findViewById(R.id.iv_back);
         mRecyclerView = view.findViewById(R.id.recyclerView);
-        return view;
+        return attachToSwipeBack(view);
     }
 
     @Override

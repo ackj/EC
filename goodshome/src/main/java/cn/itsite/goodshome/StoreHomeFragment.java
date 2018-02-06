@@ -3,6 +3,7 @@ package cn.itsite.goodshome;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,7 +22,6 @@ import q.rorbin.badgeview.QBadgeView;
  * Author： Administrator on 2018/1/30 0030.
  * Email： liujia95me@126.com
  */
-
 public class StoreHomeFragment extends BaseFragment {
 
     private static final String TAG = StoreHomeFragment.class.getSimpleName();
@@ -86,9 +86,15 @@ public class StoreHomeFragment extends BaseFragment {
         mIvShopCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ARouter.getInstance()
-                        .build("/test/shopcart")
-                        .navigation();
+                Fragment fragment = (Fragment) ARouter.getInstance().build("/shoppingcart/shoppingcartfragment").navigation();
+                start((BaseFragment) fragment);
+            }
+        });
+        mIvSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = (Fragment) ARouter.getInstance().build("/goodssearch/searchgoodsfragment").navigation();
+                start((BaseFragment) fragment);
             }
         });
     }

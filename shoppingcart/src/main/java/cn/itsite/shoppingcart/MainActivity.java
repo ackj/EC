@@ -6,7 +6,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 
 import cn.itsite.abase.mvp.view.base.BaseActivity;
 
-@Route(path="/test/shopcart")
+@Route(path="/shopcart/mainactivity")
 public class MainActivity extends BaseActivity {
 
     @Override

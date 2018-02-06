@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,7 @@ import cn.itsite.abase.utils.ScreenUtils;
  * Author： Administrator on 2018/1/31 0031.
  * Email： liujia95me@126.com
  */
-
+@Route(path="/delivery/selectshoppingaddressfragment")
 public class SelectShoppingAddressFragment extends BaseFragment {
 
     private static final String TAG = SelectShoppingAddressFragment.class.getSimpleName();
@@ -47,7 +49,7 @@ public class SelectShoppingAddressFragment extends BaseFragment {
         mRlToolbar = view.findViewById(R.id.rl_toolbar);
         mTvAdd = view.findViewById(R.id.tv_add);
         mRecyclerView = view.findViewById(R.id.recyclerView);
-        return view;
+        return attachToSwipeBack(view);
     }
 
     @Override

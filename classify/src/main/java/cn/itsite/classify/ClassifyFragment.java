@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.nineoldandroids.animation.ValueAnimator;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ import cn.itsite.abase.utils.ScreenUtils;
  * Author： Administrator on 2018/1/29 0029.
  * Email： liujia95me@126.com
  */
-
+@Route(path="/classify/classifyfragment")
 public class ClassifyFragment extends BaseFragment {
 
     public static final String TAG = ClassifyFragment.class.getSimpleName();
