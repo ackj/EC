@@ -50,7 +50,7 @@ dependencies {
 
     // todo ----------------以下为自己维护的库，所以版本只需要使用+ -------------------
     //一个扩展性很好的Dialog+DialogFragment工具。
-    api 'com.github.leguang:ADialog:+'
+    api 'com.github.leguang:ADialog:2.0.3'
     //新手引导工具，有带遮罩的和Popwindow两种。
     api 'com.github.leguang:AGuider:+'
     //页面状态管理

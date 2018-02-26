@@ -1,4 +1,4 @@
-apply plugin: 'com.android.library'
+apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
@@ -19,12 +19,28 @@ android {
         }
     }
 
+    signingConfigs {
+        debug {
+            keyAlias 'agl'
+            keyPassword 'aglandroid'
+            storeFile file('../agl.keystore')
+            storePassword 'aglandroid'
+        }
+        release {
+            keyAlias 'agl'
+            keyPassword 'aglandroid'
+            storeFile file('../agl.keystore')
+            storePassword 'aglandroid'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -36,8 +52,17 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
     //公共依赖Module
     api project(':acommon')
     //阿里巴巴开源基础路由
     annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
+
+    //高德地图
+    //3D地图so及jar
+    api 'com.amap.api:3dmap:latest.integration'
+    //定位功能
+    api 'com.amap.api:location:latest.integration'
+    //搜索功能
+    api 'com.amap.api:search:latest.integration'
 }

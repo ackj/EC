@@ -22,7 +22,7 @@
         app:alignContent="flex_start"
         app:alignItems="center"
         app:flexDirection="row"
-        app:dividerDrawable="@drawable/specification_divider"
+        app:dividerDrawable="@drawable/shape_specification_divider"
         app:flexWrap="wrap"
         app:justifyContent="flex_start"/>
 
