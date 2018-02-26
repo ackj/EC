@@ -72,7 +72,7 @@ public class StoreFragment extends BaseFragment {
             images.add(R.drawable.test);
             bannerDatas.add("一二三四五，上山打老虎");
         }
-        Banner banner = (Banner) LayoutInflater.from(_mActivity).inflate(R.layout.item_store_banner,null);
+        Banner banner = (Banner) LayoutInflater.from(_mActivity).inflate(R.layout.item_store_banner, null);
         mLlLocation = banner.findViewById(R.id.ll_location);
         banner.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DensityUtils.dp2px(_mActivity, 150)));
         banner.setImageLoader(new ImageLoader() {
@@ -92,21 +92,21 @@ public class StoreFragment extends BaseFragment {
         mRecyclerView.setAdapter(mAdatper);
 
         //todo:待删
-        final List<StoreItemBean> data = new ArrayList<>();
+        final List<StoreItemGridBean> data = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
-            StoreItemBean moreBean = new StoreItemBean();
-            moreBean.setItemType(StoreItemBean.TYPE_MORE);
+            StoreItemGridBean moreBean = new StoreItemGridBean();
+            moreBean.setItemType(StoreItemGridBean.TYPE_MORE);
             moreBean.setSpanSize(2);
             data.add(moreBean);
 
-            StoreItemBean recommendBean = new StoreItemBean();
-            recommendBean.setItemType(StoreItemBean.TYPE_RECOMMEND);
+            StoreItemGridBean recommendBean = new StoreItemGridBean();
+            recommendBean.setItemType(StoreItemGridBean.TYPE_RECOMMEND);
             recommendBean.setSpanSize(2);
             data.add(recommendBean);
 
             for (int j = 0; j < 4; j++) {
-                StoreItemBean goodsBean = new StoreItemBean();
-                goodsBean.setItemType(StoreItemBean.TYPE_GOODS);
+                StoreItemGridBean goodsBean = new StoreItemGridBean();
+                goodsBean.setItemType(StoreItemGridBean.TYPE_GOODS);
                 goodsBean.setSpanSize(1);
                 data.add(goodsBean);
             }
@@ -125,15 +125,14 @@ public class StoreFragment extends BaseFragment {
         mAdatper.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                StoreItemBean item = mAdatper.getItem(position);
+                StoreItemGridBean item = mAdatper.getItem(position);
                 switch (item.getItemType()) {
-                    case StoreItemBean.TYPE_MORE:
+                    case StoreItemGridBean.TYPE_MORE:
                         Fragment fragment = (Fragment) ARouter.getInstance().build("/classify/classifyfragment").navigation();
                         ((StoreHomeFragment) getParentFragment()).start((BaseFragment) fragment);
                         break;
-                    case StoreItemBean.TYPE_RECOMMEND:
-                        break;
-                    case StoreItemBean.TYPE_GOODS:
+                    case StoreItemGridBean.TYPE_RECOMMEND:
+                    case StoreItemGridBean.TYPE_GOODS:
                         Fragment goodsDetailFragment = (Fragment) ARouter.getInstance().build("/goodsdetail/goodsdetailfragment").navigation();
                         ((StoreHomeFragment) getParentFragment()).start((BaseFragment) goodsDetailFragment);
                         break;

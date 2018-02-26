@@ -16,20 +16,23 @@
         android:textSize="@dimen/H3"
         app:layout_constraintRight_toRightOf="parent" />
 
+
     <View
         android:id="@+id/line_1"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:background="@color/base_white"
+        android:background="@drawable/bitmap_red_blue_line"
         app:layout_constraintTop_toBottomOf="@id/tv_amount" />
 
     <TextView
         android:id="@+id/tv_contactway"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginTop="10dp"
+        android:includeFontPadding="false"
         android:text="收货人：黄沙      184****2626"
         android:textColor="@color/base_black"
         android:textSize="@dimen/H3"
@@ -44,6 +47,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginTop="10dp"
+        android:includeFontPadding="false"
         android:text="广东省惠州市凯宾斯基C座 云山西路2号-801"
         android:textColor="@color/base_gray"
         android:textSize="@dimen/H3"
@@ -56,7 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="3dp"
         android:layout_marginTop="10dp"
-        android:background="@color/base_white"
+        android:background="@drawable/bitmap_red_blue_line"
         app:layout_constraintTop_toBottomOf="@id/tv_location" />
 
     <TextView

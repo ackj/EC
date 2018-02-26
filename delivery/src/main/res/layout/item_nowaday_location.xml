@@ -19,6 +19,8 @@
         android:paddingRight="12dp">
 
         <TextView
+            android:includeFontPadding="false"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="当前定位"
@@ -26,6 +28,8 @@
             android:textSize="@dimen/H4" />
 
         <TextView
+            android:includeFontPadding="false"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

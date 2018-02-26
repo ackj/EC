@@ -6,6 +6,8 @@
     android:background="@color/white">
 
     <TextView
+        android:includeFontPadding="false"
+
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,6 +21,8 @@
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
+        android:includeFontPadding="false"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="22dp"
@@ -29,6 +33,8 @@
         app:layout_constraintLeft_toRightOf="@id/tv_name" />
 
     <TextView
+        android:includeFontPadding="false"
+
         android:id="@+id/tv_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

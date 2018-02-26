@@ -17,6 +17,8 @@
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
+        android:includeFontPadding="false"
+
         android:id="@+id/tv_name"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
@@ -32,6 +34,8 @@
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
+        android:includeFontPadding="false"
+
         android:id="@+id/tv_desc"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
@@ -48,6 +52,8 @@
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
+        android:includeFontPadding="false"
+
         android:id="@+id/tv_price"
         android:layout_width="180dp"
         android:layout_height="wrap_content"

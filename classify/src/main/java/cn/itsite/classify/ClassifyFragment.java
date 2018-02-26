@@ -3,6 +3,7 @@ package cn.itsite.classify;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.nineoldandroids.animation.ValueAnimator;
 
 import java.util.ArrayList;
@@ -28,7 +31,7 @@ import cn.itsite.abase.utils.ScreenUtils;
  * Author： Administrator on 2018/1/29 0029.
  * Email： liujia95me@126.com
  */
-@Route(path="/classify/classifyfragment")
+@Route(path = "/classify/classifyfragment")
 public class ClassifyFragment extends BaseFragment {
 
     public static final String TAG = ClassifyFragment.class.getSimpleName();
@@ -112,8 +115,6 @@ public class ClassifyFragment extends BaseFragment {
         mAdapterSubMenu = new ClassifySubMenuRVAdapter();
         mRvSubMenu.setAdapter(mAdapterSubMenu);
 
-
-
         List<String> data = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             data.add("");
@@ -122,7 +123,6 @@ public class ClassifyFragment extends BaseFragment {
         mAdapterSubMenu.setNewData(data);
         mAdapterContentGrid.setNewData(data);
         mAdapterContentLinear.setNewData(data);
-
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -162,6 +162,13 @@ public class ClassifyFragment extends BaseFragment {
             }
         });
 
+        mAdapterContentLinear.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Fragment goodsDetailFragment = (Fragment) ARouter.getInstance().build("/goodsdetail/goodsdetailfragment").navigation();
+                start((BaseFragment) goodsDetailFragment);
+            }
+        });
     }
 
     //把三级菜单伸缩至指定的高度

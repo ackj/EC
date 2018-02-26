@@ -1,0 +1,11 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:autoMirrored="true"
+    android:viewportHeight="120"
+    android:viewportWidth="120">
+    <path
+        android:name="Search"
+        android:fillColor="#fff"
+        android:pathData="m46.84 5.45c22.81 0 41.3 18.34 41.3 40.97c0 9.47 -3.27 18.16 -8.71 25.09l34.73 34.45c1.01 1 1.51 2.31 1.51 3.62c0 1.31 -0.5 2.62 -1.51 3.62c-1.01 1 -2.33 1.5 -3.65 1.5c-1.32 0 -2.64 -0.5 -3.65 -1.5l-34.73 -34.45c-6.99 5.4 -15.75 8.64 -25.3 8.64c-22.81 0 -41.3 -18.34 -41.3 -40.97c0 -22.63 18.49 -40.97 41.3 -40.97zm0 71.69c17.08 0 30.98 -13.78 30.98 -30.73c0 -16.94 -13.9 -30.73 -30.98 -30.73c-17.08 0 -30.98 13.78 -30.98 30.73c0 16.94 13.9 30.73 30.98 30.73z" />
+</vector>

@@ -26,6 +26,8 @@
             android:src="@drawable/ic_location_white_24dp" />
 
         <TextView
+            android:includeFontPadding="false"
+
             android:layout_marginRight="8dp"
             android:layout_width="match_parent"
             android:text="配送至：惠州市江北区云商西路哈哈哈"

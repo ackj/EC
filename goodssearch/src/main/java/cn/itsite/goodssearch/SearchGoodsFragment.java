@@ -2,6 +2,7 @@ package cn.itsite.goodssearch;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ import cn.itsite.abase.utils.ScreenUtils;
  * Author： Administrator on 2018/1/30 0030.
  * Email： liujia95me@126.com
  */
-@Route(path="/goodssearch/searchgoodsfragment")
+@Route(path = "/goodssearch/searchgoodsfragment")
 public class SearchGoodsFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = SearchGoodsFragment.class.getSimpleName();
@@ -120,6 +122,27 @@ public class SearchGoodsFragment extends BaseFragment implements View.OnClickLis
         mTvSearch.setOnClickListener(this);
         mEtInput.setOnClickListener(this);
         mIvBack.setOnClickListener(this);
+
+        mSearchGoodsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                SearchGoodsBean item = mSearchGoodsAdapter.getItem(position);
+                switch (item.getItemType()) {
+                    case SearchGoodsBean.TYPE_HISTORY_TITLE:
+                        break;
+                    case SearchGoodsBean.TYPE_HISTORY_ITEM:
+                        break;
+                    case SearchGoodsBean.TYPE_SEARCH_STRING:
+                        break;
+                    case SearchGoodsBean.TYPE_SEARCH_GOODS:
+                        Fragment goodsDetailFragment = (Fragment) ARouter.getInstance().build("/goodsdetail/goodsdetailfragment").navigation();
+                        start((BaseFragment) goodsDetailFragment);
+                        break;
+                    default:
+
+                }
+            }
+        });
     }
 
     @Override
@@ -128,7 +151,7 @@ public class SearchGoodsFragment extends BaseFragment implements View.OnClickLis
             refreshData(data);
         } else if (v.getId() == R.id.et_input) {
             refreshData(data2);
-         } else if (v.getId() == R.id.tv_search) {
+        } else if (v.getId() == R.id.tv_search) {
             refreshData(data3);
         }
     }

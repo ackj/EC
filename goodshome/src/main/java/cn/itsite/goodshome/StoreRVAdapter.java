@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
  * Email： liujia95me@126.com
  */
 
-public class StoreRVAdapter extends BaseMultiItemQuickAdapter<StoreItemBean, BaseViewHolder> {
+public class StoreRVAdapter extends BaseMultiItemQuickAdapter<StoreItemGridBean, BaseViewHolder> {
 
 
     /**
@@ -17,19 +17,19 @@ public class StoreRVAdapter extends BaseMultiItemQuickAdapter<StoreItemBean, Bas
      */
     public StoreRVAdapter() {
         super(null);
-        addItemType(StoreItemBean.TYPE_MORE, R.layout.item_goods_more);
-        addItemType(StoreItemBean.TYPE_RECOMMEND, R.layout.item_goods_recommend);
-        addItemType(StoreItemBean.TYPE_GOODS, R.layout.item_grid_goods);
+        addItemType(StoreItemGridBean.TYPE_MORE, R.layout.item_goods_more);
+        addItemType(StoreItemGridBean.TYPE_RECOMMEND, R.layout.item_goods_recommend);
+        addItemType(StoreItemGridBean.TYPE_GOODS, R.layout.item_grid_goods);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, final StoreItemBean item) {
+    protected void convert(BaseViewHolder helper, final StoreItemGridBean item) {
         switch (item.getItemType()) {
-            case StoreItemBean.TYPE_MORE:
+            case StoreItemGridBean.TYPE_MORE:
                 break;
-            case StoreItemBean.TYPE_RECOMMEND:
+            case StoreItemGridBean.TYPE_RECOMMEND:
                 break;
-            case StoreItemBean.TYPE_GOODS:
+            case StoreItemGridBean.TYPE_GOODS:
                 break;
             default:
         }

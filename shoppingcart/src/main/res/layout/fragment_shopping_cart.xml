@@ -53,7 +53,8 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <RadioButton
+        <CheckBox
+            android:id="@+id/cb_select_all"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"

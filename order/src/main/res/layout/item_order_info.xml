@@ -19,10 +19,12 @@
         android:id="@+id/line_1"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:background="@color/base_white"
+        android:background="@drawable/bitmap_red_blue_line"
         app:layout_constraintTop_toBottomOf="@id/tv_amount" />
 
     <TextView
+        android:includeFontPadding="false"
+
         android:id="@+id/tv_contactway"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,6 +39,8 @@
         app:layout_constraintTop_toBottomOf="@id/line_1" />
 
     <TextView
+        android:includeFontPadding="false"
+
         android:id="@+id/tv_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,7 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="3dp"
         android:layout_marginTop="10dp"
-        android:background="@color/base_white"
+        android:background="@drawable/bitmap_red_blue_line"
         app:layout_constraintTop_toBottomOf="@id/tv_location" />
 
     <TextView
