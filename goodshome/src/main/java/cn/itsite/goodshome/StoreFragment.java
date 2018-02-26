@@ -3,6 +3,7 @@ package cn.itsite.goodshome;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.youth.banner.Banner;
@@ -34,6 +37,7 @@ public class StoreFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
     private StoreRVAdapter mAdatper;
+    private LinearLayout mLlLocation;
 
     public static StoreFragment newInstance() {
         return new StoreFragment();
@@ -62,30 +66,30 @@ public class StoreFragment extends BaseFragment {
     private void initData() {
         //添加Banner头
         mAdatper = new StoreRVAdapter();
-        Banner banner = new Banner(_mActivity);
-        banner.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DensityUtils.dp2px(_mActivity, 150)));
         List<Integer> images = new ArrayList<>();
         List<String> bannerDatas = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             images.add(R.drawable.test);
             bannerDatas.add("一二三四五，上山打老虎");
         }
+        Banner banner = (Banner) LayoutInflater.from(_mActivity).inflate(R.layout.item_store_banner,null);
+        mLlLocation = banner.findViewById(R.id.ll_location);
+        banner.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DensityUtils.dp2px(_mActivity, 150)));
         banner.setImageLoader(new ImageLoader() {
             @Override
             public void displayImage(Context context, Object path, ImageView imageView) {
                 Glide.with(context).load(path).into(imageView);
             }
-        });
-        banner.setImages(images);
-        banner.setBannerTitles(bannerDatas);
-        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
-        banner.isAutoPlay(true);
-        banner.start();
+        })
+                .setBannerTitles(bannerDatas)
+                .setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE)
+                .setImages(images)
+                .isAutoPlay(true)
+                .start();
         mAdatper.addHeaderView(banner);
 
         mRecyclerView.setLayoutManager(new GridLayoutManager(_mActivity, 2));
         mRecyclerView.setAdapter(mAdatper);
-
 
         //todo:待删
         final List<StoreItemBean> data = new ArrayList<>();
@@ -124,13 +128,24 @@ public class StoreFragment extends BaseFragment {
                 StoreItemBean item = mAdatper.getItem(position);
                 switch (item.getItemType()) {
                     case StoreItemBean.TYPE_MORE:
+                        Fragment fragment = (Fragment) ARouter.getInstance().build("/classify/classifyfragment").navigation();
+                        ((StoreHomeFragment) getParentFragment()).start((BaseFragment) fragment);
                         break;
                     case StoreItemBean.TYPE_RECOMMEND:
                         break;
                     case StoreItemBean.TYPE_GOODS:
+                        Fragment goodsDetailFragment = (Fragment) ARouter.getInstance().build("/goodsdetail/goodsdetailfragment").navigation();
+                        ((StoreHomeFragment) getParentFragment()).start((BaseFragment) goodsDetailFragment);
                         break;
                     default:
                 }
+            }
+        });
+        mLlLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = (Fragment) ARouter.getInstance().build("/delivery/selectshoppingaddressfragment").navigation();
+                ((StoreHomeFragment) getParentFragment()).start((BaseFragment) fragment);
             }
         });
     }

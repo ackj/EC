@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,7 @@ import cn.itsite.abase.mvp.view.base.BaseFragment;
  * Author： Administrator on 2018/2/1 0001.
  * Email： liujia95me@126.com
  */
-
+@Route(path="/order/orderlistfragment")
 public class OrderListFragment extends BaseFragment {
 
     public static final String TAG = OrderListFragment.class.getSimpleName();

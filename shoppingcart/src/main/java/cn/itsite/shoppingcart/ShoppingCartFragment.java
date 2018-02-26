@@ -7,8 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -21,13 +22,12 @@ import cn.itsite.abase.utils.ScreenUtils;
  * Author： Administrator on 2018/1/31 0031.
  * Email： liujia95me@126.com
  */
-
+@Route(path = "/shoppingcart/shoppingcartfragment")
 public class ShoppingCartFragment extends BaseFragment {
-
 
     public static final String TAG = ShoppingCartFragment.class.getSimpleName();
 
-    private LinearLayout mLlToolbar;
+    private RelativeLayout mRlToolbar;
     private RecyclerView mRecyclerView;
     private ShoppingCartRVAdapter mAdapter;
 
@@ -45,7 +45,7 @@ public class ShoppingCartFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shopping_cart, container, false);
         mRecyclerView = view.findViewById(R.id.recyclerView);
-        mLlToolbar = view.findViewById(R.id.ll_toolbar);
+        mRlToolbar = view.findViewById(R.id.rl_toolbar);
         return attachToSwipeBack(view);
     }
 
@@ -58,7 +58,7 @@ public class ShoppingCartFragment extends BaseFragment {
     }
 
     private void initStatusBar() {
-        mLlToolbar.setPadding(mLlToolbar.getPaddingLeft(), mLlToolbar.getPaddingTop() + ScreenUtils.getStatusBarHeight(_mActivity), mLlToolbar.getPaddingRight(), mLlToolbar.getPaddingBottom());
+        mRlToolbar.setPadding(mRlToolbar.getPaddingLeft(), mRlToolbar.getPaddingTop() + ScreenUtils.getStatusBarHeight(_mActivity), mRlToolbar.getPaddingRight(), mRlToolbar.getPaddingBottom());
     }
 
     private void initData() {

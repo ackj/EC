@@ -13,11 +13,11 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:background="@color/red" />
+            android:id="@+id/iv_back"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_arrow_left_gray_24dp" />
 
         <EditText
             android:layout_width="0dp"
@@ -35,7 +35,8 @@
             android:id="@+id/iv_switch"
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:background="@color/red" />
+            android:padding="11dp"
+            android:src="@drawable/ic_item_switch0_gray_24dp" />
     </LinearLayout>
 
     <View
@@ -77,11 +78,10 @@
 
                 <ImageView
                     android:id="@+id/iv_stretch"
-                    android:layout_width="wrap_content"
+                    android:layout_width="33dp"
                     android:layout_height="33dp"
-                    android:background="@color/red"
-                    android:paddingLeft="6dp"
-                    android:paddingRight="12dp" />
+                    android:padding="9dp"
+                    android:src="@drawable/ic_arrow_bottom_gray_24dp" />
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView

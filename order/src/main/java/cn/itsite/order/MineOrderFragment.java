@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ScreenUtils;
 
@@ -16,7 +18,7 @@ import cn.itsite.abase.utils.ScreenUtils;
  * Author： Administrator on 2018/2/1 0001.
  * Email： liujia95me@126.com
  */
-
+@Route(path="/order/mineorderfragment")
 public class MineOrderFragment extends BaseFragment {
 
     public static final String TAG = MineOrderFragment.class.getSimpleName();
@@ -39,7 +41,7 @@ public class MineOrderFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mine_order, container, false);
-        mLlToolbar = view.findViewById(R.id.ll_toolbar);
+        mLlToolbar = view.findViewById(R.id.rl_toolbar);
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
         return attachToSwipeBack(view);

@@ -3,20 +3,25 @@ package cn.itsite.goodshome;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.alibaba.android.arouter.launcher.ARouter;
 
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ScreenUtils;
+import q.rorbin.badgeview.QBadgeView;
 
 /**
  * Author： Administrator on 2018/1/30 0030.
  * Email： liujia95me@126.com
  */
-
 public class StoreHomeFragment extends BaseFragment {
 
     private static final String TAG = StoreHomeFragment.class.getSimpleName();
@@ -24,6 +29,8 @@ public class StoreHomeFragment extends BaseFragment {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private LinearLayout mLlToolbar;
+    private ImageView mIvSearch;
+    private ImageView mIvShopCart;
 
 
     public static StoreHomeFragment newInstance() {
@@ -42,6 +49,8 @@ public class StoreHomeFragment extends BaseFragment {
         mTabLayout = view.findViewById(R.id.tabLayout);
         mViewPager = view.findViewById(R.id.viewPager);
         mLlToolbar = view.findViewById(R.id.ll_toolbar);
+        mIvSearch = view.findViewById(R.id.iv_search);
+        mIvShopCart = view.findViewById(R.id.iv_shop_cart);
         return attachToSwipeBack(view);
     }
 
@@ -50,16 +59,44 @@ public class StoreHomeFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         initStatusBar();
         initData();
+        initListener();
     }
 
     private void initStatusBar() {
         mLlToolbar.setPadding(mLlToolbar.getPaddingLeft(), mLlToolbar.getPaddingTop() + ScreenUtils.getStatusBarHeight(_mActivity), mLlToolbar.getPaddingRight(), mLlToolbar.getPaddingBottom());
     }
 
+
     private void initData() {
         StoreHomeVPAdapter mAdapter = new StoreHomeVPAdapter(getChildFragmentManager());
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
+
+        //购物车上的小红点数字
+        new QBadgeView(_mActivity)
+                .bindTarget(mIvShopCart)
+                .setBadgeTextSize(10, true)
+                .setBadgeGravity(Gravity.END | Gravity.TOP)
+                .setBadgeBackgroundColor(0xA0FF0000)
+                .setBadgeTextColor(0x99FFFFFF)
+                .setBadgeNumber(2);
+    }
+
+    private void initListener() {
+        mIvShopCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = (Fragment) ARouter.getInstance().build("/shoppingcart/shoppingcartfragment").navigation();
+                start((BaseFragment) fragment);
+            }
+        });
+        mIvSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = (Fragment) ARouter.getInstance().build("/goodssearch/searchgoodsfragment").navigation();
+                start((BaseFragment) fragment);
+            }
+        });
     }
 
 }

@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -12,9 +11,9 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_alignBottom="@+id/tv_title"
             android:layout_width="44dp"
             android:layout_height="44dp"
+            android:layout_alignBottom="@+id/tv_title"
             android:layout_centerVertical="true"
             android:padding="14dp"
             android:src="@drawable/ic_arrow_left_gray_24dp" />
@@ -29,23 +28,19 @@
             android:textColor="@color/base_black"
             android:textSize="@dimen/H1" />
 
-        <TextView
-            android:id="@+id/tv_add"
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
             android:layout_width="wrap_content"
-            android:layout_height="44dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="12dp"
-            android:gravity="center"
-            android:text="编辑"
-            android:textColor="@color/base_black"
-            android:textSize="@dimen/H3" />
+            android:layout_height="@dimen/toolbar_height"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone" />
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <WebView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:background="@color/red" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,34 +48,46 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <RadioButton
+        <LinearLayout
+            android:id="@+id/ll_shopcart"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_weight="1"
-            android:text="全选"
-            android:textColor="@color/base_gray"
-            android:textSize="@dimen/H3" />
+            android:layout_weight="24"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:src="@drawable/ic_cart_gray_24dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="购物车"
+                android:textColor="@color/default_black"
+                android:textSize="@dimen/H6" />
+        </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="合计："
-            android:textColor="@color/base_gray"
-            android:textSize="@dimen/H3" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="￥ 5.00" />
-
-        <TextView
-            android:layout_width="95dp"
+            android:id="@+id/tv_buy_it_now"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="25dp"
+            android:layout_weight="38"
+            android:background="@color/error"
+            android:gravity="center"
+            android:text="立即购买"
+            android:textColor="@color/white"
+            android:textSize="@dimen/H3" />
+
+        <TextView
+            android:id="@+id/tv_put_shopcart"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="38"
             android:background="@color/warn"
             android:gravity="center"
-            android:text="结算"
+            android:text="加入购物车"
             android:textColor="@color/white"
             android:textSize="@dimen/H3" />
     </LinearLayout>

@@ -5,7 +5,9 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
+import com.alibaba.android.arouter.facade.annotation.Route;
 
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ScreenUtils;
@@ -14,13 +16,12 @@ import cn.itsite.abase.utils.ScreenUtils;
  * Author： Administrator on 2018/1/31 0031.
  * Email： liujia95me@126.com
  */
-
+@Route(path="/delivery/addaddressfragment")
 public class AddAddressFragment extends BaseFragment {
 
     private static final String TAG = AddAddressFragment.class.getSimpleName();
 
-
-    private LinearLayout mLlToolbar;
+    private RelativeLayout mRlToolbar;
 
     public static AddAddressFragment newInstance() {
         return new AddAddressFragment();
@@ -35,8 +36,8 @@ public class AddAddressFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_address, container, false);
-        mLlToolbar = view.findViewById(R.id.ll_toolbar);
-        return view;
+        mRlToolbar = view.findViewById(R.id.rl_toolbar);
+        return attachToSwipeBack(view);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class AddAddressFragment extends BaseFragment {
     }
 
     private void initStatusBar() {
-        mLlToolbar.setPadding(mLlToolbar.getPaddingLeft(), mLlToolbar.getPaddingTop() + ScreenUtils.getStatusBarHeight(_mActivity), mLlToolbar.getPaddingRight(), mLlToolbar.getPaddingBottom());
+        mRlToolbar.setPadding(mRlToolbar.getPaddingLeft(), mRlToolbar.getPaddingTop() + ScreenUtils.getStatusBarHeight(_mActivity), mRlToolbar.getPaddingRight(), mRlToolbar.getPaddingBottom());
     }
 
     private void initData() {

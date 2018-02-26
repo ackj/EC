@@ -1,0 +1,10 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportHeight="120"
+    android:viewportWidth="120">
+    <path
+        android:name="PEN 2"
+        android:fillColor="#ccc"
+        android:pathData="m107.08 111h-95.16c-2.72 0 -4.92 -2.21 -4.92 -4.94c0 -2.73 2.2 -4.94 4.92 -4.94h95.16c2.72 0 4.92 2.21 4.92 4.94c0 2.73 -2.2 4.94 -4.92 4.94zm-19.96 -73.3 -13.86 -13.89 10.39 -10.42c1.91 -1.92 5.02 -1.92 6.93 0l6.93 6.95c1.91 1.92 1.91 5.03 0 6.95l-10.39 10.42zm-45.03 45.15 -13.86 -13.89 41.57 -41.68 13.86 13.89 -41.57 41.68zm-21.96 8.1 4.61 -18.52 13.86 13.9 -18.47 4.62z" />
+</vector>
