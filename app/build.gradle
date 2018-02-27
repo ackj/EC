@@ -17,6 +17,22 @@ android {
             }
         }
     }
+
+    signingConfigs {
+        debug {
+            keyAlias 'agl'
+            keyPassword 'aglandroid'
+            storeFile file('../agl.keystore')
+            storePassword 'aglandroid'
+        }
+        release {
+            keyAlias 'agl'
+            keyPassword 'aglandroid'
+            storeFile file('../agl.keystore')
+            storePassword 'aglandroid'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -35,6 +51,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    //阿里巴巴开源基础路由
+    annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
     //商品分类。
     implementation project(':classify')
     //配送地址。
@@ -49,6 +67,6 @@ dependencies {
     implementation project(':order')
     //购物车。
     implementation project(':shoppingcart')
-    //阿里巴巴开源基础路由
-    annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
+    //地图选址。
+    implementation project(':albs')
 }

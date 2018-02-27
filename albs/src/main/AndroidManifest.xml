@@ -2,17 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.itsite.albs">
 
-    <!--<application>-->
-    <!--<activity android:name=".MainActivity"></activity>-->
-    <!--&lt;!&ndash; 以下为高德地图配置 &ndash;&gt;-->
-    <!--<meta-data-->
-    <!--android:name="com.amap.api.v2.apikey"-->
-    <!--android:value="a4115c592b8ffbbf3ddf11d154bd95f3" />-->
-
-    <!--<service android:name="com.amap.api.location.APSService" />-->
-    <!--&lt;!&ndash; 以上为高德地图配置 &ndash;&gt;-->
-    <!--</application>-->
-
     <!--地图包、搜索包需要的基础权限-->
     <!--允许程序打开网络套接字-->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -30,33 +19,12 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
-    <application
-        android:name="cn.itsite.abase.BaseApp"
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-
-        <!-- 以下为高德地图配置 -->
-        <meta-data
-            android:name="com.amap.api.v2.apikey"
-            android:value="78bd2f9485c469465ab09f6c8cc7ff41" />
-
-        <service android:name="com.amap.api.location.APSService" />
-        <!-- 以上为高德地图配置 -->
-
+    <application>
         <activity
             android:name=".MainActivity"
             android:theme="@style/Transparent"
-            android:windowSoftInputMode="adjustPan|adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:windowSoftInputMode="adjustPan|adjustResize" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

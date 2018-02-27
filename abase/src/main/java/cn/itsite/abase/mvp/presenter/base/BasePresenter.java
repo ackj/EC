@@ -3,7 +3,6 @@ package cn.itsite.abase.mvp.presenter.base;
 import android.support.annotation.NonNull;
 import android.support.annotation.UiThread;
 
-import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 import com.orhanobut.logger.Logger;
 
 import org.json.JSONException;
@@ -15,6 +14,7 @@ import java.net.SocketTimeoutException;
 
 import cn.itsite.abase.common.RxManager;
 import cn.itsite.abase.mvp.contract.base.BaseContract;
+import retrofit2.adapter.rxjava.HttpException;
 
 
 /**

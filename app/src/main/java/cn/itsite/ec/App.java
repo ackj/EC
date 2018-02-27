@@ -2,8 +2,9 @@ package cn.itsite.ec;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 
-import cn.itsite.abase.BaseApp;
+import org.litepal.LitePal;
 
+import cn.itsite.abase.BaseApp;
 
 /**
  * Author：leguang on 2016/10/9 0009 15:49
@@ -16,6 +17,7 @@ public class App extends BaseApp {
     public void onCreate() {
         super.onCreate();
         initRouter();
+        LitePal.initialize(this);//初始化ORM。
     }
 
     private void initRouter() {

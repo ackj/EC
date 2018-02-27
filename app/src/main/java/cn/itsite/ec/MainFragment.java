@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.albs.location.LocationFragment;
 import cn.itsite.classify.ClassifyFragment;
 import cn.itsite.delivery.SelectShoppingAddressFragment;
 import cn.itsite.goodshome.StoreHomeFragment;
@@ -55,6 +56,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
         getView().findViewById(R.id.btn_7).setOnClickListener(this);
         getView().findViewById(R.id.btn_8).setOnClickListener(this);
         getView().findViewById(R.id.btn_9).setOnClickListener(this);
+        getView().findViewById(R.id.btn_10).setOnClickListener(this);
     }
 
     @Override
@@ -91,6 +93,9 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
                 start(OrderDetailFragment.newInstance());
                 break;
             case R.id.btn_9:
+                break;
+            case R.id.btn_10:
+                start(LocationFragment.newInstance());
                 break;
             default:
         }

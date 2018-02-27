@@ -10,6 +10,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- 以下为高德地图配置 -->
+        <!--这个的配置位置必须是在高德后台配置的那个包名对应的AndroidManifest.xml文件中-->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="78bd2f9485c469465ab09f6c8cc7ff41" />
+
+        <service android:name="com.amap.api.location.APSService" />
+        <!-- 以上为高德地图配置 -->
+
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan|adjustResize">
