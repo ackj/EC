@@ -9,7 +9,6 @@
         android:id="@+id/iv_back_search_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="7dp"
         android:layout_marginTop="27dp"
         android:padding="10dp"
         android:src="@drawable/ic_arrow_left_gray_24dp"
@@ -23,8 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:gravity="center"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
+        android:paddingEnd="15dp"
+        android:paddingStart="5dp"
         android:text="@string/city"
         android:textColor="@color/base_black"
         android:textSize="13sp"
@@ -44,15 +43,18 @@
         android:gravity="center_vertical"
         android:hint="@string/search_poi_keywords"
         android:imeOptions="actionSearch"
-        android:maxLength="20"
         android:maxLines="1"
         android:paddingStart="15dp"
+        android:singleLine="true"
         android:textColorHint="@color/base_gray"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/iv_back_search_fragment"
         app:layout_constraintLeft_toRightOf="@+id/tv_city_search_fragment"
         app:layout_constraintRight_toLeftOf="@+id/tv_search_search_fragment"
-        app:layout_constraintTop_toTopOf="@+id/iv_back_search_fragment" />
+        app:layout_constraintTop_toTopOf="@+id/iv_back_search_fragment">
+
+        <requestFocus />
+    </EditText>
 
     <ImageView
         android:id="@+id/iv_clear_search_fragment"
@@ -69,7 +71,6 @@
         android:id="@+id/tv_search_search_fragment"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginEnd="7dp"
         android:gravity="center"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"

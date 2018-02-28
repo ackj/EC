@@ -20,13 +20,28 @@
         android:layout_height="wrap_content"
         android:background="@drawable/shape_bg_adialog_selector"
         android:padding="10dp"
-        android:text="定位中…"
+        android:paddingBottom="10dp"
+        android:paddingEnd="10dp"
+        android:paddingStart="28dp"
+        android:paddingTop="10dp"
+        android:text="@string/locating"
         android:textColor="@color/base_color"
         android:textSize="13sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/recyclerView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_locating_location_fragment"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="10dp"
+        android:src="@drawable/ic_location_white_24dp"
+        android:tint="@color/base_color"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_location_fragment"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_location_fragment" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"

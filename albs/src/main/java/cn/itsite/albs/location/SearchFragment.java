@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.services.core.AMapException;
+import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.help.Inputtips;
 import com.amap.api.services.help.InputtipsQuery;
 import com.amap.api.services.help.Tip;
@@ -94,9 +95,12 @@ public class SearchFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         initData();
         requestHistory();
+        KeyBoardUtils.showKeybord(etKeyword, BaseApp.mContext);
     }
 
     private void initData() {
+        ivBack.setOnClickListener(v -> _mActivity.onBackPressed());
+
         tvCity.setText(amapLocation == null ? "城市" : amapLocation.getCity());
 
         etKeyword.addTextChangedListener(new TextWatcher() {
@@ -129,13 +133,15 @@ public class SearchFragment extends BaseFragment {
             return false;
         });
 
-        ivClear.setOnClickListener(v -> {
-            etKeyword.getEditableText().clear();
-        });
+        ivClear.setOnClickListener(v -> etKeyword.getEditableText().clear());
 
         tvSearch.setOnClickListener(v -> {
-            showLoading();
-            search(etKeyword.getText().toString().trim(), tvCity.getText().toString());
+            if (etKeyword.getText().length() > 0) {
+                showLoading();
+                search(etKeyword.getText().toString().trim(), tvCity.getText().toString());
+            } else {
+                DialogHelper.warningSnackbar(getView(), "亲！请输入关键字再搜索哦！");
+            }
         });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
@@ -155,7 +161,7 @@ public class SearchFragment extends BaseFragment {
             Bundle bundle = new Bundle();
             bundle.putParcelable(TIP, tip);
             setFragmentResult(SupportFragment.RESULT_OK, bundle);
-            pop();
+            _mActivity.onBackPressed();
         });
     }
 
@@ -183,22 +189,6 @@ public class SearchFragment extends BaseFragment {
     }
 
     private void requestHistory() {
-
-//        DataSupport.findAllAsync(TipsHistoryData.class).listen(new FindMultiCallback() {
-//            @Override
-//            public <T> void onFinish(List<T> t) {
-//                List<TipsHistoryData> historyData = (List<TipsHistoryData>) t;
-//                List<Tip> tips = new ArrayList<>(historyData.size());
-//                for (TipsHistoryData history : historyData) {
-//                    Tip tip = new Tip();
-//                    tip.setName(history.getName());
-//                    tip.setDistrict(history.getDescription());
-//                    tips.add(tip);
-//                }
-//                adapter.setNewData(tips);
-//            }
-//        });
-
         Observable.create((Observable.OnSubscribe<List<TipsHistoryData>>) subscriber -> {
             subscriber.onStart();
             try {
@@ -213,6 +203,7 @@ public class SearchFragment extends BaseFragment {
             Tip tip = new Tip();
             tip.setName(history.getName());
             tip.setDistrict(history.getDescription());
+            tip.setPostion(new LatLonPoint(history.getLatitude(), history.getLongitude()));
             tip.setTypeCode("-1");
             return tip;
         }).toList()
@@ -233,17 +224,19 @@ public class SearchFragment extends BaseFragment {
         TipsHistoryData history = new TipsHistoryData();
         history.setName(tip.getName());
         history.setDescription(tip.getDistrict());
+        history.setLongitude(tip.getPoint().getLongitude());
+        history.setLatitude(tip.getPoint().getLatitude());
         history.save();
     }
 
     private void delete(Tip tip) {
         Log.e(TAG, tip.getName());
         DataSupport.deleteAllAsync(TipsHistoryData.class, "name = ?", tip.getName())
-                .listen(rows -> Log.e(TAG, "4444  rows-->" + rows));
+                .listen(rows -> Log.e(TAG, "rows-->" + rows));
     }
 
     private void deleteAll() {
         DataSupport.deleteAllAsync(TipsHistoryData.class)
-                .listen(rows -> Log.e(TAG, "4444  rows-->" + rows));
+                .listen(rows -> Log.e(TAG, "rows-->" + rows));
     }
 }
