@@ -21,6 +21,7 @@ import java.util.List;
 
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ScreenUtils;
+import cn.itsite.acommon.SpecificationDialog;
 
 /**
  * Author： Administrator on 2018/1/31 0031.
@@ -107,14 +108,17 @@ public class ShoppingCartFragment extends BaseFragment {
     }
 
     private void initListener() {
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 ShoppingCartGridBean item = mAdapter.getItem(position);
                 switch (item.getItemType()) {
                     case ShoppingCartGridBean.TYPE_STORE_TITLE:
                         break;
                     case ShoppingCartGridBean.TYPE_STORE_GOODS:
+                        if(view.getId() == R.id.tv_specification){
+                            showSpecificationDialog();
+                        }
                         break;
                     case ShoppingCartGridBean.TYPE_RECOMMEND_TITLE:
                         break;
@@ -150,6 +154,11 @@ public class ShoppingCartFragment extends BaseFragment {
                 mAdapter.getData().get(position).setChecked(isChecked);
             }
         });
+    }
+
+    private void showSpecificationDialog() {
+        SpecificationDialog dialog = new SpecificationDialog();
+        dialog.show(getChildFragmentManager());
     }
 
     //刷新选中的商城商品

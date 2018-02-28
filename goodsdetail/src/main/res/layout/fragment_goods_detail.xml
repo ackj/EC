@@ -70,17 +70,6 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_buy_it_now"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="38"
-            android:background="@color/error"
-            android:gravity="center"
-            android:text="立即购买"
-            android:textColor="@color/white"
-            android:textSize="@dimen/H3" />
-
-        <TextView
             android:id="@+id/tv_put_shopcart"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -88,6 +77,16 @@
             android:background="@color/warn"
             android:gravity="center"
             android:text="加入购物车"
+            android:textColor="@color/white"
+            android:textSize="@dimen/H3" />
+        <TextView
+            android:id="@+id/tv_buy_it_now"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="38"
+            android:background="@color/error"
+            android:gravity="center"
+            android:text="立即购买"
             android:textColor="@color/white"
             android:textSize="@dimen/H3" />
     </LinearLayout>

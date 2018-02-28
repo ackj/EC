@@ -110,4 +110,6 @@ dependencies {
     compile 'com.github.hackware1993:MagicIndicator:1.5.0'
     //
     compile 'com.google.android:flexbox:0.3.2'
+    //
+    compile 'com.daimajia.swipelayout:library:1.2.0@aar'
 }

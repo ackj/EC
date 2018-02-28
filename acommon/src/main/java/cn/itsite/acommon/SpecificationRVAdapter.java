@@ -1,4 +1,4 @@
-package cn.itsite.goodsdetail;
+package cn.itsite.acommon;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,12 +22,12 @@ public class SpecificationRVAdapter extends BaseRecyclerViewAdapter<String, Base
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, String item) {
+    protected void convert(final BaseViewHolder helper, String item) {
         FlexboxLayout flexboxLayout = helper.getView(R.id.flexboxLayout);
         if (flexboxLayout.getChildCount() == 0) {
             for (int i = 0; i < Math.random() * 15; i++) {
                 View view = LayoutInflater.from(BaseApp.mContext).inflate(R.layout.view_specification_text, null);
-                TextView textView = view.findViewById(R.id.textView);
+                final TextView textView = view.findViewById(R.id.textView);
                 StringBuilder sb = new StringBuilder();
                 for (int j = 0; j < Math.random() * 4; j++) {
                     sb.append("哈哈");
