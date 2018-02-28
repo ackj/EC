@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -203,7 +204,7 @@ public class SearchFragment extends BaseFragment {
         }).flatMap(Observable::from).map(history -> {
             Tip tip = new Tip();
             tip.setName(history.getName());
-            tip.setDistrict(history.getDescription());
+            tip.setAddress(history.getAddress());
             tip.setPostion(new LatLonPoint(history.getLatitude(), history.getLongitude()));
             tip.setTypeCode("-1");
             return tip;
@@ -215,24 +216,41 @@ public class SearchFragment extends BaseFragment {
                 });
     }
 
-    public void cacheHistory(Tip tip) {
-        int i = DataSupport.deleteAll(TipsHistoryData.class, "name = ?", tip.getName());
-        Log.e(TAG, "delete-->" + i);
+    public boolean cacheHistory(Tip tip) {
+        String address = "";
+        if (!TextUtils.isEmpty(tip.getDistrict())) {
+            address += tip.getDistrict();
+        }
+
+        if (!TextUtils.isEmpty(tip.getAddress())) {
+            address += tip.getAddress();
+        }
+
+        int rows = DataSupport.deleteAll(TipsHistoryData.class, "address = ?", address);
+        Log.e(TAG, "delete-->" + rows);
         if (DataSupport.count(TipsHistoryData.class) >= HISTORY_SIZE) {
             TipsHistoryData first = DataSupport.findFirst(TipsHistoryData.class);
             first.delete();
         }
         TipsHistoryData history = new TipsHistoryData();
         history.setName(tip.getName());
-        history.setDescription(tip.getDistrict());
+        history.setAddress(tip.getDistrict() + tip.getAddress());
         history.setLongitude(tip.getPoint().getLongitude());
         history.setLatitude(tip.getPoint().getLatitude());
-        history.save();
+        return history.save();
     }
 
     private void delete(Tip tip) {
+        String address = "";
+        if (!TextUtils.isEmpty(tip.getDistrict())) {
+            address += tip.getDistrict();
+        }
+
+        if (!TextUtils.isEmpty(tip.getAddress())) {
+            address += tip.getAddress();
+        }
         Log.e(TAG, tip.getName());
-        DataSupport.deleteAllAsync(TipsHistoryData.class, "name = ?", tip.getName())
+        DataSupport.deleteAllAsync(TipsHistoryData.class, "address = ?", address)
                 .listen(rows -> Log.e(TAG, "rows-->" + rows));
     }
 
