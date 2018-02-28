@@ -234,7 +234,7 @@ public class SearchFragment extends BaseFragment {
         }
         TipsHistoryData history = new TipsHistoryData();
         history.setName(tip.getName());
-        history.setAddress(tip.getDistrict() + tip.getAddress());
+        history.setAddress(address);
         history.setLongitude(tip.getPoint().getLongitude());
         history.setLatitude(tip.getPoint().getLatitude());
         return history.save();
