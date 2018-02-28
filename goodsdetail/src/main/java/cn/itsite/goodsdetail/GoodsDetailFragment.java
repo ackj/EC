@@ -15,6 +15,8 @@ import com.alibaba.android.arouter.launcher.ARouter;
 
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ScreenUtils;
+import cn.itsite.acommon.SpecificationDialog;
+import cn.itsite.acommon.SpecificationRVAdapter;
 
 /**
  * Author： Administrator on 2018/2/6 0006.

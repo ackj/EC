@@ -2,22 +2,33 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="490dp">
+    android:layout_height="514dp">
 
     <View
         android:id="@+id/view_bg"
         android:layout_width="match_parent"
-        android:layout_height="478dp"
+        android:layout_height="499dp"
+        android:layout_marginTop="15dp"
         android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/iv_icon"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+    <FrameLayout
+        android:id="@+id/fl_icon_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
-        android:src="@color/red"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        android:background="@drawable/shape_bg_solid_white"
+        android:padding="3dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@color/red" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/tv_price"
@@ -29,7 +40,7 @@
         android:text="￥ 589.00"
         android:textColor="@color/error"
         android:textSize="@dimen/H1"
-        app:layout_constraintLeft_toRightOf="@+id/iv_icon"
+        app:layout_constraintLeft_toRightOf="@+id/fl_icon_bg"
         app:layout_constraintTop_toTopOf="@id/view_bg" />
 
     <TextView
@@ -41,7 +52,7 @@
         android:text="库存41件"
         android:textColor="@color/base_gray"
         android:textSize="@dimen/H4"
-        app:layout_constraintLeft_toRightOf="@+id/iv_icon"
+        app:layout_constraintLeft_toRightOf="@+id/fl_icon_bg"
         app:layout_constraintTop_toBottomOf="@+id/tv_price" />
 
     <TextView
@@ -56,8 +67,8 @@
         android:text="已选：通黄色通黄色通色通黄色通黄色通黄色黄色通黄色通黄色通黄色通黄色通黄色"
         android:textColor="@color/base_black"
         android:textSize="@dimen/H4"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_icon"
-        app:layout_constraintLeft_toRightOf="@+id/iv_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/fl_icon_bg"
+        app:layout_constraintLeft_toRightOf="@+id/fl_icon_bg"
         app:layout_constraintRight_toRightOf="parent" />
 
     <View
@@ -66,13 +77,15 @@
         android:layout_height="0.5dp"
         android:layout_marginTop="12dp"
         android:background="@color/base_white"
-        app:layout_constraintTop_toBottomOf="@id/iv_icon" />
+        app:layout_constraintTop_toBottomOf="@id/fl_icon_bg" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="280dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/line_1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line_2" />
 
     <View
@@ -80,7 +93,7 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/base_white"
-        app:layout_constraintBottom_toTopOf="@+id/anchor_1" />
+        app:layout_constraintBottom_toTopOf="@+id/tv_confirm" />
 
     <TextView
         android:id="@+id/anchor_1"
@@ -88,29 +101,33 @@
         android:layout_height="50dp"
         android:layout_marginLeft="12dp"
         android:gravity="center"
-        android:text="购买数量"
+        android:text="数量："
         android:textColor="@color/base_black"
         android:textSize="@dimen/H1"
-        app:layout_constraintBottom_toTopOf="@+id/tv_confirm"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_confirm"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <cn.itsite.acommon.GoodsCounterView
+        android:id="@+id/view_goods_counter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_confirm"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/anchor_1"
+        app:layout_constraintRight_toLeftOf="@+id/tv_confirm"
         app:layout_constraintTop_toBottomOf="@+id/line_1" />
+
 
     <TextView
         android:id="@+id/tv_confirm"
-        android:layout_width="match_parent"
+        android:layout_width="140dp"
         android:layout_height="49dp"
         android:background="@color/warn"
         android:gravity="center"
         android:text="确   定"
         android:textColor="@color/white"
         android:textSize="@dimen/H1"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

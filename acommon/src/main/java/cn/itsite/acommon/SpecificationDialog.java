@@ -1,4 +1,4 @@
-package cn.itsite.goodsdetail;
+package cn.itsite.acommon;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.itsite.abase.utils.DensityUtils;
 import cn.itsite.adialog.dialogfragment.BaseDialogFragment;
 
 /**
@@ -23,12 +24,14 @@ import cn.itsite.adialog.dialogfragment.BaseDialogFragment;
 public class SpecificationDialog extends BaseDialogFragment {
 
     private RecyclerView mRecyclerView;
+    private GoodsCounterView mTvGoodsCounter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_specification,null);
         mRecyclerView = view.findViewById(R.id.recyclerView);
+        mTvGoodsCounter = view.findViewById(R.id.view_goods_counter);
         return view;
     }
 
@@ -42,6 +45,7 @@ public class SpecificationDialog extends BaseDialogFragment {
     }
 
     private void initData() {
+        mTvGoodsCounter.setCountWidth(DensityUtils.dp2px(getContext(),65));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         SpecificationRVAdapter mAdapter = new SpecificationRVAdapter();
         mRecyclerView.setAdapter(mAdapter);

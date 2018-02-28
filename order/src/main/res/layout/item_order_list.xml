@@ -125,7 +125,6 @@
         android:textSize="@dimen/H3"
         app:layout_constraintBaseline_toBaselineOf="@id/anchor_1"
         app:layout_constraintRight_toRightOf="parent"
-
         app:layout_constraintTop_toBottomOf="@id/line_2" />
 
     <View

@@ -54,6 +54,12 @@ public class GoodsCounterView extends LinearLayout {
         });
     }
 
+    public void setCountWidth(int widthPx){
+        LinearLayout.LayoutParams layoutParams = (LayoutParams) mTvCount.getLayoutParams();
+        layoutParams.width = widthPx;
+        mTvCount.setLayoutParams(layoutParams);
+    }
+
     public int getCounter() {
         return counter;
     }
@@ -81,6 +87,4 @@ public class GoodsCounterView extends LinearLayout {
         }
         return strCounter;
     }
-
-
 }
