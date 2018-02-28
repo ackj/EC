@@ -137,6 +137,7 @@ public class SearchFragment extends BaseFragment {
 
         tvSearch.setOnClickListener(v -> {
             if (etKeyword.getText().length() > 0) {
+                KeyBoardUtils.hideKeybord(etKeyword, BaseApp.mContext);
                 showLoading();
                 search(etKeyword.getText().toString().trim(), tvCity.getText().toString());
             } else {
