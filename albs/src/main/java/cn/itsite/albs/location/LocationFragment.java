@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -45,8 +44,10 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import java.util.List;
 
 import cn.itsite.abase.BaseApp;
+import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
+import cn.itsite.abase.mvp.view.base.Decoration;
 import cn.itsite.albs.R;
 import me.yokeyword.fragmentation.SupportFragment;
 
@@ -71,19 +72,21 @@ public class LocationFragment extends BaseFragment implements
     private TextView tvSearch;
     private MapView mapView;
     private OnLocationChangedListener mListener;
-    private AMapLocationClient mlocationClient;
+    private AMapLocationClient mLocationClient;
     private AMapLocationClientOption mLocationOption;
     private Marker locationMarker;
     private GeocodeSearch geocoderSearch;
-    private PoiSearch.Query query;// Poi查询条件类
+    // Poi查询条件类
+    private PoiSearch.Query query;
     private PoiSearch poiSearch;
-    private List<PoiItem> poiItems;// poi数据
-    private String searchType = "120300";//住宅区类型
+    // poi数据
+    private List<PoiItem> poiItems;
+    //住宅区类型
+    private String searchType = "120300";
     private LatLonPoint searchLatlonPoint;
     private ImageView myLocation;
     private LatLng currentLatlng;
     private BaseRecyclerViewAdapter<PoiItem, BaseViewHolder> adapter;
-    //    private boolean isSearching;
     private Tip tip;
     private AMapLocation amapLocation;
 
@@ -101,12 +104,6 @@ public class LocationFragment extends BaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_location, container, false);
-        return attachToSwipeBack(view);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         mapView = view.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         tvKeword = view.findViewById(R.id.keyWord);
@@ -116,6 +113,12 @@ public class LocationFragment extends BaseFragment implements
         ivBack = view.findViewById(R.id.iv_back_location_fragment);
         cvSearch = view.findViewById(R.id.cv_search_location_fragment);
         tvLocation = view.findViewById(R.id.tv_location_fragment);
+        return attachToSwipeBack(view);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         initView();
         initData();
         initMap();
@@ -125,30 +128,38 @@ public class LocationFragment extends BaseFragment implements
         cvSearch.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putParcelable(POI, amapLocation);
-            startForResult(SearchFragment.newInstance(null), REQUEST_CODE);
+            startForResult(SearchFragment.newInstance(bundle), REQUEST_CODE);
         });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
+        recyclerView.addItemDecoration(new Decoration(_mActivity, Decoration.VERTICAL_LIST));
         recyclerView.setAdapter(adapter = new BaseRecyclerViewAdapter<PoiItem, BaseViewHolder>(R.layout.item_poi) {
             @Override
             protected void convert(BaseViewHolder helper, PoiItem item) {
                 helper.setText(R.id.tv_title_item_poi, item.getTitle())
-                        .setText(R.id.tv_description_item_poi, item.getCityName() + item.getAdName() + item.getSnippet())
+                        .setText(R.id.tv_description_item_poi, item.getProvinceName() + item.getCityName() + item.getAdName() + item.getSnippet())
                         .setVisible(R.id.iv_clear_item_poi, false);
             }
         });
 
         adapter.setOnItemClickListener((adapter, view, position) -> {
-            PoiItem poiItem = ((PoiItem) adapter.getData().get(position));
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(POI, poiItem);
-            setFragmentResult(SupportFragment.RESULT_OK, bundle);
-            _mActivity.onBackPressed();
+            PoiItem item = ((PoiItem) adapter.getData().get(position));
+            String address = item.getProvinceName() + item.getCityName() + item.getAdName() + item.getSnippet();
+            selectAddress(address);
         });
 
         myLocation.setOnClickListener(v -> aMap.moveCamera(CameraUpdateFactory.changeLatLng(currentLatlng)));
 
         ivBack.setOnClickListener(v -> _mActivity.onBackPressed());
+
+        tvLocation.setOnClickListener(v -> {
+            String address = tvLocation.getText().toString();
+            if (address.startsWith(BaseApp.mContext.getString(R.string.locating))) {
+                DialogHelper.warningSnackbar(getView(), "抱歉，未获取到定位，请重新尝试！");
+            } else {
+                selectAddress(address);
+            }
+        });
     }
 
     private void initData() {
@@ -168,7 +179,7 @@ public class LocationFragment extends BaseFragment implements
             aMap.getUiSettings().setMyLocationButtonEnabled(false);// 设置默认定位按钮是否显示
             aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
             aMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
-            aMap.moveCamera(CameraUpdateFactory.zoomTo(15F));
+            aMap.moveCamera(CameraUpdateFactory.zoomTo(15));
         }
 
         aMap.setOnCameraChangeListener(new AMap.OnCameraChangeListener() {
@@ -180,14 +191,9 @@ public class LocationFragment extends BaseFragment implements
             @Override
             public void onCameraChangeFinish(CameraPosition cameraPosition) {
                 searchLatlonPoint = new LatLonPoint(cameraPosition.target.latitude, cameraPosition.target.longitude);
-//                if (!isSearching) {
-                geoAddress();
                 startJumpAnimation();
-//                }
-
+                geoAddress();
                 Log.e(TAG, searchLatlonPoint.toString());
-
-//                isSearching = false;
             }
         });
 
@@ -229,8 +235,8 @@ public class LocationFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
-        if (null != mlocationClient) {
-            mlocationClient.onDestroy();
+        if (null != mLocationClient) {
+            mLocationClient.onDestroy();
         }
     }
 
@@ -246,12 +252,11 @@ public class LocationFragment extends BaseFragment implements
                 Log.e(TAG, "amapLocation-->" + amapLocation.toString());
                 currentLatlng = new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
                 searchLatlonPoint = new LatLonPoint(currentLatlng.latitude, currentLatlng.longitude);
-                aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatlng, 16f));
-//                isSearching = false;
-                tvKeword.setText("");
+                aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatlng, 16));
             } else {
                 String error = "定位失败," + amapLocation.getErrorCode() + ": " + amapLocation.getErrorInfo();
                 Log.e(TAG, "AmapErr" + error);
+                DialogHelper.warningSnackbar(getView(), "定位失败，请检查网络或者打开GPS！");
             }
         }
     }
@@ -262,21 +267,24 @@ public class LocationFragment extends BaseFragment implements
     @Override
     public void activate(OnLocationChangedListener listener) {
         mListener = listener;
-        if (mlocationClient == null) {
-            mlocationClient = new AMapLocationClient(BaseApp.mContext);
+        if (mLocationClient == null) {
+            mLocationClient = new AMapLocationClient(BaseApp.mContext);
             mLocationOption = new AMapLocationClientOption();
             //设置定位监听
-            mlocationClient.setLocationListener(this);
-            //设置为高精度定位模式
+            mLocationClient.setLocationListener(this);
+            //设置为单次定位
             mLocationOption.setOnceLocation(true);
+            //设置为高精度定位模式
             mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
             //设置定位参数
-            mlocationClient.setLocationOption(mLocationOption);
+            mLocationClient.setLocationOption(mLocationOption);
             // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
             // 注意设置合适的定位时间的间隔（最小间隔支持为2000ms），并且在合适时间调用stopLocation()方法来取消定位请求
             // 在定位结束后，在合适的生命周期调用onDestroy()方法
             // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
-            mlocationClient.startLocation();
+            mLocationClient.startLocation();
+        } else {
+            mLocationClient.startLocation();
         }
     }
 
@@ -286,11 +294,11 @@ public class LocationFragment extends BaseFragment implements
     @Override
     public void deactivate() {
         mListener = null;
-        if (mlocationClient != null) {
-            mlocationClient.stopLocation();
-            mlocationClient.onDestroy();
+        if (mLocationClient != null) {
+            mLocationClient.stopLocation();
+            mLocationClient.onDestroy();
         }
-        mlocationClient = null;
+        mLocationClient = null;
     }
 
 
@@ -299,7 +307,7 @@ public class LocationFragment extends BaseFragment implements
      */
     public void geoAddress() {
         showLoading("加载中…");
-        tvKeword.setText("");
+//        tvKeword.setText("");
         if (searchLatlonPoint != null) {
             RegeocodeQuery query = new RegeocodeQuery(searchLatlonPoint, 200, GeocodeSearch.AMAP);// 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
             geocoderSearch.getFromLocationAsyn(query);
@@ -310,8 +318,8 @@ public class LocationFragment extends BaseFragment implements
      * 开始进行poi搜索
      */
     protected void doSearchQuery() {
-//        isSearching = true;
-        query = new PoiSearch.Query(tvKeword.getText().toString(), searchType, "");// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
+        showLoading("搜索中…");
+        query = new PoiSearch.Query("", searchType, "");// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
         query.setCityLimit(true);
         query.setPageSize(20);
         query.setPageNum(0);//当前页，从0开始。
@@ -326,7 +334,6 @@ public class LocationFragment extends BaseFragment implements
 
     @Override
     public void onRegeocodeSearched(RegeocodeResult result, int rCode) {
-        dismissLoading();
         if (rCode == AMapException.CODE_AMAP_SUCCESS) {
             if (result != null && result.getRegeocodeAddress() != null
                     && result.getRegeocodeAddress().getFormatAddress() != null) {
@@ -336,7 +343,8 @@ public class LocationFragment extends BaseFragment implements
                 doSearchQuery();
             }
         } else {
-            Toast.makeText(BaseApp.mContext, "error code is " + rCode, Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "error code is " + rCode);
+            DialogHelper.warningSnackbar(getView(), "定位失败，请检查网络或者打开GPS！");
         }
     }
 
@@ -354,19 +362,15 @@ public class LocationFragment extends BaseFragment implements
     @Override
     public void onPoiSearched(PoiResult poiResult, int resultCode) {
         dismissLoading();
-//        isSearching = false;
         if (resultCode == AMapException.CODE_AMAP_SUCCESS) {
             if (poiResult != null && poiResult.getQuery() != null) {
                 if (poiResult.getQuery().equals(query)) {
                     poiItems = poiResult.getPois();
-                    if (poiItems != null && poiItems.size() > 0) {
-                        adapter.setNewData(poiItems);
-                    } else {
-                        Toast.makeText(BaseApp.mContext, "无搜索结果", Toast.LENGTH_SHORT).show();
-                    }
+                    Log.e(TAG, "poiItems.size()-->" + poiItems.size());
+                    adapter.setNewData(poiItems);
                 }
             } else {
-                Toast.makeText(BaseApp.mContext, "无搜索结果", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "error code is " + resultCode);
             }
         }
     }
@@ -424,24 +428,17 @@ public class LocationFragment extends BaseFragment implements
     //dip和px转换
     private static int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
+        return (int) (dpValue * scale + 0.5F);
     }
-
 
     private void searchPOI(Tip tip) {
         if (tip == null) {
             return;
         }
-//        isSearching = true;
         searchLatlonPoint = tip.getPoint();
-//        firstItem = new PoiItem("tip", searchLatlonPoint, tip.getName(), tip.getAddress());
-//        firstItem.setCityName(tip.getDistrict());
-//        firstItem.setAdName("");
-
         if (searchLatlonPoint != null) {
             aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(searchLatlonPoint.getLatitude(), searchLatlonPoint.getLongitude()), 16F));
         }
-//        doSearchQuery();
     }
 
     @Override
@@ -450,9 +447,15 @@ public class LocationFragment extends BaseFragment implements
         if (data == null) {
             return;
         }
-
         tip = data.getParcelable(SearchFragment.TIP);
         tvKeword.setText(tip == null ? "" : tip.getName());
         searchPOI(tip);
+    }
+
+    private void selectAddress(String address) {
+        Bundle bundle = new Bundle();
+        bundle.getString(POI, address);
+        setFragmentResult(SupportFragment.RESULT_OK, bundle);
+        _mActivity.onBackPressed();
     }
 }
