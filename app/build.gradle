@@ -67,6 +67,12 @@ dependencies {
     implementation project(':order')
     //购物车。
     implementation project(':shoppingcart')
+    //登录注册
+    implementation project(':login')
     //地图选址。
     implementation project(':albs')
+    //我的
+    implementation project(':mine')
+
+
 }

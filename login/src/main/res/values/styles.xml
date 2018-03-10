@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="MyEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/default_gray</item>
+        <item name="colorControlActivated">@color/base_color</item>
+    </style>
+</resources>
