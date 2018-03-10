@@ -9,12 +9,17 @@ import org.json.JSONException;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Proxy;
+import java.lang.reflect.Type;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
 import cn.itsite.abase.common.RxManager;
 import cn.itsite.abase.mvp.contract.base.BaseContract;
+import cn.itsite.abase.network.http.BaseResponse;
+import retrofit2.Response;
 import retrofit2.adapter.rxjava.HttpException;
+import rx.Subscriber;
 
 
 /**
@@ -23,8 +28,9 @@ import retrofit2.adapter.rxjava.HttpException;
  * <p>
  * 所有Presenter类的基类，负责调度View层和Model层的交互。
  */
-public abstract class BasePresenter<V extends BaseContract.View, M extends BaseContract.Model> implements BaseContract.Presenter {
-    private final String TAG = BasePresenter.class.getSimpleName();
+public class BasePresenter<V extends BaseContract.View, M extends BaseContract.Model> implements BaseContract.Presenter {
+    public final String TAG = BasePresenter.class.getSimpleName();
+    private final Class<? extends BaseContract.View> mViewClass;
     public Reference<V> mViewReference;
     public M mModel;
     //每一套mvp应该拥有一个独立的RxManager
@@ -36,6 +42,7 @@ public abstract class BasePresenter<V extends BaseContract.View, M extends BaseC
      * @param mView 所要绑定的view层对象，一般在View层创建Presenter的时候通过this把自己传过来。
      */
     public BasePresenter(V mView) {
+        mViewClass = mView.getClass();
         setView(mView);
         mModel = createModel();
     }
@@ -45,7 +52,38 @@ public abstract class BasePresenter<V extends BaseContract.View, M extends BaseC
     }
 
     public V getView() {
-        return mViewReference == null ? null : mViewReference.get();
+        if (mViewReference.get() != null) {
+            return mViewReference.get();
+        }
+
+        return (V) Proxy.newProxyInstance(mViewClass.getClassLoader(),
+                mViewClass.getInterfaces(),
+                (proxy, method, args) -> {
+                    try {
+                        Type type = method.getReturnType();
+                        if (type == boolean.class) {
+                            return false;
+                        } else if (type == int.class) {
+                            return 0;
+                        } else if (type == short.class) {
+                            return (short) 0;
+                        } else if (type == char.class) {
+                            return (char) 0;
+                        } else if (type == byte.class) {
+                            return (byte) 0;
+                        } else if (type == long.class) {
+                            return 0L;
+                        } else if (type == float.class) {
+                            return 0F;
+                        } else if (type == double.class) {
+                            return 0D;
+                        } else {
+                            return null;
+                        }
+                    } catch (Exception e) {
+                        throw e.getCause();
+                    }
+                });
     }
 
     @UiThread
@@ -127,33 +165,37 @@ public abstract class BasePresenter<V extends BaseContract.View, M extends BaseC
     }
 
 
-//    public abstract class RxSubscriber<T> extends Subscriber<T> {
-//
-//        @Override
-//        public void onStart() {
-//            super.onStart();
-//            start("");
-//        }
-//
-//        @Override
-//        public void onNext(T t) {
-//            _onNext(t);
-//        }
-//
-//
-//        @Override
-//        public void onCompleted() {
-//            complete();
-//        }
-//
-//        @Override
-//        public void onError(Throwable e) {
-//            e.printStackTrace();
-//            error(e);
-//        }
-//
-//        public abstract void _onNext(T t);
-//
-//    }
+    public abstract class BaseSubscriber<T extends Response<BaseResponse>> extends Subscriber<T> {
 
+        @Override
+        public void onStart() {
+            super.onStart();
+            start("");
+        }
+
+        @Override
+        public void onNext(T response) {
+            if (response.isSuccessful()) {
+                onSuccess(response);
+            } else if (response.code() == 123) {
+
+            } else {
+                getView().error(response.body().getMessage());
+            }
+        }
+
+
+        @Override
+        public void onCompleted() {
+            complete();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            e.printStackTrace();
+            error(e);
+        }
+
+        public abstract void onSuccess(T t);
+    }
 }

@@ -109,16 +109,16 @@ dependencies {
     api 'com.alibaba:arouter-api:1.3.0'
     annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
     //下拉刷新框架
-    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-5'
-    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-5'//没有使用特殊Header，可以不加这行
+    api 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-5'
+    api 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-5'//没有使用特殊Header，可以不加这行
     //Banner
-    compile 'com.youth.banner:banner:1.4.10'
-    //
-    compile 'q.rorbin:badgeview:1.1.3'
-    //
-    compile 'com.github.hackware1993:MagicIndicator:1.5.0'
-    //
-    compile 'com.google.android:flexbox:0.3.2'
-    //
-    compile 'com.daimajia.swipelayout:library:1.2.0@aar'
+    api 'com.youth.banner:banner:1.4.10'
+    //角标View
+    api 'q.rorbin:badgeview:1.1.3'
+    //指示器
+    api 'com.github.hackware1993:MagicIndicator:1.5.0'
+    //谷歌的浮动布局
+    api 'com.google.android:flexbox:0.3.2'
+    //侧滑布局
+    api 'com.daimajia.swipelayout:library:1.2.0@aar'
 }
