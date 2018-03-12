@@ -34,7 +34,7 @@ public class BaseApp extends MultiDexApplication {
     private void initData() {
 
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
-                .tag("SuiLiao")   // (Optional) Global tag for every log. Default PRETTY_LOGGER
+                .tag("电商")   // (Optional) Global tag for every log. Default PRETTY_LOGGER
                 .build();
 
         Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {

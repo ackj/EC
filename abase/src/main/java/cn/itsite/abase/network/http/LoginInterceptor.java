@@ -43,24 +43,24 @@ public class LoginInterceptor implements Interceptor {
 
         Logger.e("body---------->" + bodyString);
 
-        JSONObject jsonObject;
-        try {
-            jsonObject = new JSONObject(buffer.readUtf8()).optJSONObject("other");
-            String code = jsonObject.optString("code");
-            if ("123".equals(code)) {
-//                EventBus.getDefault().post(new LoginInterceptor());
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } finally {
-            if (buffer != null) {
-                buffer.close();
-            }
-
-            if (source != null) {
-                source.close();
-            }
-        }
+//        JSONObject jsonObject;
+//        try {
+//            jsonObject = new JSONObject(buffer.readUtf8()).optJSONObject("other");
+//            String code = jsonObject.optString("code");
+//            if ("123".equals(code)) {
+////                EventBus.getDefault().post(new LoginInterceptor());
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (buffer != null) {
+//                buffer.close();
+//            }
+//
+//            if (source != null) {
+//                source.close();
+//            }
+//        }
 
 
         return response;

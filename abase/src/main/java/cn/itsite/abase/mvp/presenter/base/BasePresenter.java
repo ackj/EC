@@ -17,7 +17,6 @@ import java.net.SocketTimeoutException;
 import cn.itsite.abase.common.RxManager;
 import cn.itsite.abase.mvp.contract.base.BaseContract;
 import cn.itsite.abase.network.http.BaseResponse;
-import retrofit2.Response;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
 
@@ -165,7 +164,7 @@ public class BasePresenter<V extends BaseContract.View, M extends BaseContract.M
     }
 
 
-    public abstract class BaseSubscriber<T extends Response<BaseResponse>> extends Subscriber<T> {
+    public abstract class BaseSubscriber<T extends BaseResponse> extends Subscriber<T> {
 
         @Override
         public void onStart() {
@@ -177,10 +176,12 @@ public class BasePresenter<V extends BaseContract.View, M extends BaseContract.M
         public void onNext(T response) {
             if (response.isSuccessful()) {
                 onSuccess(response);
-            } else if (response.code() == 123) {
-
+            } else if (response.getCode() == 123) {
+                Logger.e(TAG, "123");
             } else {
-                getView().error(response.body().getMessage());
+                Logger.e(TAG, "非200");
+
+//                getView().error(response.getMessage());
             }
         }
 
