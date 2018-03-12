@@ -180,8 +180,7 @@ public class BasePresenter<V extends BaseContract.View, M extends BaseContract.M
                 Logger.e(TAG, "123");
             } else {
                 Logger.e(TAG, "非200");
-
-//                getView().error(response.getMessage());
+                getView().error(response.getMessage());
             }
         }
 

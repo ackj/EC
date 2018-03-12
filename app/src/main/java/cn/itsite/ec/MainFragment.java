@@ -137,29 +137,6 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
                     }
                 });
 
-//        HttpHelper.getService(KeywordService.class)
-//                .getKeywords()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Subscriber<BaseResponse<List<KeywordBean>>>() {
-//                    @Override
-//                    public void onCompleted() {
-//                        Logger.e("onCompleted" );
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        Logger.e("onError" );
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(BaseResponse<List<KeywordBean>> response) {
-//                        Logger.e("22222------" + response.getData().get(0).getQuery());
-//
-//                    }
-//                });
 
     }
 
