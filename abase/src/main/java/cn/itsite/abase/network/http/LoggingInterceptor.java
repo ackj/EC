@@ -26,8 +26,9 @@ public class LoggingInterceptor implements Interceptor {
         long t1 = System.nanoTime();
 
         Buffer buffer = new Buffer();
-        if (request.body() != null)
+        if (request.body() != null) {
             request.body().writeTo(buffer);
+        }
 
         Logger.e( String.format("Sending request %s on %s%n%sRequest Params: %s",
                 request.url(), chain.connection(), request.headers(), buffer.clone().readUtf8()));

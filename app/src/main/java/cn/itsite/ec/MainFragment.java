@@ -145,8 +145,6 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
         @Override
         public void onStart() {
             super.onStart();
-            Logger.e( "onStartonStart");
-
         }
 
         @Override
