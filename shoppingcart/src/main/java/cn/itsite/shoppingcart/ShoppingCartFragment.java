@@ -1,6 +1,7 @@
 package cn.itsite.shoppingcart;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -22,13 +23,15 @@ import java.util.List;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ScreenUtils;
 import cn.itsite.acommon.SpecificationDialog;
+import cn.itsite.shoppingcart.contract.CartContract;
+import cn.itsite.shoppingcart.presenter.CartPresenter;
 
 /**
  * Author： Administrator on 2018/1/31 0031.
  * Email： liujia95me@126.com
  */
 @Route(path = "/shoppingcart/shoppingcartfragment")
-public class ShoppingCartFragment extends BaseFragment {
+public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> implements CartContract.View {
 
     public static final String TAG = ShoppingCartFragment.class.getSimpleName();
 
@@ -39,6 +42,13 @@ public class ShoppingCartFragment extends BaseFragment {
 
     public static ShoppingCartFragment newInstance() {
         return new ShoppingCartFragment();
+    }
+
+
+    @NonNull
+    @Override
+    protected CartContract.Presenter createPresenter() {
+        return new CartPresenter(this);
     }
 
     @Override
@@ -118,6 +128,8 @@ public class ShoppingCartFragment extends BaseFragment {
                     case ShoppingCartGridBean.TYPE_STORE_GOODS:
                         if(view.getId() == R.id.tv_specification){
                             showSpecificationDialog();
+                        }else if(view.getId()==R.id.tv_confirm){
+                            mPresenter.deleteCart("123");
                         }
                         break;
                     case ShoppingCartGridBean.TYPE_RECOMMEND_TITLE:

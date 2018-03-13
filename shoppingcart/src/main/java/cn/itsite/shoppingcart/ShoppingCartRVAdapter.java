@@ -42,7 +42,9 @@ public class ShoppingCartRVAdapter extends BaseMultiItemQuickAdapter<ShoppingCar
                             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                 listener.onGoodsCheckedChanged(helper.getLayoutPosition(), isChecked);
                             }
-                        }).addOnClickListener(R.id.tv_specification);
+                        })
+                        .addOnClickListener(R.id.tv_specification)
+                        .addOnClickListener(R.id.tv_confirm);
                 break;
             case ShoppingCartGridBean.TYPE_RECOMMEND_TITLE:
                 break;
