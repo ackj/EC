@@ -1,5 +1,6 @@
 package cn.itsite.abase.mvp.presenter.base;
 
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.UiThread;
 
@@ -101,6 +102,7 @@ public class BasePresenter<V extends BaseContract.View, M extends BaseContract.M
 
     @Override
     @UiThread
+    @CallSuper
     public void clear() {
         //优先释放Model层对象，避免内存泄露
         if (mModel != null) {
@@ -122,6 +124,7 @@ public class BasePresenter<V extends BaseContract.View, M extends BaseContract.M
      *
      * @param throwable
      */
+    @CallSuper
     public void error(Throwable throwable) {
         if (!isViewAttached()) {
             return;
@@ -151,12 +154,14 @@ public class BasePresenter<V extends BaseContract.View, M extends BaseContract.M
      * @param request 传一些参数给P层。
      */
     @Override
+    @CallSuper
     public void start(Object request) {
         if (isViewAttached()) {
             getView().start("");
         }
     }
 
+    @CallSuper
     public void complete() {
         if (isViewAttached()) {
             getView().complete("");
