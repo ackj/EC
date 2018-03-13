@@ -41,7 +41,6 @@ public abstract class BaseFragment<P extends BaseContract.Presenter> extends Swi
         super.onCreate(savedInstanceState);
         mPresenter = createPresenter();
         //一旦启动某个Fragment就打印Log，方便找到该类
-        e(TAG);
     }
 
     @NonNull
