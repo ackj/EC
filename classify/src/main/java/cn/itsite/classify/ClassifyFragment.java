@@ -2,6 +2,7 @@ package cn.itsite.classify;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,20 +20,21 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.nineoldandroids.animation.ValueAnimator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.itsite.abase.BaseApp;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.DensityUtils;
 import cn.itsite.abase.utils.ScreenUtils;
+import cn.itsite.classify.contract.MenuContract;
+import cn.itsite.classify.presenter.MenuPresenter;
 
 /**
  * Author： Administrator on 2018/1/29 0029.
  * Email： liujia95me@126.com
  */
 @Route(path = "/classify/classifyfragment")
-public class ClassifyFragment extends BaseFragment {
+public class ClassifyFragment extends BaseFragment<MenuContract.Presenter> implements MenuContract.View {
 
     public static final String TAG = ClassifyFragment.class.getSimpleName();
 
@@ -66,6 +68,12 @@ public class ClassifyFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @NonNull
+    @Override
+    protected MenuContract.Presenter createPresenter() {
+        return new MenuPresenter(this);
     }
 
     @Nullable
@@ -115,14 +123,17 @@ public class ClassifyFragment extends BaseFragment {
         mAdapterSubMenu = new ClassifySubMenuRVAdapter();
         mRvSubMenu.setAdapter(mAdapterSubMenu);
 
-        List<String> data = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            data.add("");
-        }
-        mAdapterMenu.setNewData(data);
-        mAdapterSubMenu.setNewData(data);
-        mAdapterContentGrid.setNewData(data);
-        mAdapterContentLinear.setNewData(data);
+//        List<String> data = new ArrayList<>();
+//        for (int i = 0; i < 100; i++) {
+//            data.add("");
+//        }
+
+        mPresenter.getGategories("123");
+
+//        mAdapterMenu.setNewData(data);
+//        mAdapterSubMenu.setNewData(data);
+//        mAdapterContentGrid.setNewData(data);
+//        mAdapterContentLinear.setNewData(data);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -169,6 +180,14 @@ public class ClassifyFragment extends BaseFragment {
                 start((BaseFragment) goodsDetailFragment);
             }
         });
+
+        mAdapterMenu.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter1, View view, int position) {
+                MenuBean menuBean = mAdapterMenu.getData().get(position);
+                mAdapterSubMenu.setNewData(menuBean.getChildren());
+            }
+        });
     }
 
     //把三级菜单伸缩至指定的高度
@@ -201,5 +220,10 @@ public class ClassifyFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+    }
+
+    @Override
+    public void responseGetGategories(List<MenuBean> data) {
+        mAdapterMenu.setNewData(data);
     }
 }

@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class HttpHelper {
     private static final String TAG = HttpHelper.class.getSimpleName();
-    public static String BASE_URL = "http://192.168.7.100:8080/";
+    public static String BASE_URL = "http://192.168.7.102:8080/";
     private static OkHttpClient mOkHttpClient;
     private static Retrofit mRetrofit;
     private static final int TIMEOUT = 15;

@@ -7,7 +7,7 @@ package cn.itsite.shoppingcart;
  * @time 2018/3/12 0012 17:46
  */
 
-public class CartBean {
+public class UidBean {
 
     /**
      * uid : 13212133313

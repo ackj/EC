@@ -1,6 +1,7 @@
 package cn.itsite.goodssearch;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -22,25 +23,26 @@ import java.util.List;
 
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ScreenUtils;
+import cn.itsite.goodssearch.contract.KeywordsContract;
+import cn.itsite.goodssearch.presenter.KeywordsPresenter;
 
 /**
  * Author： Administrator on 2018/1/30 0030.
  * Email： liujia95me@126.com
  */
 @Route(path = "/goodssearch/searchgoodsfragment")
-public class SearchGoodsFragment extends BaseFragment implements View.OnClickListener {
+public class SearchGoodsFragment extends BaseFragment<KeywordsContract.Presenter> implements View.OnClickListener, KeywordsContract.View {
 
     private static final String TAG = SearchGoodsFragment.class.getSimpleName();
 
     private RecyclerView mRecyclerView;
     private SearchGoodsRVAdapter mSearchGoodsAdapter;
     private LinearLayout mLlToolbar;
-    private List<SearchGoodsBean> data2;
-    private List<SearchGoodsBean> data3;
-    private List<SearchGoodsBean> data;
     private TextView mTvSearch;
     private EditText mEtInput;
     private ImageView mIvBack;
+    private List<SearchGoodsBean> mHotKeywordsDatas;
+    private List<SearchGoodsBean> mProductsDatas;
 
     public static SearchGoodsFragment newInstance() {
         return new SearchGoodsFragment();
@@ -49,6 +51,12 @@ public class SearchGoodsFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @NonNull
+    @Override
+    protected KeywordsContract.Presenter createPresenter() {
+        return new KeywordsPresenter(this);
     }
 
     @Nullable
@@ -81,31 +89,34 @@ public class SearchGoodsFragment extends BaseFragment implements View.OnClickLis
         mRecyclerView.setAdapter(mSearchGoodsAdapter);
 
         //todo:待删
-        data = new ArrayList<>();
-        data2 = new ArrayList<>();
-        data3 = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            SearchGoodsBean title = new SearchGoodsBean();
-            title.setItemType(SearchGoodsBean.TYPE_HISTORY_TITLE);
-            title.setSpanSize(6);
-            data.add(title);
-            for (int j = 0; j < 9; j++) {
-                SearchGoodsBean hGoods = new SearchGoodsBean();
-                hGoods.setItemType(SearchGoodsBean.TYPE_HISTORY_ITEM);
-                hGoods.setSpanSize(2);
-                data.add(hGoods);
-            }
-            SearchGoodsBean strings = new SearchGoodsBean();
-            strings.setItemType(SearchGoodsBean.TYPE_SEARCH_STRING);
-            strings.setSpanSize(6);
-            data2.add(strings);
+//        data = new ArrayList<>();
+//        data2 = new ArrayList<>();
+//        data3 = new ArrayList<>();
+//        for (int i = 0; i < 10; i++) {
+//            SearchGoodsBean title = new SearchGoodsBean();
+//            title.setItemType(SearchGoodsBean.TYPE_HISTORY_TITLE);
+//            title.setSpanSize(6);
+//            data.add(title);
+//            for (int j = 0; j < 9; j++) {
+//                SearchGoodsBean hGoods = new SearchGoodsBean();
+//                hGoods.setItemType(SearchGoodsBean.TYPE_HISTORY_ITEM);
+//                hGoods.setSpanSize(2);
+//                data.add(hGoods);
+//            }
+//            SearchGoodsBean strings = new SearchGoodsBean();
+//            strings.setItemType(SearchGoodsBean.TYPE_SEARCH_STRING);
+//            strings.setSpanSize(6);
+//            data2.add(strings);
+//
+//            SearchGoodsBean goods = new SearchGoodsBean();
+//            goods.setItemType(SearchGoodsBean.TYPE_SEARCH_GOODS);
+//            goods.setSpanSize(3);
+//            data3.add(goods);
+//        }
+//        refreshData(data);
 
-            SearchGoodsBean goods = new SearchGoodsBean();
-            goods.setItemType(SearchGoodsBean.TYPE_SEARCH_GOODS);
-            goods.setSpanSize(3);
-            data3.add(goods);
-        }
-        refreshData(data);
+        //获取热门搜索
+        mPresenter.getKeywords(null);
     }
 
     private void refreshData(final List<SearchGoodsBean> data) {
@@ -148,11 +159,42 @@ public class SearchGoodsFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_back) {
-            refreshData(data);
+            refreshData(mHotKeywordsDatas);
         } else if (v.getId() == R.id.et_input) {
-            refreshData(data2);
+//            refreshData(data2);
         } else if (v.getId() == R.id.tv_search) {
-            refreshData(data3);
+            mPresenter.getProducts("123");
         }
+    }
+
+    @Override
+    public void responseGetKeywords(List<KeywordBean> datas) {
+        mHotKeywordsDatas = new ArrayList<>();
+        SearchGoodsBean title = new SearchGoodsBean();
+        title.setItemType(SearchGoodsBean.TYPE_HISTORY_TITLE);
+        title.setTitle("热门搜索");
+        title.setSpanSize(6);
+        mHotKeywordsDatas.add(title);
+        for (int i = 0; i < datas.size(); i++) {
+            SearchGoodsBean keywordBean = new SearchGoodsBean();
+            keywordBean.setItemType(SearchGoodsBean.TYPE_HISTORY_ITEM);
+            keywordBean.setSpanSize(2);
+            keywordBean.setKeywordBean(datas.get(i));
+            mHotKeywordsDatas.add(keywordBean);
+        }
+        refreshData(mHotKeywordsDatas);
+    }
+
+    @Override
+    public void responseGetProducts(List<GoodsBean> data) {
+        mProductsDatas = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            SearchGoodsBean product = new SearchGoodsBean();
+            product.setSpanSize(3);
+            product.setItemType(SearchGoodsBean.TYPE_SEARCH_GOODS);
+            product.setGoodsBean(data.get(i));
+            mProductsDatas.add(product);
+        }
+        refreshData(mProductsDatas);
     }
 }

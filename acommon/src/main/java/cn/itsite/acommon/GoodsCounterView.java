@@ -43,13 +43,15 @@ public class GoodsCounterView extends LinearLayout {
         mIvAdd.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickAdd();
+//                clickAdd();
+                listener.clickAdd(GoodsCounterView.this);
             }
         });
         mIvMinus.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickMinus();
+//                clickMinus();
+                listener.clickMinus(GoodsCounterView.this);
             }
         });
     }
@@ -66,16 +68,17 @@ public class GoodsCounterView extends LinearLayout {
 
     public void setCounter(int counter) {
         this.counter = counter;
+        mTvCount.setText(formatCounter(counter));
     }
 
-    private void clickMinus() {
+    public void clickMinus() {
         if (counter > 0) {
             counter--;
             mTvCount.setText(formatCounter(counter));
         }
     }
 
-    private void clickAdd() {
+    public void clickAdd() {
         counter++;
         mTvCount.setText(formatCounter(counter));
     }
@@ -86,5 +89,16 @@ public class GoodsCounterView extends LinearLayout {
             strCounter = "99+";
         }
         return strCounter;
+    }
+
+    public void setOnAddMinusClickListener(OnAddMinusClickListener listener){
+        this.listener = listener;
+    }
+
+    private OnAddMinusClickListener listener;
+
+    public interface OnAddMinusClickListener{
+        void clickAdd(GoodsCounterView view);//加
+        void clickMinus(GoodsCounterView view);//减
     }
 }

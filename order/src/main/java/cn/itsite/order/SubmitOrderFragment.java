@@ -1,6 +1,7 @@
 package cn.itsite.order;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,13 +17,15 @@ import java.util.List;
 
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ScreenUtils;
+import cn.itsite.order.contract.OrderContract;
+import cn.itsite.order.presenter.OrderPresenter;
 
 /**
  * Author： Administrator on 2018/2/1 0001.
  * Email： liujia95me@126.com
  */
-@Route(path="/order/submitorderfragment")
-public class SubmitOrderFragment extends BaseFragment {
+@Route(path = "/order/submitorderfragment")
+public class SubmitOrderFragment extends BaseFragment<OrderContract.Presenter> implements OrderContract.View {
 
     public static final String TAG = SubmitOrderFragment.class.getSimpleName();
 
@@ -37,6 +40,12 @@ public class SubmitOrderFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @NonNull
+    @Override
+    protected OrderContract.Presenter createPresenter() {
+        return new OrderPresenter(this);
     }
 
     @Nullable
@@ -65,27 +74,51 @@ public class SubmitOrderFragment extends BaseFragment {
         mAdapter = new SubmitOrderRVAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
-        final List<SubmitOrderBean> data = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            SubmitOrderBean storeTitle = new SubmitOrderBean();
-            storeTitle.setItemType(SubmitOrderBean.TYPE_STORE_TITLE);
-            data.add(storeTitle);
-
-            for (int j = 0; j < 5; j++) {
-                SubmitOrderBean storeGoods = new SubmitOrderBean();
-                storeGoods.setItemType(SubmitOrderBean.TYPE_STORE_GOODS);
-                data.add(storeGoods);
-            }
-            SubmitOrderBean orderInfo = new SubmitOrderBean();
-            orderInfo.setItemType(SubmitOrderBean.TYPE_ORDER_INFO);
-            data.add(orderInfo);
-        }
-
-        mAdapter.setNewData(data);
+//        final List<SubmitOrderBean> data = new ArrayList<>();
+//        for (int i = 0; i < 4; i++) {
+//            SubmitOrderBean storeTitle = new SubmitOrderBean();
+//            storeTitle.setItemType(SubmitOrderBean.TYPE_STORE_TITLE);
+//            data.add(storeTitle);
+//
+//            for (int j = 0; j < 5; j++) {
+//                SubmitOrderBean storeGoods = new SubmitOrderBean();
+//                storeGoods.setItemType(SubmitOrderBean.TYPE_STORE_GOODS);
+//                data.add(storeGoods);
+//            }
+//            SubmitOrderBean orderInfo = new SubmitOrderBean();
+//            orderInfo.setItemType(SubmitOrderBean.TYPE_ORDER_INFO);
+//            data.add(orderInfo);
+//        }
+//
+//        mAdapter.setNewData(data);
+        mPresenter.getOrder(0);
     }
 
     private void initListener() {
 
     }
 
+    @Override
+    public void responseGetOrder(List<OrderBean> data) {
+        List<SubmitOrderBean> list = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            OrderBean bean = data.get(i);
+            SubmitOrderBean titleBean = new SubmitOrderBean();
+            titleBean.setItemType(SubmitOrderBean.TYPE_STORE_TITLE);
+            titleBean.setOrderInfoBean(bean);
+            list.add(titleBean);
+
+            SubmitOrderBean orderInfoBean = new SubmitOrderBean();
+            orderInfoBean.setItemType(SubmitOrderBean.TYPE_ORDER_INFO);
+            orderInfoBean.setOrderInfoBean(bean);
+            list.add(orderInfoBean);
+            for (int j = 0; j < bean.getProducts().size(); j++) {
+                SubmitOrderBean productBean = new SubmitOrderBean();
+                productBean.setItemType(SubmitOrderBean.TYPE_STORE_GOODS);
+                productBean.setProductsBean(bean.getProducts().get(j));
+                list.add(productBean);
+            }
+        }
+        mAdapter.setNewData(list);
+    }
 }

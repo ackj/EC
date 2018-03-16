@@ -1,6 +1,7 @@
 package cn.itsite.delivery;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,18 +13,20 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ScreenUtils;
+import cn.itsite.delivery.contract.AddressContract;
+import cn.itsite.delivery.presenter.AddressPresenter;
 
 /**
  * Author： Administrator on 2018/1/31 0031.
  * Email： liujia95me@126.com
  */
 @Route(path="/delivery/selectshoppingaddressfragment")
-public class SelectShoppingAddressFragment extends BaseFragment {
+public class SelectShoppingAddressFragment extends BaseFragment<AddressContract.Presenter> implements AddressContract.View {
 
     private static final String TAG = SelectShoppingAddressFragment.class.getSimpleName();
 
@@ -40,6 +43,12 @@ public class SelectShoppingAddressFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @NonNull
+    @Override
+    protected AddressContract.Presenter createPresenter() {
+        return new AddressPresenter(this);
     }
 
     @Nullable
@@ -71,11 +80,8 @@ public class SelectShoppingAddressFragment extends BaseFragment {
         mAdapter.addHeaderView(header);
         mRecyclerView.setAdapter(mAdapter);
 
-        List<String> data = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            data.add("");
-        }
-        mAdapter.setNewData(data);
+        mPresenter.getAddress();
+
     }
 
     private void initListener() {
@@ -87,4 +93,13 @@ public class SelectShoppingAddressFragment extends BaseFragment {
         });
     }
 
+    @Override
+    public void responseGetAddress(List<AddressBean> data) {
+        mAdapter.setNewData(data);
+    }
+
+    @Override
+    public void responseDeleteAddressSuccess() {
+        DialogHelper.successSnackbar(getView(),"删除成功");
+    }
 }

@@ -30,7 +30,7 @@
             android:textSize="@dimen/H1" />
 
         <TextView
-            android:id="@+id/tv_add"
+            android:id="@+id/tv_edit"
             android:layout_width="wrap_content"
             android:layout_height="44dp"
             android:layout_alignParentRight="true"
@@ -64,6 +64,7 @@
             android:textSize="@dimen/H3" />
 
         <TextView
+            android:id="@+id/anchor_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="合计："
@@ -71,11 +72,14 @@
             android:textSize="@dimen/H3" />
 
         <TextView
+            android:textColor="@color/default_color"
+            android:id="@+id/tv_total_sum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="￥ 5.00" />
 
         <TextView
+            android:id="@+id/tv_submit"
             android:layout_width="95dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="25dp"

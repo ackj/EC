@@ -3,10 +3,10 @@ package cn.itsite.shoppingcart;
 import java.util.List;
 
 import cn.itsite.abase.network.http.BaseResponse;
-import retrofit2.http.DELETE;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import rx.Observable;
 
@@ -17,16 +17,24 @@ import rx.Observable;
 
 public interface CartServer {
 
-    @DELETE("/v1/carts/{shopUID}")
-    Observable<BaseResponse<List<CartBean>>> deleteCart(@Path("shopUID") String shopUID);
+    //删除一个商品
+    @HTTP(method = "DELETE",path = "/v1/carts/{cartsUID}/products/{productUID}",hasBody = true)
+    Observable<BaseResponse<List<UidBean>>> deleteProduct(@Path("cartsUID") String cartsUID, @Path("productUID") String productUID, @Body RequestBean body);
 
-    @GET("/v1/carts/{shopUID}")
-    Observable<BaseResponse> getCart(@Path("shopUID") String shopUID);
+    //增加一个商品
+    @POST("/v1/carts/{cartsUID}/products/{productUID}")
+    Observable<BaseResponse<List<UidBean>>> postProduct(@Path("cartsUID") String cartsUID, @Path("productUID") String productUID, @Body RequestBean body);
 
-    @POST("/v1/carts/{shopUID}")
-    Observable<BaseResponse> postCart(@Path("shopUID") String shopUID);
+    //
+    @POST("/v1/carts/{cartsUID}/products/{productUID}")
+    Observable<BaseResponse<List<UidBean>>> putProduct(@Path("cartsUID") String cartsUID, @Path("productUID") String productUID, @Body RequestBean body);
 
-    @PUT("/v1/carts/{shopUID}")
-    Observable<BaseResponse> putCart(@Path("shopUID") String shopUID);
+    //获取购物车列表
+    @GET("/v1/carts/{cartsUID}")
+    Observable<BaseResponse<List<StorePojo>>> getCarts(@Path("cartsUID") String cartsUID);
+
+    //获取推荐商品列表
+    @GET("/v1/products")
+    Observable<BaseResponse<List<RecommendGoodsBean>>> getRecommendGoods();
 
 }

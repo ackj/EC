@@ -24,4 +24,23 @@ public class SubmitOrderBean  implements MultiItemEntity {
     public int getItemType() {
         return itemType;
     }
+
+    private OrderBean orderInfoBean;
+    private ProductsBean productsBean;
+
+    public OrderBean getOrderInfoBean() {
+        return orderInfoBean;
+    }
+
+    public void setOrderInfoBean(OrderBean orderInfoBean) {
+        this.orderInfoBean = orderInfoBean;
+    }
+
+    public ProductsBean getProductsBean() {
+        return productsBean;
+    }
+
+    public void setProductsBean(ProductsBean productsBean) {
+        this.productsBean = productsBean;
+    }
 }

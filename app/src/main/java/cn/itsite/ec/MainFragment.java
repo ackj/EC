@@ -8,18 +8,13 @@ import android.view.ViewGroup;
 
 import com.orhanobut.logger.Logger;
 
-import java.util.List;
-
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.network.http.BaseResponse;
-import cn.itsite.abase.network.http.HttpHelper;
 import cn.itsite.albs.location.LocationFragment;
 import cn.itsite.classify.ClassifyFragment;
 import cn.itsite.delivery.SelectShoppingAddressFragment;
 import cn.itsite.goodshome.StoreHomeFragment;
-import cn.itsite.goodssearch.KeywordBean;
 import cn.itsite.goodssearch.SearchGoodsFragment;
-import cn.itsite.goodssearch.contract.KeywordService;
 import cn.itsite.login.LoginFragment;
 import cn.itsite.mine.MineFragment;
 import cn.itsite.order.MineOrderFragment;
@@ -27,8 +22,6 @@ import cn.itsite.order.OrderDetailFragment;
 import cn.itsite.order.SubmitOrderFragment;
 import cn.itsite.shoppingcart.ShoppingCartFragment;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Author： Administrator on 2018/2/1 0001.
@@ -123,19 +116,19 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
     }
 
     public void net() {
-        HttpHelper.getService(KeywordService.class)
-                .getKeywords()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<BaseResponse<List<KeywordBean>>>() {
-
-                    @Override
-                    public void onSuccess(BaseResponse<List<KeywordBean>> response) {
-
-
-                        Logger.e("111111111111" + response.getData().get(0).getQuery());
-                    }
-                });
+//        HttpHelper.getService(KeywordService.class)
+//                .getKeywords()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new BaseSubscriber<BaseResponse<List<KeywordBean>>>() {
+//
+//                    @Override
+//                    public void onSuccess(BaseResponse<List<KeywordBean>> response) {
+//
+//
+//                        Logger.e("111111111111" + response.getData().get(0).getQuery());
+//                    }
+//                });
 
 
     }

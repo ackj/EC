@@ -9,14 +9,14 @@ import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
  * Email： liujia95me@126.com
  */
 
-public class ClassifySubMenuRVAdapter extends BaseRecyclerViewAdapter<String,BaseViewHolder> {
+public class ClassifySubMenuRVAdapter extends BaseRecyclerViewAdapter<MenuBean.ChildrenBean,BaseViewHolder> {
 
     public ClassifySubMenuRVAdapter() {
         super(R.layout.item_classify_sub_menu);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, String item) {
-
+    protected void convert(BaseViewHolder helper, MenuBean.ChildrenBean item) {
+        helper.setText(R.id.tv_name,item.getCategory());
     }
 }

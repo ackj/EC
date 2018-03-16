@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -20,8 +21,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ScreenUtils;
+import cn.itsite.abase.utils.ToastUtils;
+import cn.itsite.acommon.GoodsCounterView;
 import cn.itsite.acommon.SpecificationDialog;
 import cn.itsite.shoppingcart.contract.CartContract;
 import cn.itsite.shoppingcart.presenter.CartPresenter;
@@ -31,19 +35,28 @@ import cn.itsite.shoppingcart.presenter.CartPresenter;
  * Email： liujia95me@126.com
  */
 @Route(path = "/shoppingcart/shoppingcartfragment")
-public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> implements CartContract.View {
+public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> implements CartContract.View, View.OnClickListener {
 
     public static final String TAG = ShoppingCartFragment.class.getSimpleName();
 
+    //------------控件-------------
     private RelativeLayout mRlToolbar;
     private RecyclerView mRecyclerView;
     private ShoppingCartRVAdapter mAdapter;
     private CheckBox mCbSelectAll;
+    private TextView mTvSubmit;
+    private TextView mTvTotalSum;
+    private TextView mTvEdit;
+    private TextView mTvAnchor;//锚，无需在意这个view
+    //------------对象--------------
+    private boolean isEditModel;//是编辑模式吗
+    private GoodsCounterView mCurrentCounterView;//当前计数的view
+    List<StoreBean> mDatas = new ArrayList<>();
+
 
     public static ShoppingCartFragment newInstance() {
         return new ShoppingCartFragment();
     }
-
 
     @NonNull
     @Override
@@ -63,6 +76,10 @@ public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> i
         mRecyclerView = view.findViewById(R.id.recyclerView);
         mRlToolbar = view.findViewById(R.id.rl_toolbar);
         mCbSelectAll = view.findViewById(R.id.cb_select_all);
+        mTvSubmit = view.findViewById(R.id.tv_submit);
+        mTvTotalSum = view.findViewById(R.id.tv_total_sum);
+        mTvEdit = view.findViewById(R.id.tv_edit);
+        mTvAnchor = view.findViewById(R.id.anchor_1);
         return attachToSwipeBack(view);
     }
 
@@ -83,58 +100,36 @@ public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> i
         mAdapter = new ShoppingCartRVAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
-        final List<ShoppingCartGridBean> data = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            ShoppingCartGridBean storeTitle = new ShoppingCartGridBean();
-            storeTitle.setItemType(ShoppingCartGridBean.TYPE_STORE_TITLE);
-            storeTitle.setGoodsCount(5);
-            storeTitle.setSpanSize(2);
-            data.add(storeTitle);
-
-            for (int j = 0; j < 5; j++) {
-                ShoppingCartGridBean storeGoods = new ShoppingCartGridBean();
-                storeGoods.setItemType(ShoppingCartGridBean.TYPE_STORE_GOODS);
-                storeGoods.setSpanSize(2);
-                data.add(storeGoods);
-            }
-        }
-        ShoppingCartGridBean recommendTitle = new ShoppingCartGridBean();
-        recommendTitle.setItemType(ShoppingCartGridBean.TYPE_RECOMMEND_TITLE);
-        recommendTitle.setSpanSize(2);
-        data.add(recommendTitle);
-        for (int i = 0; i < 10; i++) {
-            ShoppingCartGridBean goods = new ShoppingCartGridBean();
-            goods.setItemType(ShoppingCartGridBean.TYPE_RECOMMEND_GOODS);
-            goods.setSpanSize(1);
-            data.add(goods);
-        }
         mAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
             @Override
             public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
-                return data.get(position).getSpanSize();
+                return mDatas.get(position).getSpanSize();
             }
         });
-        mAdapter.setNewData(data);
+        mAdapter.setNewData(mDatas);
+
+        mPresenter.getCarts("123");
     }
 
     private void initListener() {
+        mTvSubmit.setOnClickListener(this);
+        mTvEdit.setOnClickListener(this);
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                ShoppingCartGridBean item = mAdapter.getItem(position);
+                StoreBean item = mAdapter.getItem(position);
                 switch (item.getItemType()) {
-                    case ShoppingCartGridBean.TYPE_STORE_TITLE:
+                    case StoreBean.TYPE_STORE_TITLE:
                         break;
-                    case ShoppingCartGridBean.TYPE_STORE_GOODS:
-                        if(view.getId() == R.id.tv_specification){
+                    case StoreBean.TYPE_STORE_GOODS:
+                        if (view.getId() == R.id.tv_specification) {
                             showSpecificationDialog();
-                        }else if(view.getId()==R.id.tv_confirm){
-                            mPresenter.deleteCart("123");
+                        } else if (view.getId() == R.id.tv_confirm) {
                         }
                         break;
-                    case ShoppingCartGridBean.TYPE_RECOMMEND_TITLE:
+                    case StoreBean.TYPE_RECOMMEND_TITLE:
                         break;
-                    case ShoppingCartGridBean.TYPE_RECOMMEND_GOODS:
+                    case StoreBean.TYPE_RECOMMEND_GOODS:
                         Fragment goodsDetailFragment = (Fragment) ARouter.getInstance().build("/goodsdetail/goodsdetailfragment").navigation();
                         start((BaseFragment) goodsDetailFragment);
                         break;
@@ -143,12 +138,26 @@ public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> i
             }
         });
 
+        mAdapter.setOnAddMinusClickListener(new GoodsCounterView.OnAddMinusClickListener() {
+            @Override
+            public void clickAdd(GoodsCounterView view) {
+                mPresenter.putProduct("123", "123");
+                mCurrentCounterView = view;
+            }
+
+            @Override
+            public void clickMinus(GoodsCounterView view) {
+                mPresenter.putProduct("123", "123");
+                mCurrentCounterView = view;
+            }
+        });
+
         mCbSelectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                List<ShoppingCartGridBean> data = mAdapter.getData();
+                List<StoreBean> data = mAdapter.getData();
                 for (int i = 0; i < data.size(); i++) {
-                    ShoppingCartGridBean bean = data.get(i);
+                    StoreBean bean = data.get(i);
                     bean.setChecked(isChecked);
                 }
                 mAdapter.notifyDataSetChanged();
@@ -175,11 +184,110 @@ public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> i
 
     //刷新选中的商城商品
     private void checkStoreGoods(int position, boolean isChecked) {
-        List<ShoppingCartGridBean> data = mAdapter.getData();
-        ShoppingCartGridBean bean = mAdapter.getData().get(position);
+        StoreBean bean = mAdapter.getData().get(position);
         for (int i = position; i <= bean.getGoodsCount() + position; i++) {
-            data.get(i).setChecked(isChecked);
+            mDatas.get(i).setChecked(isChecked);
         }
         mAdapter.notifyItemRangeChanged(position, bean.getGoodsCount() + 1);
     }
+
+    @Override
+    public void responseDeleteSuccess(List<UidBean> data) {
+        DialogHelper.successSnackbar(getView(), "被你删除成功了");
+        mCurrentCounterView.clickMinus();
+    }
+
+    @Override
+    public void responsePostSuccess(List<UidBean> data) {
+        DialogHelper.successSnackbar(getView(), "被你添加成功了");
+        mCurrentCounterView.clickAdd();
+    }
+
+    @Override
+    public void responsePutSuccess(List<UidBean> data) {
+        DialogHelper.successSnackbar(getView(), "被你修改成功了");
+    }
+
+    @Override
+    public void responseGetCartsSuccess(List<StorePojo> data) {
+        //将数据铺平
+        mDatas = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            StoreBean shopBean = new StoreBean();
+            shopBean.setItemType(StoreBean.TYPE_STORE_TITLE);
+            shopBean.setShopBean(data.get(i).getShop());
+            //设置商品个数，为刷新用
+            shopBean.setGoodsCount(data.get(i).getProducts().size());
+            shopBean.setSpanSize(2);
+            mDatas.add(shopBean);
+            for (int j = 0; j < data.get(i).getProducts().size(); j++) {
+                StoreBean productBean = new StoreBean();
+                productBean.setItemType(StoreBean.TYPE_STORE_GOODS);
+                productBean.setProductsBean(data.get(i).getProducts().get(j));
+                productBean.setSpanSize(2);
+                mDatas.add(productBean);
+            }
+        }
+        //查推荐
+        mPresenter.getRecommendGoods();
+    }
+
+    @Override
+    public void responseRecommendGoodsSuccess(List<RecommendGoodsBean> data) {
+        if (data.size() > 0) {
+            StoreBean recommendTitle = new StoreBean();
+            recommendTitle.setItemType(StoreBean.TYPE_RECOMMEND_TITLE);
+            recommendTitle.setSpanSize(2);
+            mDatas.add(recommendTitle);
+        }
+        for (int i = 0; i < data.size(); i++) {
+            StoreBean recommendBean = new StoreBean();
+            recommendBean.setItemType(StoreBean.TYPE_RECOMMEND_GOODS);
+            recommendBean.setRecommendGoodsBean(data.get(i));
+            recommendBean.setSpanSize(1);
+            mDatas.add(recommendBean);
+        }
+        DialogHelper.successSnackbar(getView(), "查询成功");
+        mAdapter.setNewData(mDatas);
+    }
+
+    private void switchEditModel() {
+        if (isEditModel) {
+            mTvEdit.setText("编辑");
+            mTvEdit.setTextColor(_mActivity.getResources().getColor(R.color.base_black));
+            mTvSubmit.setText("结算");
+            mTvSubmit.setBackgroundColor(_mActivity.getResources().getColor(R.color.warn));
+            mTvAnchor.setVisibility(View.VISIBLE);
+            mTvTotalSum.setVisibility(View.VISIBLE);
+        } else {
+            mTvEdit.setText("完成");
+            mTvEdit.setTextColor(_mActivity.getResources().getColor(R.color.warn));
+            mTvSubmit.setText("删除");
+            mTvSubmit.setBackgroundColor(_mActivity.getResources().getColor(R.color.error));
+            mTvAnchor.setVisibility(View.GONE);
+            mTvTotalSum.setVisibility(View.GONE);
+        }
+        isEditModel = !isEditModel;
+    }
+
+    private void clickSubmit() {
+        if (isEditModel) {
+            //删除
+            ToastUtils.showToast(_mActivity, "删除");
+        } else {
+            //结算
+            ToastUtils.showToast(_mActivity, "结算");
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.tv_edit) {
+            switchEditModel();
+        } else if (v.getId() == R.id.tv_submit) {
+            clickSubmit();
+        }
+    }
+
+
 }

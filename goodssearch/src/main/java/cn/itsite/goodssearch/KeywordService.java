@@ -1,11 +1,11 @@
-package cn.itsite.goodssearch.contract;
+package cn.itsite.goodssearch;
 
 
 import java.util.List;
 
 import cn.itsite.abase.network.http.BaseResponse;
-import cn.itsite.goodssearch.KeywordBean;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -17,5 +17,9 @@ import rx.Observable;
 public interface KeywordService {
 
     @GET("v1/keywords")
-    Observable<BaseResponse<List<KeywordBean>>> getKeywords();
+    Observable<BaseResponse<List<KeywordBean>>> getKeywords(@Query("kewords") String keywords);
+
+    @GET("/v1/search/products")
+    Observable<BaseResponse<List<GoodsBean>>> getProducts(@Query("kewords") String keywords);
+
 }

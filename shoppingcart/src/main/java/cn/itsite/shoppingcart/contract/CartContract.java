@@ -4,7 +4,9 @@ import java.util.List;
 
 import cn.itsite.abase.mvp.contract.base.BaseContract;
 import cn.itsite.abase.network.http.BaseResponse;
-import cn.itsite.shoppingcart.CartBean;
+import cn.itsite.shoppingcart.RecommendGoodsBean;
+import cn.itsite.shoppingcart.StorePojo;
+import cn.itsite.shoppingcart.UidBean;
 import rx.Observable;
 
 /**
@@ -17,14 +19,26 @@ import rx.Observable;
 public interface CartContract {
 
     interface View extends BaseContract.View{
+        void responseDeleteSuccess(List<UidBean> data);
+        void responsePostSuccess(List<UidBean> data);
+        void responsePutSuccess(List<UidBean> data);
+        void responseGetCartsSuccess(List<StorePojo> data);
+        void responseRecommendGoodsSuccess(List<RecommendGoodsBean> data);
     }
 
     interface Presenter extends BaseContract.Presenter {
-        void deleteCart(String shopUID);
-
+        void deleteProduct(String cartsUID,String productUID);
+        void postProduct(String cartsUID,String productUID);
+        void putProduct(String cartsUID,String productUID);
+        void getCarts(String cartsUID);
+        void getRecommendGoods();
     }
 
     interface Model extends BaseContract.Model {
-        Observable<BaseResponse<List<CartBean>>> deleteCart(String shopUID);
+        Observable<BaseResponse<List<UidBean>>> deleteProduct(String shopUID, String productUID);
+        Observable<BaseResponse<List<UidBean>>> postProduct(String shopUID, String productUID);
+        Observable<BaseResponse<List<UidBean>>> putProduct(String shopUID, String productUID);
+        Observable<BaseResponse<List<StorePojo>>> getCarts(String shopUID);
+        Observable<BaseResponse<List<RecommendGoodsBean>>> getRecommendGoods();
     }
 }

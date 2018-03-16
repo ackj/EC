@@ -19,6 +19,10 @@ public class SearchGoodsBean implements MultiItemEntity {
     private int itemType;
     private int spanSize;
 
+    private String title;
+    private KeywordBean keywordBean;
+    private GoodsBean goodsBean;
+
     public void setItemType(int itemType) {
         this.itemType = itemType;
     }
@@ -36,4 +40,27 @@ public class SearchGoodsBean implements MultiItemEntity {
         return itemType;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public KeywordBean getKeywordBean() {
+        return keywordBean;
+    }
+
+    public void setKeywordBean(KeywordBean keywordBean) {
+        this.keywordBean = keywordBean;
+    }
+
+    public GoodsBean getGoodsBean() {
+        return goodsBean;
+    }
+
+    public void setGoodsBean(GoodsBean goodsBean) {
+        this.goodsBean = goodsBean;
+    }
 }
