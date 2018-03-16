@@ -7,6 +7,7 @@ import java.util.List;
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
 import cn.itsite.abase.network.http.BaseResponse;
 import cn.itsite.classify.MenuBean;
+import cn.itsite.classify.ProductBean;
 import cn.itsite.classify.contract.MenuContract;
 import cn.itsite.classify.model.MenuModel;
 import rx.android.schedulers.AndroidSchedulers;
@@ -43,6 +44,18 @@ public class MenuPresenter extends BasePresenter<MenuContract.View,MenuContract.
                     @Override
                     public void onSuccess(BaseResponse<List<MenuBean>> listBaseResponse) {
                         getView().responseGetGategories(listBaseResponse.getData());
+                    }
+                }));
+    }
+
+    @Override
+    public void getProducts(String uid) {
+        mRxManager.add(mModel.getProducts(uid)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<BaseResponse<List<ProductBean>>>(){
+                    @Override
+                    public void onSuccess(BaseResponse<List<ProductBean>> listBaseResponse) {
+                        getView().responseGetProducts(listBaseResponse.getData());
                     }
                 }));
     }

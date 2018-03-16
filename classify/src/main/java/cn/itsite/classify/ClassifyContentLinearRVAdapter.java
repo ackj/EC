@@ -9,14 +9,14 @@ import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
  * Email： liujia95me@126.com
  */
 
-public class ClassifyContentLinearRVAdapter extends BaseRecyclerViewAdapter<String, BaseViewHolder> {
+public class ClassifyContentLinearRVAdapter extends BaseRecyclerViewAdapter<ProductBean, BaseViewHolder> {
 
     public ClassifyContentLinearRVAdapter() {
         super(R.layout.item_linear_goods);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, String item) {
+    protected void convert(BaseViewHolder helper, ProductBean item) {
 
     }
 }

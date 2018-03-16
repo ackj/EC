@@ -226,4 +226,10 @@ public class ClassifyFragment extends BaseFragment<MenuContract.Presenter> imple
     public void responseGetGategories(List<MenuBean> data) {
         mAdapterMenu.setNewData(data);
     }
+
+    @Override
+    public void responseGetProducts(List<ProductBean> data) {
+        mAdapterContentGrid.setNewData(data);
+        mAdapterContentLinear.setNewData(data);
+    }
 }

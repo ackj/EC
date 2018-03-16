@@ -19,4 +19,7 @@ public interface MenuService {
     @GET("/v1/categories/{uid}")
     Observable<BaseResponse<List<MenuBean>>> getGategories(@Path("uid")String uid);
 
+    @GET("/v1/products")
+    Observable<BaseResponse<List<ProductBean>>> getProducts(@Path("uid")String uid);
+
 }

@@ -7,6 +7,7 @@ import cn.itsite.abase.network.http.BaseResponse;
 import cn.itsite.abase.network.http.HttpHelper;
 import cn.itsite.classify.MenuBean;
 import cn.itsite.classify.MenuService;
+import cn.itsite.classify.ProductBean;
 import cn.itsite.classify.contract.MenuContract;
 import rx.Observable;
 import rx.schedulers.Schedulers;
@@ -27,6 +28,12 @@ public class MenuModel extends BaseModel implements MenuContract.Model {
                 .subscribeOn(Schedulers.io());
     }
 
+    @Override
+    public Observable<BaseResponse<List<ProductBean>>> getProducts(String uid) {
+        return HttpHelper.getService(MenuService.class)
+                .getProducts(uid)
+                .subscribeOn(Schedulers.io());
+    }
 
 
 }

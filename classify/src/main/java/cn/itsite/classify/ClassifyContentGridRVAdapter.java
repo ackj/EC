@@ -9,13 +9,13 @@ import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
  * Email： liujia95me@126.com
  */
 
-public class ClassifyContentGridRVAdapter extends BaseRecyclerViewAdapter<String,BaseViewHolder> {
+public class ClassifyContentGridRVAdapter extends BaseRecyclerViewAdapter<ProductBean,BaseViewHolder> {
     public ClassifyContentGridRVAdapter() {
         super(R.layout.item_grid_goods);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, String item) {
+    protected void convert(BaseViewHolder helper, ProductBean item) {
 
     }
 }
