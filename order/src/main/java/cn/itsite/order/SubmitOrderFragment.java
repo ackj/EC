@@ -107,17 +107,16 @@ public class SubmitOrderFragment extends BaseFragment<OrderContract.Presenter> i
             titleBean.setItemType(SubmitOrderBean.TYPE_STORE_TITLE);
             titleBean.setOrderInfoBean(bean);
             list.add(titleBean);
-
-            SubmitOrderBean orderInfoBean = new SubmitOrderBean();
-            orderInfoBean.setItemType(SubmitOrderBean.TYPE_ORDER_INFO);
-            orderInfoBean.setOrderInfoBean(bean);
-            list.add(orderInfoBean);
             for (int j = 0; j < bean.getProducts().size(); j++) {
                 SubmitOrderBean productBean = new SubmitOrderBean();
                 productBean.setItemType(SubmitOrderBean.TYPE_STORE_GOODS);
                 productBean.setProductsBean(bean.getProducts().get(j));
                 list.add(productBean);
             }
+            SubmitOrderBean orderInfoBean = new SubmitOrderBean();
+            orderInfoBean.setItemType(SubmitOrderBean.TYPE_ORDER_INFO);
+            orderInfoBean.setOrderInfoBean(bean);
+            list.add(orderInfoBean);
         }
         mAdapter.setNewData(list);
     }

@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +44,7 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsContract.Presenter
     private EditText mEtInput;
     private ImageView mIvBack;
     private List<SearchGoodsBean> mHotKeywordsDatas;
+    private List<SearchGoodsBean> mKeywordsDatas;
     private List<SearchGoodsBean> mProductsDatas;
 
     public static SearchGoodsFragment newInstance() {
@@ -134,6 +137,23 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsContract.Presenter
         mEtInput.setOnClickListener(this);
         mIvBack.setOnClickListener(this);
 
+        mEtInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mPresenter.getKeywords(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         mSearchGoodsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -142,8 +162,9 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsContract.Presenter
                     case SearchGoodsBean.TYPE_HISTORY_TITLE:
                         break;
                     case SearchGoodsBean.TYPE_HISTORY_ITEM:
-                        break;
                     case SearchGoodsBean.TYPE_SEARCH_STRING:
+                        SearchGoodsFragment.super.start("");
+                        mPresenter.getProducts(item.getKeywordBean().getKeyword());
                         break;
                     case SearchGoodsBean.TYPE_SEARCH_GOODS:
                         Fragment goodsDetailFragment = (Fragment) ARouter.getInstance().build("/goodsdetail/goodsdetailfragment").navigation();
@@ -163,12 +184,30 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsContract.Presenter
         } else if (v.getId() == R.id.et_input) {
 //            refreshData(data2);
         } else if (v.getId() == R.id.tv_search) {
+            super.start("");
             mPresenter.getProducts("123");
         }
     }
 
     @Override
+    public void start(Object response) {
+    }
+
+    @Override
     public void responseGetKeywords(List<KeywordBean> datas) {
+        mKeywordsDatas = new ArrayList<>();
+        for (int i = 0; i < datas.size(); i++) {
+            SearchGoodsBean keywordBean = new SearchGoodsBean();
+            keywordBean.setItemType(SearchGoodsBean.TYPE_SEARCH_STRING);
+            keywordBean.setSpanSize(6);
+            keywordBean.setKeywordBean(datas.get(i));
+            mKeywordsDatas.add(keywordBean);
+        }
+        refreshData(mKeywordsDatas);
+    }
+
+    @Override
+    public void responseGetHotKeywords(List<KeywordBean> datas) {
         mHotKeywordsDatas = new ArrayList<>();
         SearchGoodsBean title = new SearchGoodsBean();
         title.setItemType(SearchGoodsBean.TYPE_HISTORY_TITLE);

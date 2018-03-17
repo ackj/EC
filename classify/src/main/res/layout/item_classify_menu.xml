@@ -9,6 +9,7 @@
     android:paddingTop="14dp">
 
     <View
+        android:id="@+id/view_left"
         android:layout_width="2dp"
         android:layout_height="20dp"
         android:background="@color/base_color"

@@ -5,6 +5,7 @@ import java.util.List;
 import cn.itsite.abase.network.http.BaseResponse;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -20,6 +21,6 @@ public interface MenuService {
     Observable<BaseResponse<List<MenuBean>>> getGategories(@Path("uid")String uid);
 
     @GET("/v1/products")
-    Observable<BaseResponse<List<ProductBean>>> getProducts(@Path("uid")String uid);
+    Observable<BaseResponse<List<ProductBean>>> getProducts(@Query("category") String category);
 
 }

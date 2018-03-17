@@ -1,6 +1,7 @@
 package cn.itsite.goodssearch.presenter;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import java.util.List;
 
@@ -43,7 +44,11 @@ public class KeywordsPresenter extends BasePresenter<KeywordsContract.View,Keywo
                 .subscribe(new BaseSubscriber<BaseResponse<List<KeywordBean>>>(){
                     @Override
                     public void onSuccess(BaseResponse<List<KeywordBean>> listBaseResponse) {
-                        getView().responseGetKeywords(listBaseResponse.getData());
+                        if(TextUtils.isEmpty(keywords)){
+                            getView().responseGetHotKeywords(listBaseResponse.getData());
+                        }else{
+                            getView().responseGetKeywords(listBaseResponse.getData());
+                        }
                     }
                 }));
     }

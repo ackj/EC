@@ -18,6 +18,7 @@ public interface KeywordsContract {
 
     interface View extends BaseContract.View {
         void responseGetKeywords(List<KeywordBean> data);
+        void responseGetHotKeywords(List<KeywordBean> data);
 
         void responseGetProducts(List<GoodsBean> data);
     }

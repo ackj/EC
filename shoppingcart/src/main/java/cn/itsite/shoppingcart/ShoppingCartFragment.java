@@ -247,7 +247,6 @@ public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> i
             recommendBean.setSpanSize(1);
             mDatas.add(recommendBean);
         }
-        DialogHelper.successSnackbar(getView(), "查询成功");
         mAdapter.setNewData(mDatas);
     }
 

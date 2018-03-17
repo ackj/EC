@@ -154,7 +154,7 @@ public class ClassifyFragment extends BaseFragment<MenuContract.Presenter> imple
         mIvStretchMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int dataCount = 13;
+                int dataCount = mAdapterSubMenu.getData().size();
                 int maxUnfoldHeight = (int) (Math.min(Math.ceil(dataCount / 3.0), 4) * ONE_UNFOLD_LINE_HEIGHT);
                 if (mIvStretchMenu.isSelected()) {
                     closeSubMenu();
@@ -184,10 +184,40 @@ public class ClassifyFragment extends BaseFragment<MenuContract.Presenter> imple
         mAdapterMenu.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter1, View view, int position) {
-                MenuBean menuBean = mAdapterMenu.getData().get(position);
-                mAdapterSubMenu.setNewData(menuBean.getChildren());
+                clickFirstMenu(position);
             }
         });
+
+        mAdapterSubMenu.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter1, View view, int position) {
+                MenuBean.ChildrenBean bean = mAdapterSubMenu.getData().get(position);
+                mAdapterSubMenu.setSelectedPosition(position);
+                mPresenter.getProducts(bean.getUid());
+            }
+        });
+    }
+
+    //点击一级菜单
+    private void clickFirstMenu(int position) {
+        MenuBean menuBean = mAdapterMenu.getData().get(position);
+        mAdapterMenu.setSelectedPosition(position);
+        //判断是否隐藏二级菜单右侧展开按钮
+        if (menuBean.getChildren().size() > 2) {
+            mIvStretchMenu.setVisibility(View.VISIBLE);
+        } else {
+            mIvStretchMenu.setVisibility(View.INVISIBLE);
+        }
+        //增加一项：全部
+        MenuBean.ChildrenBean allBean = new MenuBean.ChildrenBean();
+        allBean.setCategory("全部");
+        allBean.setUid(menuBean.getUid());
+
+        mAdapterSubMenu.setNewData(null);
+        mAdapterSubMenu.addData(allBean);
+        mAdapterSubMenu.addData(menuBean.getChildren());
+        //逻辑按点击“全部”一致，请求网络
+        mPresenter.getProducts(menuBean.getUid());
     }
 
     //把三级菜单伸缩至指定的高度
@@ -225,6 +255,10 @@ public class ClassifyFragment extends BaseFragment<MenuContract.Presenter> imple
     @Override
     public void responseGetGategories(List<MenuBean> data) {
         mAdapterMenu.setNewData(data);
+        if (data.size() > 0) {
+            //自动选中第一项
+            clickFirstMenu(0);
+        }
     }
 
     @Override
