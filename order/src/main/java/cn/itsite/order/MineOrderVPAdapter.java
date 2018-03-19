@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import cn.itsite.abase.BaseApp;
+import java.util.List;
 
 /**
  * Author： Administrator on 2018/2/1 0001.
@@ -13,10 +13,12 @@ import cn.itsite.abase.BaseApp;
 
 public class MineOrderVPAdapter extends FragmentPagerAdapter {
 
-    private String[] mTitles = BaseApp.mContext.getResources().getStringArray(R.array.mine_order_tabs);
+//    private String[] mTitles = BaseApp.mContext.getResources().getStringArray(R.array.mine_order_tabs);
+    private List<CategoryBean> categories;
 
-    public MineOrderVPAdapter(FragmentManager fm) {
+    public MineOrderVPAdapter(FragmentManager fm,List<CategoryBean> categories) {
         super(fm);
+        this.categories = categories;
     }
 
     @Override
@@ -26,11 +28,11 @@ public class MineOrderVPAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return mTitles.length;
+        return categories.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return mTitles[position];
+        return categories.get(position).getCategory();
     }
 }

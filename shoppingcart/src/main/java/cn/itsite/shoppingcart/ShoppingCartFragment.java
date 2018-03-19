@@ -25,7 +25,6 @@ import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ScreenUtils;
 import cn.itsite.abase.utils.ToastUtils;
-import cn.itsite.acommon.GoodsCounterView;
 import cn.itsite.acommon.SpecificationDialog;
 import cn.itsite.shoppingcart.contract.CartContract;
 import cn.itsite.shoppingcart.presenter.CartPresenter;
@@ -39,7 +38,6 @@ public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> i
 
     public static final String TAG = ShoppingCartFragment.class.getSimpleName();
 
-    //------------控件-------------
     private RelativeLayout mRlToolbar;
     private RecyclerView mRecyclerView;
     private ShoppingCartRVAdapter mAdapter;
@@ -48,9 +46,9 @@ public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> i
     private TextView mTvTotalSum;
     private TextView mTvEdit;
     private TextView mTvAnchor;//锚，无需在意这个view
-    //------------对象--------------
+    //--------------------------
     private boolean isEditModel;//是编辑模式吗
-    private GoodsCounterView mCurrentCounterView;//当前计数的view
+//    private GoodsCounterView mCurrentCounterView;//当前计数的view
     List<StoreBean> mDatas = new ArrayList<>();
 
 
@@ -125,6 +123,7 @@ public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> i
                         if (view.getId() == R.id.tv_specification) {
                             showSpecificationDialog();
                         } else if (view.getId() == R.id.tv_confirm) {
+                            mPresenter.putProduct("123",item.getProductsBean().getUid());
                         }
                         break;
                     case StoreBean.TYPE_RECOMMEND_TITLE:
@@ -138,19 +137,19 @@ public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> i
             }
         });
 
-        mAdapter.setOnAddMinusClickListener(new GoodsCounterView.OnAddMinusClickListener() {
-            @Override
-            public void clickAdd(GoodsCounterView view) {
-                mPresenter.putProduct("123", "123");
-                mCurrentCounterView = view;
-            }
-
-            @Override
-            public void clickMinus(GoodsCounterView view) {
-                mPresenter.putProduct("123", "123");
-                mCurrentCounterView = view;
-            }
-        });
+//        mAdapter.setOnAddMinusClickListener(new GoodsCounterView.OnAddMinusClickListener() {
+//            @Override
+//            public void clickAdd(GoodsCounterView view) {
+//                mPresenter.putProduct("123", "123");
+//                mCurrentCounterView = view;
+//            }
+//
+//            @Override
+//            public void clickMinus(GoodsCounterView view) {
+//                mPresenter.putProduct("123", "123");
+//                mCurrentCounterView = view;
+//            }
+//        });
 
         mCbSelectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -194,13 +193,13 @@ public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> i
     @Override
     public void responseDeleteSuccess(List<UidBean> data) {
         DialogHelper.successSnackbar(getView(), "被你删除成功了");
-        mCurrentCounterView.clickMinus();
+//        mCurrentCounterView.clickMinus();
     }
 
     @Override
     public void responsePostSuccess(List<UidBean> data) {
         DialogHelper.successSnackbar(getView(), "被你添加成功了");
-        mCurrentCounterView.clickAdd();
+//        mCurrentCounterView.clickAdd();
     }
 
     @Override
@@ -209,44 +208,15 @@ public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> i
     }
 
     @Override
-    public void responseGetCartsSuccess(List<StorePojo> data) {
-        //将数据铺平
-        mDatas = new ArrayList<>();
-        for (int i = 0; i < data.size(); i++) {
-            StoreBean shopBean = new StoreBean();
-            shopBean.setItemType(StoreBean.TYPE_STORE_TITLE);
-            shopBean.setShopBean(data.get(i).getShop());
-            //设置商品个数，为刷新用
-            shopBean.setGoodsCount(data.get(i).getProducts().size());
-            shopBean.setSpanSize(2);
-            mDatas.add(shopBean);
-            for (int j = 0; j < data.get(i).getProducts().size(); j++) {
-                StoreBean productBean = new StoreBean();
-                productBean.setItemType(StoreBean.TYPE_STORE_GOODS);
-                productBean.setProductsBean(data.get(i).getProducts().get(j));
-                productBean.setSpanSize(2);
-                mDatas.add(productBean);
-            }
-        }
+    public void responseGetCartsSuccess(List<StoreBean> data) {
+        mDatas = data;
         //查推荐
         mPresenter.getRecommendGoods();
     }
 
     @Override
-    public void responseRecommendGoodsSuccess(List<RecommendGoodsBean> data) {
-        if (data.size() > 0) {
-            StoreBean recommendTitle = new StoreBean();
-            recommendTitle.setItemType(StoreBean.TYPE_RECOMMEND_TITLE);
-            recommendTitle.setSpanSize(2);
-            mDatas.add(recommendTitle);
-        }
-        for (int i = 0; i < data.size(); i++) {
-            StoreBean recommendBean = new StoreBean();
-            recommendBean.setItemType(StoreBean.TYPE_RECOMMEND_GOODS);
-            recommendBean.setRecommendGoodsBean(data.get(i));
-            recommendBean.setSpanSize(1);
-            mDatas.add(recommendBean);
-        }
+    public void responseRecommendGoodsSuccess(List<StoreBean> data) {
+        mDatas.addAll(data);
         mAdapter.setNewData(mDatas);
     }
 
@@ -272,7 +242,7 @@ public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> i
     private void clickSubmit() {
         if (isEditModel) {
             //删除
-            ToastUtils.showToast(_mActivity, "删除");
+            mPresenter.deleteProduct("123","123");
         } else {
             //结算
             ToastUtils.showToast(_mActivity, "结算");

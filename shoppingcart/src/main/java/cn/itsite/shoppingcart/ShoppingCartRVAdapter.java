@@ -42,7 +42,6 @@ public class ShoppingCartRVAdapter extends BaseMultiItemQuickAdapter<StoreBean, 
             case StoreBean.TYPE_STORE_GOODS:
                 GoodsCounterView goodsCounterView = helper.getView(R.id.view_goodscounter);
                 goodsCounterView.setCounter(item.getProductsBean().getCount());
-                goodsCounterView.setOnAddMinusClickListener(addMinusClickListener);
                 helper.setOnCheckedChangeListener(R.id.checkBox, null)
                         .setText(R.id.tv_name, item.getProductsBean().getTitle())
                         .setText(R.id.tv_specification, item.getProductsBean().getDescription())
@@ -84,10 +83,10 @@ public class ShoppingCartRVAdapter extends BaseMultiItemQuickAdapter<StoreBean, 
         void onGoodsCheckedChanged(int position, boolean isChecked);
     }
 
-    private GoodsCounterView.OnAddMinusClickListener addMinusClickListener;
-
-    public void setOnAddMinusClickListener(GoodsCounterView.OnAddMinusClickListener listener) {
-        addMinusClickListener = listener;
-    }
+//    private GoodsCounterView.OnAddMinusClickListener addMinusClickListener;
+//
+//    public void setOnAddMinusClickListener(GoodsCounterView.OnAddMinusClickListener listener) {
+//        addMinusClickListener = listener;
+//    }
 
 }

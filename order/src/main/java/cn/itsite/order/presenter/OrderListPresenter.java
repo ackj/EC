@@ -2,47 +2,50 @@ package cn.itsite.order.presenter;
 
 import android.support.annotation.NonNull;
 
+import com.orhanobut.logger.Logger;
+
 import java.util.List;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
 import cn.itsite.abase.network.http.BaseResponse;
 import cn.itsite.order.OrderBean;
-import cn.itsite.order.contract.OrderContract;
-import cn.itsite.order.model.OrderModel;
+import cn.itsite.order.contract.OrderListContract;
+import cn.itsite.order.model.OrderListModel;
 import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * @author liujia
  * @version v0.0.0
  * @E-mail liujia95me@126.com
- * @time 2018/3/15 0015 11:53
+ * @time 2018/3/19 0019 16:42
  */
 
-public class OrderPresenter extends BasePresenter<OrderContract.View,OrderContract.Model> implements OrderContract.Presenter {
+public class OrderListPresenter extends BasePresenter<OrderListContract.View,OrderListContract.Model> implements OrderListContract.Presenter {
 
     /**
      * 创建Presenter的时候就绑定View和创建model。
      *
      * @param mView 所要绑定的view层对象，一般在View层创建Presenter的时候通过this把自己传过来。
      */
-    public OrderPresenter(OrderContract.View mView) {
+    public OrderListPresenter(OrderListContract.View mView) {
         super(mView);
     }
 
     @NonNull
     @Override
-    protected OrderContract.Model createModel() {
-        return new OrderModel();
+    protected OrderListContract.Model createModel() {
+        return new OrderListModel();
     }
 
     @Override
-    public void getOrder(int state) {
-        mRxManager.add(mModel.getOrder(state)
+    public void getOrders(String category) {
+        mRxManager.add(mModel.getOrders(category)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<BaseResponse<List<OrderBean>>>(){
+                .subscribe(new BaseSubscriber<BaseResponse<List<OrderBean>>>() {
                     @Override
                     public void onSuccess(BaseResponse<List<OrderBean>> listBaseResponse) {
-                        getView().responseGetOrder(listBaseResponse.getData());
+                        Logger.e("post success" + listBaseResponse.getData().get(0).getUid());
+                        getView().responseOrders(listBaseResponse.getData());
                     }
                 }));
     }

@@ -1,6 +1,7 @@
 package cn.itsite.order;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -11,15 +12,19 @@ import android.widget.RelativeLayout;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 
+import java.util.List;
+
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ScreenUtils;
+import cn.itsite.order.contract.MineOrderContract;
+import cn.itsite.order.presenter.MineOrderPresenter;
 
 /**
  * Author： Administrator on 2018/2/1 0001.
  * Email： liujia95me@126.com
  */
 @Route(path="/order/mineorderfragment")
-public class MineOrderFragment extends BaseFragment {
+public class MineOrderFragment extends BaseFragment<MineOrderContract.Presenter> implements MineOrderContract.View {
 
     public static final String TAG = MineOrderFragment.class.getSimpleName();
 
@@ -30,6 +35,12 @@ public class MineOrderFragment extends BaseFragment {
 
     public static MineOrderFragment newInstance() {
         return new MineOrderFragment();
+    }
+
+    @NonNull
+    @Override
+    protected MineOrderContract.Presenter createPresenter() {
+        return new MineOrderPresenter(this);
     }
 
     @Override
@@ -60,12 +71,16 @@ public class MineOrderFragment extends BaseFragment {
     }
 
     private void initData() {
-        MineOrderVPAdapter mAdapter = new MineOrderVPAdapter(getChildFragmentManager());
-        viewPager.setAdapter(mAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+        mPresenter.getCategories("","orders");
     }
 
     private void initListener() {
     }
 
+    @Override
+    public void responseGetCategories(List<CategoryBean> data) {
+        MineOrderVPAdapter mAdapter = new MineOrderVPAdapter(getChildFragmentManager(),data);
+        viewPager.setAdapter(mAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+    }
 }

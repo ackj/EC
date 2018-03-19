@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.List;
 
@@ -89,6 +90,14 @@ public class SelectShoppingAddressFragment extends BaseFragment<AddressContract.
             @Override
             public void onClick(View v) {
                 start(AddAddressFragment.newInstance());
+            }
+        });
+        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if(view.getId() == R.id.iv_edit){
+                    start(AddAddressFragment.newInstance());
+                }
             }
         });
     }

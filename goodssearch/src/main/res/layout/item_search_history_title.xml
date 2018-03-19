@@ -17,6 +17,7 @@
         android:textSize="@dimen/H5" />
 
     <ImageView
+        android:id="@+id/iv_clear"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:padding="12dp"

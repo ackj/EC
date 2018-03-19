@@ -7,10 +7,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,7 +36,7 @@ import cn.itsite.goodssearch.presenter.KeywordsPresenter;
  * Email： liujia95me@126.com
  */
 @Route(path = "/goodssearch/searchgoodsfragment")
-public class SearchGoodsFragment extends BaseFragment<KeywordsContract.Presenter> implements View.OnClickListener, KeywordsContract.View {
+public class SearchGoodsFragment extends BaseFragment<KeywordsPresenter> implements View.OnClickListener, KeywordsContract.View {
 
     private static final String TAG = SearchGoodsFragment.class.getSimpleName();
 
@@ -58,7 +61,7 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsContract.Presenter
 
     @NonNull
     @Override
-    protected KeywordsContract.Presenter createPresenter() {
+    protected KeywordsPresenter createPresenter() {
         return new KeywordsPresenter(this);
     }
 
@@ -91,33 +94,6 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsContract.Presenter
         mSearchGoodsAdapter = new SearchGoodsRVAdapter();
         mRecyclerView.setAdapter(mSearchGoodsAdapter);
 
-        //todo:待删
-//        data = new ArrayList<>();
-//        data2 = new ArrayList<>();
-//        data3 = new ArrayList<>();
-//        for (int i = 0; i < 10; i++) {
-//            SearchGoodsBean title = new SearchGoodsBean();
-//            title.setItemType(SearchGoodsBean.TYPE_HISTORY_TITLE);
-//            title.setSpanSize(6);
-//            data.add(title);
-//            for (int j = 0; j < 9; j++) {
-//                SearchGoodsBean hGoods = new SearchGoodsBean();
-//                hGoods.setItemType(SearchGoodsBean.TYPE_HISTORY_ITEM);
-//                hGoods.setSpanSize(2);
-//                data.add(hGoods);
-//            }
-//            SearchGoodsBean strings = new SearchGoodsBean();
-//            strings.setItemType(SearchGoodsBean.TYPE_SEARCH_STRING);
-//            strings.setSpanSize(6);
-//            data2.add(strings);
-//
-//            SearchGoodsBean goods = new SearchGoodsBean();
-//            goods.setItemType(SearchGoodsBean.TYPE_SEARCH_GOODS);
-//            goods.setSpanSize(3);
-//            data3.add(goods);
-//        }
-//        refreshData(data);
-
         //获取热门搜索
         mPresenter.getKeywords(null);
     }
@@ -136,7 +112,6 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsContract.Presenter
         mTvSearch.setOnClickListener(this);
         mEtInput.setOnClickListener(this);
         mIvBack.setOnClickListener(this);
-
         mEtInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -164,7 +139,7 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsContract.Presenter
                     case SearchGoodsBean.TYPE_HISTORY_ITEM:
                     case SearchGoodsBean.TYPE_SEARCH_STRING:
                         SearchGoodsFragment.super.start("");
-                        mPresenter.getProducts(item.getKeywordBean().getKeyword());
+                        mPresenter.getProducts(item.getKeywordBean().getQuery());
                         break;
                     case SearchGoodsBean.TYPE_SEARCH_GOODS:
                         Fragment goodsDetailFragment = (Fragment) ARouter.getInstance().build("/goodsdetail/goodsdetailfragment").navigation();
@@ -175,6 +150,24 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsContract.Presenter
                 }
             }
         });
+
+        mEtInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_SEARCH){
+                    search();
+                }
+                return false;
+            }
+        });
+    }
+
+    private void search(){
+        String input = mEtInput.getText().toString();
+        if (!TextUtils.isEmpty(input)) {
+            super.start("");
+            mPresenter.getProducts(input);
+        }
     }
 
     @Override
@@ -184,8 +177,7 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsContract.Presenter
         } else if (v.getId() == R.id.et_input) {
 //            refreshData(data2);
         } else if (v.getId() == R.id.tv_search) {
-            super.start("");
-            mPresenter.getProducts("123");
+            search();
         }
     }
 
@@ -209,11 +201,31 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsContract.Presenter
     @Override
     public void responseGetHotKeywords(List<KeywordBean> datas) {
         mHotKeywordsDatas = new ArrayList<>();
-        SearchGoodsBean title = new SearchGoodsBean();
-        title.setItemType(SearchGoodsBean.TYPE_HISTORY_TITLE);
-        title.setTitle("热门搜索");
-        title.setSpanSize(6);
-        mHotKeywordsDatas.add(title);
+
+        //从本地获取历史搜索记录，塞到list中
+        List<String> keyword2Local = mPresenter.getKeyword2Local();
+        if (keyword2Local.size() > 0) {
+            SearchGoodsBean title = new SearchGoodsBean();
+            title.setItemType(SearchGoodsBean.TYPE_HISTORY_TITLE);
+            title.setTitle("历史记录");
+            title.setSpanSize(6);
+            mHotKeywordsDatas.add(title);
+        }
+        for (int i = 0; i < keyword2Local.size(); i++) {
+            SearchGoodsBean keywordBean = new SearchGoodsBean();
+            keywordBean.setItemType(SearchGoodsBean.TYPE_HISTORY_ITEM);
+            keywordBean.setSpanSize(2);
+            KeywordBean bean = new KeywordBean();
+            bean.setQuery(keyword2Local.get(i));
+            keywordBean.setKeywordBean(bean);
+            mHotKeywordsDatas.add(keywordBean);
+        }
+
+        SearchGoodsBean title2 = new SearchGoodsBean();
+        title2.setItemType(SearchGoodsBean.TYPE_HISTORY_TITLE);
+        title2.setTitle("热门搜索");
+        title2.setSpanSize(6);
+        mHotKeywordsDatas.add(title2);
         for (int i = 0; i < datas.size(); i++) {
             SearchGoodsBean keywordBean = new SearchGoodsBean();
             keywordBean.setItemType(SearchGoodsBean.TYPE_HISTORY_ITEM);

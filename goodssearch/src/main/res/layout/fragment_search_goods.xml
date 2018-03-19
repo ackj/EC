@@ -28,6 +28,8 @@
             android:layout_weight="1"
             android:background="@drawable/shape_bg_input_solid"
             android:hint="@string/search_you_want_to_need_goods"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
             android:paddingLeft="20dp"
             android:textColor="@color/base_gray"
             android:textSize="@dimen/H5" />

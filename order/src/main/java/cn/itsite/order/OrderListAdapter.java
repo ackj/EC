@@ -2,11 +2,10 @@ package cn.itsite.order;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseViewHolder;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import cn.itsite.abase.BaseApp;
 import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
@@ -16,38 +15,33 @@ import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
  * Email： liujia95me@126.com
  */
 
-public class OrderListAdapter extends BaseRecyclerViewAdapter<String,BaseViewHolder>{
+public class OrderListAdapter extends BaseRecyclerViewAdapter<OrderBean,BaseViewHolder>{
 
     public OrderListAdapter() {
         super(R.layout.item_order_list);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, String item) {
+    protected void convert(BaseViewHolder helper, OrderBean item) {
         RecyclerView recyclerView = helper.getView(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(BaseApp.mContext,LinearLayoutManager.HORIZONTAL,false));
-        List<String> data = new ArrayList<>();
-        data.add("");
-        data.add("");
-        data.add("");
-        data.add("");
-        data.add("");
-        data.add("");
-        data.add("");
         OrderItemImageAdapter adapter = new OrderItemImageAdapter();
         recyclerView.setAdapter(adapter);
-        adapter.setNewData(data);
+        adapter.setNewData(item.getProducts());
     }
 
-    class OrderItemImageAdapter extends BaseRecyclerViewAdapter<String,BaseViewHolder>{
+    class OrderItemImageAdapter extends BaseRecyclerViewAdapter<OrderBean.ProductsBean,BaseViewHolder>{
 
         public OrderItemImageAdapter() {
             super(R.layout.item_item_goods_image);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, String item) {
-
+        protected void convert(BaseViewHolder helper, OrderBean.ProductsBean item) {
+            ImageView ivImg = helper.getView(R.id.iv_img);
+            Glide.with(ivImg.getContext())
+                    .load(item.getImageUrl())
+                    .into(ivImg);
         }
     }
 }

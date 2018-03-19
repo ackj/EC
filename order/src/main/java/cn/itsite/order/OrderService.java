@@ -16,7 +16,15 @@ import rx.Observable;
 
 public interface OrderService {
 
-    @GET("/v1/orders")
-    Observable<BaseResponse<List<OrderBean>>> getOrder(@Query("state")int state);
+    //获取订单分类字符串
+    @GET("/v1/categories")
+    Observable<BaseResponse<List<CategoryBean>>> getCategories(@Query("uid")String uid,@Query("type")String type);
 
+    //获取订单列表
+    @GET("/v1/orders")
+    Observable<BaseResponse<List<OrderBean>>> getOrder(@Query("category")String category);
+
+    //获取订单详情
+//    @GET("/v1/orders/{uid}")
+//    Observable<BaseResponse<List<>>>
 }

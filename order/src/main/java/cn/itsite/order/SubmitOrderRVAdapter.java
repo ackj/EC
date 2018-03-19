@@ -24,7 +24,7 @@ public class SubmitOrderRVAdapter extends BaseMultiItemQuickAdapter<SubmitOrderB
     protected void convert(BaseViewHolder helper, SubmitOrderBean item) {
         switch (item.getItemType()) {
             case SubmitOrderBean.TYPE_STORE_TITLE:
-                helper.setText(R.id.tv_name,item.getOrderInfoBean().getName());
+                helper.setText(R.id.tv_name,item.getOrderInfoBean().getShop().getName());
                 break;
             case SubmitOrderBean.TYPE_STORE_GOODS:
                 ImageView ivIcon = helper.getView(R.id.iv_icon);
@@ -36,10 +36,10 @@ public class SubmitOrderRVAdapter extends BaseMultiItemQuickAdapter<SubmitOrderB
                         .setText(R.id.tv_price,item.getProductsBean().getCurrency()+" "+item.getProductsBean().getPrice());
                 break;
             case SubmitOrderBean.TYPE_ORDER_INFO:
-                helper.setText(R.id.tv_amount,String.format("共%1$s件产品      合计：￥ %2$s",item.getOrderInfoBean().getAmount(),item.getOrderInfoBean().getCost()))
-                        .setText(R.id.tv_contactway,String.format("收货人：%1$s      %2$s",item.getOrderInfoBean().getName(),item.getOrderInfoBean().getPhoneNumber()))
-                        .setText(R.id.tv_location,item.getOrderInfoBean().getLocation()+item.getOrderInfoBean().getAddress())
-                        .setText(R.id.tv_leave_message,item.getOrderInfoBean().getNote());
+//                helper.setText(R.id.tv_amount,String.format("共%1$s件产品      合计：￥ %2$s",item.getOrderInfoBean().getAmount(),item.getOrderInfoBean().getCost()))
+//                        .setText(R.id.tv_contactway,String.format("收货人：%1$s      %2$s",item.getOrderInfoBean().getName(),item.getOrderInfoBean().getPhoneNumber()))
+//                        .setText(R.id.tv_location,item.getOrderInfoBean().getLocation()+item.getOrderInfoBean().getAddress())
+//                        .setText(R.id.tv_leave_message,item.getOrderInfoBean().getNote());
                 break;
             default:
         }
