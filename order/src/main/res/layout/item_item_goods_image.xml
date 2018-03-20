@@ -2,7 +2,7 @@
 <ImageView
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="70dp"
     android:id="@+id/iv_img"
-    android:background="@color/red"
+    android:src="@color/red"
     android:layout_marginRight="6dp"
     android:layout_height="70dp">
 

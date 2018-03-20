@@ -4,6 +4,7 @@ import java.util.List;
 
 import cn.itsite.abase.network.http.BaseResponse;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -25,6 +26,6 @@ public interface OrderService {
     Observable<BaseResponse<List<OrderBean>>> getOrder(@Query("category")String category);
 
     //获取订单详情
-//    @GET("/v1/orders/{uid}")
-//    Observable<BaseResponse<List<>>>
+    @GET("/v1/orders/{uid}")
+    Observable<BaseResponse<OrderDetailBean>> getOrderDetail(@Path("uid")String uid);
 }

@@ -10,12 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.List;
 
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.order.contract.OrderListContract;
 import cn.itsite.order.presenter.OrderListPresenter;
+import me.yokeyword.fragmentation.SupportActivity;
 
 /**
  * Author： Administrator on 2018/2/1 0001.
@@ -27,7 +29,7 @@ public class OrderListFragment extends BaseFragment<OrderListContract.Presenter>
     public static final String TAG = OrderListFragment.class.getSimpleName();
 
     RecyclerView mRecyclerView;
-    private OrderListAdapter mAdapter;
+    private OrderListRVAdapter mAdapter;
 
     public static OrderListFragment newInstance() {
         return new OrderListFragment();
@@ -61,20 +63,23 @@ public class OrderListFragment extends BaseFragment<OrderListContract.Presenter>
 
 
     private void initData() {
-        mAdapter = new OrderListAdapter();
+        mAdapter = new OrderListRVAdapter();
+        mAdapter.setActivity((SupportActivity)_mActivity);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         mRecyclerView.setAdapter(mAdapter);
 
         mPresenter.getOrders("123");
 
-//        List<String> data = new ArrayList<>();
-//        for (int i = 0; i < 20; i++) {
-//            data.add("");
-//        }
-//        mAdapter.setNewData(data);
     }
 
     private void initListener() {
+
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ((SupportActivity) _mActivity).start(OrderDetailFragment.newInstance());
+            }
+        });
     }
 
     @Override

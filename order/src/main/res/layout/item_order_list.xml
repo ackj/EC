@@ -16,15 +16,24 @@
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView
+        android:background="@drawable/shape_bg_round_orange"
+        android:id="@+id/tv_delivery_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="7dp"
         android:text="送货上门"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:textColor="@color/base_color"
         android:textSize="@dimen/H5"
         app:layout_constraintBaseline_toBaselineOf="@id/tv_name"
         app:layout_constraintLeft_toRightOf="@id/tv_name" />
 
     <TextView
+        android:id="@+id/tv_category"
+        android:textColor="@color/warn"
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:layout_marginRight="12dp"
@@ -93,6 +102,7 @@
         app:layout_constraintTop_toBottomOf="@id/line_2" />
 
     <TextView
+        android:id="@+id/tv_price"
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:gravity="center"
@@ -103,6 +113,7 @@
         app:layout_constraintTop_toBottomOf="@id/line_2" />
 
     <Button
+        android:id="@+id/btn_1"
         android:layout_width="80dp"
         android:layout_height="30dp"
         android:layout_marginRight="10dp"
@@ -111,17 +122,17 @@
         android:textColor="@color/base_gray"
         android:textSize="@dimen/H3"
         app:layout_constraintBaseline_toBaselineOf="@id/anchor_1"
-        app:layout_constraintRight_toLeftOf="@+id/btn_reorder"
+        app:layout_constraintRight_toLeftOf="@+id/btn_2"
         app:layout_constraintTop_toBottomOf="@id/line_2" />
 
     <Button
-        android:id="@+id/btn_reorder"
+        android:id="@+id/btn_2"
         android:layout_width="80dp"
         android:layout_height="30dp"
         android:layout_marginRight="12dp"
-        android:background="@drawable/shape_bg_shadow_orange"
+        android:background="@drawable/shape_bg_round_rectangle_gray"
         android:text="重新下单"
-        android:textColor="@color/white"
+        android:textColor="@color/base_gray"
         android:textSize="@dimen/H3"
         app:layout_constraintBaseline_toBaselineOf="@id/anchor_1"
         app:layout_constraintRight_toRightOf="parent"

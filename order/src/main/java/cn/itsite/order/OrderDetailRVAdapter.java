@@ -9,14 +9,14 @@ import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
  * Email： liujia95me@126.com
  */
 
-public class OrderDetailRVAdapter extends BaseRecyclerViewAdapter<String,BaseViewHolder> {
+public class OrderDetailRVAdapter extends BaseRecyclerViewAdapter<OrderDetailBean.ProductsBean,BaseViewHolder> {
 
     public OrderDetailRVAdapter() {
         super(R.layout.item_order_goods);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, String item) {
+    protected void convert(BaseViewHolder helper, OrderDetailBean.ProductsBean item) {
 
     }
 }

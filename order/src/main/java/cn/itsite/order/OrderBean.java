@@ -147,9 +147,17 @@ public class OrderBean {
          * action : 取消订单
          * category : 2353552352
          */
-
+        private String type;
         private String action;
         private String category;
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
 
         public String getAction() {
             return action;
