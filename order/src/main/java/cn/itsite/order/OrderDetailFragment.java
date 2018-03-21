@@ -15,6 +15,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ScreenUtils;
+import cn.itsite.acommon.Params;
 import cn.itsite.order.contract.OrderDetailContract;
 import cn.itsite.order.presenter.OrderDetailPresenter;
 
@@ -39,6 +40,8 @@ public class OrderDetailFragment extends BaseFragment<OrderDetailContract.Presen
     private TextView mTvLeaveWords;
     private TextView mTvOrderNum;
     private TextView mTvOrderTime;
+
+    private Params mParams = new Params();
 
     public static OrderDetailFragment newInstance() {
         return new OrderDetailFragment();
@@ -97,7 +100,8 @@ public class OrderDetailFragment extends BaseFragment<OrderDetailContract.Presen
         mRecyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         mRecyclerView.setAdapter(mAdapter);
 
-        mPresenter.getOrderDetail("123");
+        mParams.uid = "123";
+        mPresenter.getOrderDetail(mParams);
     }
 
     private void initListener() {

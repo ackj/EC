@@ -7,7 +7,7 @@ package cn.itsite.delivery;
  * @time 2018/3/14 0014 15:42
  */
 
-public class AddressBean {
+public class DeliveryBean {
 
     /**
      * uid : 123123123

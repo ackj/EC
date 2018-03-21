@@ -25,6 +25,7 @@ import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ScreenUtils;
 import cn.itsite.abase.utils.ToastUtils;
+import cn.itsite.acommon.Params;
 import cn.itsite.acommon.SpecificationDialog;
 import cn.itsite.shoppingcart.contract.CartContract;
 import cn.itsite.shoppingcart.presenter.CartPresenter;
@@ -50,7 +51,7 @@ public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> i
     private boolean isEditModel;//是编辑模式吗
 //    private GoodsCounterView mCurrentCounterView;//当前计数的view
     List<StoreBean> mDatas = new ArrayList<>();
-
+    private Params mParams =new Params();
 
     public static ShoppingCartFragment newInstance() {
         return new ShoppingCartFragment();
@@ -105,8 +106,7 @@ public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> i
             }
         });
         mAdapter.setNewData(mDatas);
-
-        mPresenter.getCarts("123");
+        mPresenter.getCarts("123",mParams);
     }
 
     private void initListener() {

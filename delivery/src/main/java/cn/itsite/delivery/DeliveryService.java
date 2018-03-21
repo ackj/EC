@@ -17,10 +17,10 @@ import rx.Observable;
  * @time 2018/3/14 0014 15:53
  */
 
-public interface AddressServer {
+public interface DeliveryService {
     //获取地址列表
     @GET("/v1/deliveries")
-    Observable<BaseResponse<List<AddressBean>>> getAddress();
+    Observable<BaseResponse<List<DeliveryBean>>> getAddress();
 
     //添加一个地址
     @POST("/v1/deliveries")

@@ -2,7 +2,6 @@ package cn.itsite.abase.network.http;
 
 import java.io.IOException;
 
-import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -17,11 +16,14 @@ import okhttp3.Response;
  */
 public class HttpHeaderInterceptor implements Interceptor {
 
+
+
     @Override
     public Response intercept(Chain chain) throws IOException {
         //  配置请求头
         Request request = chain.request().newBuilder()
                 .header("token", "appId")
+                .header("fromPoint", "123")
                 .header("Content-Type", "application/json")
                 .build();
 

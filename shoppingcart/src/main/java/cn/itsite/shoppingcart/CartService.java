@@ -8,6 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -15,7 +16,7 @@ import rx.Observable;
  * Email： liujia95me@126.com
  */
 
-public interface CartServer {
+public interface CartService {
 
     //删除一个商品
     @HTTP(method = "DELETE",path = "/v1/carts/{cartsUID}/products/{productUID}",hasBody = true)
@@ -31,7 +32,7 @@ public interface CartServer {
 
     //获取购物车列表
     @GET("/v1/carts/{cartsUID}")
-    Observable<BaseResponse<List<StorePojo>>> getCarts(@Path("cartsUID") String cartsUID);
+    Observable<BaseResponse<List<StorePojo>>> getCarts(@Path("cartsUID") String cartsUID, @Query("params")String params);
 
     //获取推荐商品列表
     @GET("/v1/products")

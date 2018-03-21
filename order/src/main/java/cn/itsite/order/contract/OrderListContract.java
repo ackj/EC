@@ -4,6 +4,7 @@ import java.util.List;
 
 import cn.itsite.abase.mvp.contract.base.BaseContract;
 import cn.itsite.abase.network.http.BaseResponse;
+import cn.itsite.acommon.Params;
 import cn.itsite.order.OrderBean;
 import rx.Observable;
 
@@ -21,11 +22,11 @@ public interface OrderListContract {
     }
 
     interface Presenter extends BaseContract.Presenter {
-        void getOrders(String category);
+        void getOrders(Params params);
     }
 
     interface Model extends BaseContract.Model {
-        Observable<BaseResponse<List<OrderBean>>> getOrders(String category);
+        Observable<BaseResponse<List<OrderBean>>> getOrders(Params params);
     }
 
 }

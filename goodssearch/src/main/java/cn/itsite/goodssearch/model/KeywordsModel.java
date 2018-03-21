@@ -5,6 +5,7 @@ import java.util.List;
 import cn.itsite.abase.mvp.model.base.BaseModel;
 import cn.itsite.abase.network.http.BaseResponse;
 import cn.itsite.abase.network.http.HttpHelper;
+import cn.itsite.acommon.Params;
 import cn.itsite.goodssearch.GoodsBean;
 import cn.itsite.goodssearch.KeywordBean;
 import cn.itsite.goodssearch.KeywordService;
@@ -22,16 +23,16 @@ import rx.schedulers.Schedulers;
 public class KeywordsModel extends BaseModel implements KeywordsContract.Model{
 
     @Override
-    public Observable<BaseResponse<List<KeywordBean>>> getKeywords(String keywords) {
+    public Observable<BaseResponse<List<KeywordBean>>> getKeywords(Params params) {
         return HttpHelper.getService(KeywordService.class)
-                .getKeywords(keywords)
+                .getKeywords(params.toString())
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Observable<BaseResponse<List<GoodsBean>>> getProducts(String keywords) {
+    public Observable<BaseResponse<List<GoodsBean>>> getProducts(Params params) {
         return HttpHelper.getService(KeywordService.class)
-                .getProducts(keywords)
+                .getProducts(params.toString())
                 .subscribeOn(Schedulers.io());
     }
 }

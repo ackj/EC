@@ -6,9 +6,9 @@ import java.util.List;
 import cn.itsite.abase.mvp.model.base.BaseModel;
 import cn.itsite.abase.network.http.BaseResponse;
 import cn.itsite.abase.network.http.HttpHelper;
-import cn.itsite.delivery.AddressServer;
+import cn.itsite.delivery.DeliveryService;
 import cn.itsite.delivery.RequestBean;
-import cn.itsite.delivery.contract.AddAddressContract;
+import cn.itsite.delivery.contract.AddDeliveryContract;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
@@ -19,7 +19,7 @@ import rx.schedulers.Schedulers;
  * @time 2018/3/15 0015 10:24
  */
 
-public class AddAddressModel extends BaseModel implements AddAddressContract.Model {
+public class AddDeliveryModel extends BaseModel implements AddDeliveryContract.Model {
 
     @Override
     public Observable<BaseResponse> postAddress() {
@@ -35,7 +35,7 @@ public class AddAddressModel extends BaseModel implements AddAddressContract.Mod
         bean.setPhoneNumber("啦啦啦");
         list.add(bean);
         requestBean.setData(list);
-        return HttpHelper.getService(AddressServer.class)
+        return HttpHelper.getService(DeliveryService.class)
                 .postAddress(requestBean)
                 .subscribeOn(Schedulers.io());
     }
@@ -54,7 +54,7 @@ public class AddAddressModel extends BaseModel implements AddAddressContract.Mod
         bean.setPhoneNumber("啦啦啦");
         list.add(bean);
         requestBean.setData(list);
-        return HttpHelper.getService(AddressServer.class)
+        return HttpHelper.getService(DeliveryService.class)
                 .putAddress("123",requestBean)
                 .subscribeOn(Schedulers.io());
     }

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.itsite.abase.mvp.view.base.BaseFragment;
+import cn.itsite.acommon.Params;
 import cn.itsite.goodshome.contract.HomeContract;
 import cn.itsite.goodshome.presenter.HomePresenter;
 
@@ -38,6 +39,7 @@ public class StoreFragment extends BaseFragment<HomeContract.Presenter> implemen
     private Banner mBanner;
     private List<Object> mBannerImages;
     private List<String> mBannerTitles;
+    private Params mParmas = new Params();
 
     public static StoreFragment newInstance() {
         return new StoreFragment();
@@ -82,7 +84,10 @@ public class StoreFragment extends BaseFragment<HomeContract.Presenter> implemen
                 return mDatas.get(position).getSpanSize();
             }
         });
-        mPresenter.getHome("shop");
+
+        mParmas.type = "shop";
+
+        mPresenter.getHome(mParmas);
     }
 
     private void initListener() {

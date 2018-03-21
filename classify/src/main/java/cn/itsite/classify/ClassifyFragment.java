@@ -26,6 +26,7 @@ import cn.itsite.abase.BaseApp;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.DensityUtils;
 import cn.itsite.abase.utils.ScreenUtils;
+import cn.itsite.acommon.Params;
 import cn.itsite.classify.contract.MenuContract;
 import cn.itsite.classify.presenter.MenuPresenter;
 
@@ -55,6 +56,7 @@ public class ClassifyFragment extends BaseFragment<MenuContract.Presenter> imple
     private LinearLayout mLlStretchable;
 
     private GridLayoutManager mContentLayoutManager;
+    private Params mParams = new Params();
 
     private static final int ONE_UNFOLD_LINE_HEIGHT = DensityUtils.dp2px(BaseApp.mContext, 33);
     private static final int ANIMATION_DURATION = 400;
@@ -123,17 +125,11 @@ public class ClassifyFragment extends BaseFragment<MenuContract.Presenter> imple
         mAdapterSubMenu = new ClassifySubMenuRVAdapter();
         mRvSubMenu.setAdapter(mAdapterSubMenu);
 
-//        List<String> data = new ArrayList<>();
-//        for (int i = 0; i < 100; i++) {
-//            data.add("");
-//        }
+        mParams.type = "products";
+        mParams.uid = "123";
+        mParams.category = "123";
+        mPresenter.getGategories(mParams);
 
-        mPresenter.getGategories("123");
-
-//        mAdapterMenu.setNewData(data);
-//        mAdapterSubMenu.setNewData(data);
-//        mAdapterContentGrid.setNewData(data);
-//        mAdapterContentLinear.setNewData(data);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -193,7 +189,8 @@ public class ClassifyFragment extends BaseFragment<MenuContract.Presenter> imple
             public void onItemClick(BaseQuickAdapter adapter1, View view, int position) {
                 MenuBean.ChildrenBean bean = mAdapterSubMenu.getData().get(position);
                 mAdapterSubMenu.setSelectedPosition(position);
-                mPresenter.getProducts(bean.getUid());
+                mParams.uid = bean.getUid();
+                mPresenter.getProducts(mParams);
             }
         });
     }
@@ -217,7 +214,8 @@ public class ClassifyFragment extends BaseFragment<MenuContract.Presenter> imple
         mAdapterSubMenu.addData(allBean);
         mAdapterSubMenu.addData(menuBean.getChildren());
         //逻辑按点击“全部”一致，请求网络
-        mPresenter.getProducts(menuBean.getUid());
+        mParams.uid = menuBean.getUid();
+        mPresenter.getProducts(mParams);
     }
 
     //把三级菜单伸缩至指定的高度

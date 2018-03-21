@@ -12,6 +12,7 @@ import cn.itsite.abase.BaseApp;
 import cn.itsite.abase.cache.SPCache;
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
 import cn.itsite.abase.network.http.BaseResponse;
+import cn.itsite.acommon.Params;
 import cn.itsite.goodssearch.GoodsBean;
 import cn.itsite.goodssearch.KeywordBean;
 import cn.itsite.goodssearch.contract.KeywordsContract;
@@ -45,13 +46,13 @@ public class KeywordsPresenter extends BasePresenter<KeywordsContract.View,Keywo
     }
 
     @Override
-    public void getKeywords(String keywords) {
-        mRxManager.add(mModel.getKeywords(keywords)
+    public void getKeywords(Params params) {
+        mRxManager.add(mModel.getKeywords(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<List<KeywordBean>>>(){
                     @Override
                     public void onSuccess(BaseResponse<List<KeywordBean>> listBaseResponse) {
-                        if(TextUtils.isEmpty(keywords)){
+                        if(TextUtils.isEmpty(params.keyword)){
                             getView().responseGetHotKeywords(listBaseResponse.getData());
                         }else{
                             getView().responseGetKeywords(listBaseResponse.getData());
@@ -61,10 +62,10 @@ public class KeywordsPresenter extends BasePresenter<KeywordsContract.View,Keywo
     }
 
     @Override
-    public void getProducts(String keywords) {
+    public void getProducts(Params params) {
         //存到历史记录中
-        saveKeyword2Local(keywords);
-        mRxManager.add(mModel.getProducts(keywords)
+        saveKeyword2Local(params.keyword);
+        mRxManager.add(mModel.getProducts(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<List<GoodsBean>>>(){
                     @Override

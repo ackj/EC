@@ -4,7 +4,6 @@ import java.util.List;
 
 import cn.itsite.abase.network.http.BaseResponse;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -19,13 +18,13 @@ public interface OrderService {
 
     //获取订单分类字符串
     @GET("/v1/categories")
-    Observable<BaseResponse<List<CategoryBean>>> getCategories(@Query("uid")String uid,@Query("type")String type);
+    Observable<BaseResponse<List<CategoryBean>>> getCategories(@Query("params")String params);
 
     //获取订单列表
     @GET("/v1/orders")
-    Observable<BaseResponse<List<OrderBean>>> getOrder(@Query("category")String category);
+    Observable<BaseResponse<List<OrderBean>>> getOrder(@Query("params")String params);
 
     //获取订单详情
     @GET("/v1/orders/{uid}")
-    Observable<BaseResponse<OrderDetailBean>> getOrderDetail(@Path("uid")String uid);
+    Observable<BaseResponse<OrderDetailBean>> getOrderDetail(@Query("params")String params);
 }

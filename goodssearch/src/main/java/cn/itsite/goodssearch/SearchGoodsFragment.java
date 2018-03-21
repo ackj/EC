@@ -28,6 +28,7 @@ import java.util.List;
 
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ScreenUtils;
+import cn.itsite.acommon.Params;
 import cn.itsite.goodssearch.contract.KeywordsContract;
 import cn.itsite.goodssearch.presenter.KeywordsPresenter;
 
@@ -49,6 +50,8 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsPresenter> impleme
     private List<SearchGoodsBean> mHotKeywordsDatas;
     private List<SearchGoodsBean> mKeywordsDatas;
     private List<SearchGoodsBean> mProductsDatas;
+
+    private Params mParmas = new Params();
 
     public static SearchGoodsFragment newInstance() {
         return new SearchGoodsFragment();
@@ -95,7 +98,7 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsPresenter> impleme
         mRecyclerView.setAdapter(mSearchGoodsAdapter);
 
         //获取热门搜索
-        mPresenter.getKeywords(null);
+        mPresenter.getKeywords(mParmas);
     }
 
     private void refreshData(final List<SearchGoodsBean> data) {
@@ -120,7 +123,8 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsPresenter> impleme
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mPresenter.getKeywords(s.toString());
+                mParmas.keyword = s.toString();
+                mPresenter.getKeywords(mParmas);
             }
 
             @Override
@@ -139,7 +143,8 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsPresenter> impleme
                     case SearchGoodsBean.TYPE_HISTORY_ITEM:
                     case SearchGoodsBean.TYPE_SEARCH_STRING:
                         SearchGoodsFragment.super.start("");
-                        mPresenter.getProducts(item.getKeywordBean().getQuery());
+                        mParmas.keyword = item.getKeywordBean().getQuery();
+                        mPresenter.getProducts(mParmas);
                         break;
                     case SearchGoodsBean.TYPE_SEARCH_GOODS:
                         Fragment goodsDetailFragment = (Fragment) ARouter.getInstance().build("/goodsdetail/goodsdetailfragment").navigation();
@@ -166,7 +171,8 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsPresenter> impleme
         String input = mEtInput.getText().toString();
         if (!TextUtils.isEmpty(input)) {
             super.start("");
-            mPresenter.getProducts(input);
+            mParmas.keyword = input;
+            mPresenter.getProducts(mParmas);
         }
     }
 

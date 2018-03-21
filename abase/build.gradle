@@ -121,4 +121,8 @@ dependencies {
     api 'com.google.android:flexbox:0.3.2'
     //侧滑布局
     api 'com.daimajia.swipelayout:library:1.2.0@aar'
+    //纵向viewpager
+    api ('com.alibaba.android:ultraviewpager:1.0.6.1@aar') {
+        transitive = true
+    }
 }

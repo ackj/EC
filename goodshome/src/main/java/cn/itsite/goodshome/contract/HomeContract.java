@@ -4,6 +4,7 @@ import java.util.List;
 
 import cn.itsite.abase.mvp.contract.base.BaseContract;
 import cn.itsite.abase.network.http.BaseResponse;
+import cn.itsite.acommon.Params;
 import cn.itsite.goodshome.HomePojo;
 import cn.itsite.goodshome.StoreItemGridBean;
 import rx.Observable;
@@ -21,10 +22,10 @@ public interface HomeContract {
     }
 
     interface Presenter extends BaseContract.Presenter {
-        void getHome(String type);
+        void getHome(Params params);
     }
 
     interface Model extends BaseContract.Model {
-        Observable<BaseResponse<HomePojo>> getHome(String type);
+        Observable<BaseResponse<HomePojo>> getHome(Params params);
     }
 }

@@ -14,31 +14,31 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ScreenUtils;
-import cn.itsite.delivery.contract.AddAddressContract;
-import cn.itsite.delivery.presenter.AddAddressPresenter;
+import cn.itsite.delivery.contract.AddDeliveryContract;
+import cn.itsite.delivery.presenter.AddDeliveryPresenter;
 
 /**
  * Author： Administrator on 2018/1/31 0031.
  * Email： liujia95me@126.com
  */
 @Route(path="/delivery/addaddressfragment")
-public class AddAddressFragment extends BaseFragment<AddAddressContract.Presenter> implements AddAddressContract.View {
+public class AddDeliveryFragment extends BaseFragment<AddDeliveryContract.Presenter> implements AddDeliveryContract.View {
 
-    private static final String TAG = AddAddressFragment.class.getSimpleName();
+    private static final String TAG = AddDeliveryFragment.class.getSimpleName();
 
     private RelativeLayout mRlToolbar;
     private TextView mTvAdd;
 
     private boolean isAdd;
 
-    public static AddAddressFragment newInstance() {
-        return new AddAddressFragment();
+    public static AddDeliveryFragment newInstance() {
+        return new AddDeliveryFragment();
     }
 
     @NonNull
     @Override
-    protected AddAddressContract.Presenter createPresenter() {
-        return new AddAddressPresenter(this);
+    protected AddDeliveryContract.Presenter createPresenter() {
+        return new AddDeliveryPresenter(this);
     }
 
     @Override

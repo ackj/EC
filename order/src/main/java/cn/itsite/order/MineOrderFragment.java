@@ -16,6 +16,7 @@ import java.util.List;
 
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ScreenUtils;
+import cn.itsite.acommon.Params;
 import cn.itsite.order.contract.MineOrderContract;
 import cn.itsite.order.presenter.MineOrderPresenter;
 
@@ -32,6 +33,8 @@ public class MineOrderFragment extends BaseFragment<MineOrderContract.Presenter>
     private SubmitOrderRVAdapter mAdapter;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
+    private Params mParams = new Params();
 
     public static MineOrderFragment newInstance() {
         return new MineOrderFragment();
@@ -71,7 +74,9 @@ public class MineOrderFragment extends BaseFragment<MineOrderContract.Presenter>
     }
 
     private void initData() {
-        mPresenter.getCategories("","orders");
+        mParams.uid = "123";
+        mParams.type = "orders";
+        mPresenter.getCategories(mParams);
     }
 
     private void initListener() {

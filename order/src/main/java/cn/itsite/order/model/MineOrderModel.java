@@ -5,6 +5,7 @@ import java.util.List;
 import cn.itsite.abase.mvp.model.base.BaseModel;
 import cn.itsite.abase.network.http.BaseResponse;
 import cn.itsite.abase.network.http.HttpHelper;
+import cn.itsite.acommon.Params;
 import cn.itsite.order.CategoryBean;
 import cn.itsite.order.OrderService;
 import cn.itsite.order.contract.MineOrderContract;
@@ -21,9 +22,9 @@ import rx.schedulers.Schedulers;
 public class MineOrderModel extends BaseModel implements MineOrderContract.Model{
 
     @Override
-    public Observable<BaseResponse<List<CategoryBean>>> getCategories(String uid, String type) {
+    public Observable<BaseResponse<List<CategoryBean>>> getCategories(Params params) {
         return HttpHelper.getService(OrderService.class)
-                .getCategories(uid,type)
+                .getCategories(params.toString())
                 .subscribeOn(Schedulers.io());
     }
 

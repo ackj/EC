@@ -2,6 +2,7 @@ package cn.itsite.order.contract;
 
 import cn.itsite.abase.mvp.contract.base.BaseContract;
 import cn.itsite.abase.network.http.BaseResponse;
+import cn.itsite.acommon.Params;
 import cn.itsite.order.OrderDetailBean;
 import rx.Observable;
 
@@ -19,11 +20,11 @@ public interface OrderDetailContract {
     }
 
     interface Presenter extends BaseContract.Presenter {
-        void getOrderDetail(String uid);
+        void getOrderDetail(Params params);
     }
 
     interface Model extends BaseContract.Model {
-        Observable<BaseResponse<OrderDetailBean>> getOrderDetail(String uid);
+        Observable<BaseResponse<OrderDetailBean>> getOrderDetail(Params params);
     }
 
 }

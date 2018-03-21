@@ -19,15 +19,15 @@ import java.util.List;
 import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.abase.utils.ScreenUtils;
-import cn.itsite.delivery.contract.AddressContract;
-import cn.itsite.delivery.presenter.AddressPresenter;
+import cn.itsite.delivery.contract.DeliveryContract;
+import cn.itsite.delivery.presenter.DeliveryPresenter;
 
 /**
  * Author： Administrator on 2018/1/31 0031.
  * Email： liujia95me@126.com
  */
 @Route(path="/delivery/selectshoppingaddressfragment")
-public class SelectShoppingAddressFragment extends BaseFragment<AddressContract.Presenter> implements AddressContract.View {
+public class SelectShoppingAddressFragment extends BaseFragment<DeliveryContract.Presenter> implements DeliveryContract.View {
 
     private static final String TAG = SelectShoppingAddressFragment.class.getSimpleName();
 
@@ -35,7 +35,7 @@ public class SelectShoppingAddressFragment extends BaseFragment<AddressContract.
     private RelativeLayout mRlToolbar;
     private TextView mTvAdd;
 
-    private AddressRVAdapter mAdapter;
+    private DeliveryRVAdapter mAdapter;
 
     public static SelectShoppingAddressFragment newInstance() {
         return new SelectShoppingAddressFragment();
@@ -48,8 +48,8 @@ public class SelectShoppingAddressFragment extends BaseFragment<AddressContract.
 
     @NonNull
     @Override
-    protected AddressContract.Presenter createPresenter() {
-        return new AddressPresenter(this);
+    protected DeliveryContract.Presenter createPresenter() {
+        return new DeliveryPresenter(this);
     }
 
     @Nullable
@@ -76,7 +76,7 @@ public class SelectShoppingAddressFragment extends BaseFragment<AddressContract.
 
     private void initData() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
-        mAdapter = new AddressRVAdapter();
+        mAdapter = new DeliveryRVAdapter();
         View header = LayoutInflater.from(_mActivity).inflate(R.layout.item_nowaday_location, null);
         mAdapter.addHeaderView(header);
         mRecyclerView.setAdapter(mAdapter);
@@ -89,21 +89,21 @@ public class SelectShoppingAddressFragment extends BaseFragment<AddressContract.
         mTvAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                start(AddAddressFragment.newInstance());
+                start(AddDeliveryFragment.newInstance());
             }
         });
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if(view.getId() == R.id.iv_edit){
-                    start(AddAddressFragment.newInstance());
+                    start(AddDeliveryFragment.newInstance());
                 }
             }
         });
     }
 
     @Override
-    public void responseGetAddress(List<AddressBean> data) {
+    public void responseGetAddress(List<DeliveryBean> data) {
         mAdapter.setNewData(data);
     }
 

@@ -14,7 +14,8 @@ import rx.Observable;
 
 public interface HomeService {
 
+
     @GET("/v1/home")
-    Observable<BaseResponse<HomePojo>> getHome(@Query("type")String type);
+    Observable<BaseResponse<HomePojo>> getHome(@Query("params")String params);
 
 }

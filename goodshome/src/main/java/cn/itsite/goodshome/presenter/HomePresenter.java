@@ -7,6 +7,7 @@ import java.util.List;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
 import cn.itsite.abase.network.http.BaseResponse;
+import cn.itsite.acommon.Params;
 import cn.itsite.goodshome.HomePojo;
 import cn.itsite.goodshome.StoreItemGridBean;
 import cn.itsite.goodshome.contract.HomeContract;
@@ -39,8 +40,8 @@ public class HomePresenter extends BasePresenter<HomeContract.View, HomeContract
     }
 
     @Override
-    public void getHome(String type) {
-        mRxManager.add(mModel.getHome(type)
+    public void getHome(Params params) {
+        mRxManager.add(mModel.getHome(params)
                 .map(new Func1<BaseResponse<HomePojo>, List<StoreItemGridBean>>() {
                     @Override
                     public List<StoreItemGridBean> call(BaseResponse<HomePojo> homePojoBaseResponse) {

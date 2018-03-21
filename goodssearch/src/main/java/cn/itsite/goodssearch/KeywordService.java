@@ -17,9 +17,9 @@ import rx.Observable;
 public interface KeywordService {
 
     @GET("v1/keywords")
-    Observable<BaseResponse<List<KeywordBean>>> getKeywords(@Query("kewords") String keywords);
+    Observable<BaseResponse<List<KeywordBean>>> getKeywords(@Query("params") String params);
 
     @GET("/v1/search/products")
-    Observable<BaseResponse<List<GoodsBean>>> getProducts(@Query("kewords") String keywords);
+    Observable<BaseResponse<List<GoodsBean>>> getProducts(@Query("params") String params);
 
 }

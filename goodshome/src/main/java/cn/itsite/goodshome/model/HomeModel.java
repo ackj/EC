@@ -3,6 +3,7 @@ package cn.itsite.goodshome.model;
 import cn.itsite.abase.mvp.model.base.BaseModel;
 import cn.itsite.abase.network.http.BaseResponse;
 import cn.itsite.abase.network.http.HttpHelper;
+import cn.itsite.acommon.Params;
 import cn.itsite.goodshome.HomePojo;
 import cn.itsite.goodshome.HomeService;
 import cn.itsite.goodshome.contract.HomeContract;
@@ -19,9 +20,9 @@ import rx.schedulers.Schedulers;
 public class HomeModel extends BaseModel implements HomeContract.Model {
 
     @Override
-    public Observable<BaseResponse<HomePojo>> getHome(String type) {
+    public Observable<BaseResponse<HomePojo>> getHome(Params params) {
         return HttpHelper.getService(HomeService.class)
-                .getHome(type)
+                .getHome(params.toString())
                 .subscribeOn(Schedulers.io());
     }
 }

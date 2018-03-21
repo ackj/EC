@@ -3,6 +3,7 @@ package cn.itsite.order.model;
 import cn.itsite.abase.mvp.model.base.BaseModel;
 import cn.itsite.abase.network.http.BaseResponse;
 import cn.itsite.abase.network.http.HttpHelper;
+import cn.itsite.acommon.Params;
 import cn.itsite.order.OrderDetailBean;
 import cn.itsite.order.OrderService;
 import cn.itsite.order.contract.OrderDetailContract;
@@ -19,9 +20,9 @@ import rx.schedulers.Schedulers;
 public class OrderDetailModel extends BaseModel implements OrderDetailContract.Model {
 
     @Override
-    public Observable<BaseResponse<OrderDetailBean>> getOrderDetail(String uid) {
+    public Observable<BaseResponse<OrderDetailBean>> getOrderDetail(Params params) {
         return HttpHelper.getService(OrderService.class)
-                .getOrderDetail(uid)
+                .getOrderDetail(params.toString())
                 .subscribeOn(Schedulers.io());
     }
 

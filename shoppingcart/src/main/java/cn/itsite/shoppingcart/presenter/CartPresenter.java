@@ -9,6 +9,7 @@ import java.util.List;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
 import cn.itsite.abase.network.http.BaseResponse;
+import cn.itsite.acommon.Params;
 import cn.itsite.shoppingcart.RecommendGoodsBean;
 import cn.itsite.shoppingcart.StoreBean;
 import cn.itsite.shoppingcart.StorePojo;
@@ -82,8 +83,8 @@ public class CartPresenter extends BasePresenter<CartContract.View, CartContract
     }
 
     @Override
-    public void getCarts(String cartsUID) {
-        mRxManager.add(mModel.getCarts(cartsUID)
+    public void getCarts(String cartsUID,Params params) {
+        mRxManager.add(mModel.getCarts(cartsUID,params)
                 .map((Func1<BaseResponse<List<StorePojo>>, List<StoreBean>>) response -> {
                     List<StorePojo> data = response.getData();
                     List<StoreBean> resultData = new ArrayList<>();

@@ -5,6 +5,7 @@ import java.util.List;
 import cn.itsite.abase.mvp.model.base.BaseModel;
 import cn.itsite.abase.network.http.BaseResponse;
 import cn.itsite.abase.network.http.HttpHelper;
+import cn.itsite.acommon.Params;
 import cn.itsite.classify.MenuBean;
 import cn.itsite.classify.MenuService;
 import cn.itsite.classify.ProductBean;
@@ -22,16 +23,16 @@ import rx.schedulers.Schedulers;
 public class MenuModel extends BaseModel implements MenuContract.Model {
 
     @Override
-    public Observable<BaseResponse<List<MenuBean>>> getGategories(String uid) {
+    public Observable<BaseResponse<List<MenuBean>>> getGategories(Params params) {
         return HttpHelper.getService(MenuService.class)
-                .getGategories(uid,"products")
+                .getGategories(params.toString())
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Observable<BaseResponse<List<ProductBean>>> getProducts(String uid) {
+    public Observable<BaseResponse<List<ProductBean>>> getProducts(Params params) {
         return HttpHelper.getService(MenuService.class)
-                .getProducts(uid)
+                .getProducts(params.toString())
                 .subscribeOn(Schedulers.io());
     }
 

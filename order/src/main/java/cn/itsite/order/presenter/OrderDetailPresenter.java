@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import cn.itsite.abase.mvp.presenter.base.BasePresenter;
 import cn.itsite.abase.network.http.BaseResponse;
+import cn.itsite.acommon.Params;
 import cn.itsite.order.OrderDetailBean;
 import cn.itsite.order.contract.OrderDetailContract;
 import cn.itsite.order.model.OrderDetailModel;
@@ -34,8 +35,8 @@ public class OrderDetailPresenter extends BasePresenter<OrderDetailContract.View
     }
 
     @Override
-    public void getOrderDetail(String uid) {
-        mRxManager.add(mModel.getOrderDetail(uid)
+    public void getOrderDetail(Params params) {
+        mRxManager.add(mModel.getOrderDetail(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<OrderDetailBean>>() {
                     @Override

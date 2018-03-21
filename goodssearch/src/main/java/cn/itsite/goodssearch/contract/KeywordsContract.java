@@ -4,6 +4,7 @@ import java.util.List;
 
 import cn.itsite.abase.mvp.contract.base.BaseContract;
 import cn.itsite.abase.network.http.BaseResponse;
+import cn.itsite.acommon.Params;
 import cn.itsite.goodssearch.GoodsBean;
 import cn.itsite.goodssearch.KeywordBean;
 import rx.Observable;
@@ -24,14 +25,14 @@ public interface KeywordsContract {
     }
 
     interface Presenter extends BaseContract.Presenter {
-        void getKeywords(String keywords);
+        void getKeywords(Params params);
 
-        void getProducts(String keywords);
+        void getProducts(Params params);
     }
 
     interface Model extends BaseContract.Model {
-        Observable<BaseResponse<List<KeywordBean>>> getKeywords(String keywords);
+        Observable<BaseResponse<List<KeywordBean>>> getKeywords(Params params);
 
-        Observable<BaseResponse<List<GoodsBean>>> getProducts(String keywords);
+        Observable<BaseResponse<List<GoodsBean>>> getProducts(Params params);
     }
 }

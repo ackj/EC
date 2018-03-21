@@ -4,7 +4,7 @@ import java.util.List;
 
 import cn.itsite.abase.mvp.contract.base.BaseContract;
 import cn.itsite.abase.network.http.BaseResponse;
-import cn.itsite.delivery.AddressBean;
+import cn.itsite.delivery.DeliveryBean;
 import rx.Observable;
 
 /**
@@ -14,9 +14,9 @@ import rx.Observable;
  * @time 2018/3/14 0014 15:45
  */
 
-public interface AddressContract {
+public interface DeliveryContract {
     interface View extends BaseContract.View{
-        void responseGetAddress(List<AddressBean> data);
+        void responseGetAddress(List<DeliveryBean> data);
         void responseDeleteAddressSuccess();
     }
 
@@ -26,7 +26,7 @@ public interface AddressContract {
     }
 
     interface Model extends BaseContract.Model {
-        Observable<BaseResponse<List<AddressBean>>> getAddress();
+        Observable<BaseResponse<List<DeliveryBean>>> getAddress();
         Observable<BaseResponse> deleteAddress();
     }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import cn.itsite.abase.mvp.model.base.BaseModel;
 import cn.itsite.abase.network.http.BaseResponse;
 import cn.itsite.abase.network.http.HttpHelper;
+import cn.itsite.acommon.Params;
 import cn.itsite.order.OrderBean;
 import cn.itsite.order.OrderService;
 import cn.itsite.order.contract.OrderListContract;
@@ -20,9 +21,9 @@ import rx.schedulers.Schedulers;
 
 public class OrderListModel extends BaseModel implements OrderListContract.Model {
     @Override
-    public Observable<BaseResponse<List<OrderBean>>> getOrders(String category) {
+    public Observable<BaseResponse<List<OrderBean>>> getOrders(Params params) {
         return HttpHelper.getService(OrderService.class)
-                .getOrder(category)
+                .getOrder(params.toString())
                 .subscribeOn(Schedulers.io());
     }
 }

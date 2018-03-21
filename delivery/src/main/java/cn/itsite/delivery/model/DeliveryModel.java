@@ -5,9 +5,9 @@ import java.util.List;
 import cn.itsite.abase.mvp.model.base.BaseModel;
 import cn.itsite.abase.network.http.BaseResponse;
 import cn.itsite.abase.network.http.HttpHelper;
-import cn.itsite.delivery.AddressBean;
-import cn.itsite.delivery.AddressServer;
-import cn.itsite.delivery.contract.AddressContract;
+import cn.itsite.delivery.DeliveryBean;
+import cn.itsite.delivery.DeliveryService;
+import cn.itsite.delivery.contract.DeliveryContract;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
@@ -18,18 +18,18 @@ import rx.schedulers.Schedulers;
  * @time 2018/3/14 0014 15:45
  */
 
-public class AddressModel extends BaseModel implements AddressContract.Model{
+public class DeliveryModel extends BaseModel implements DeliveryContract.Model{
 
     @Override
-    public Observable<BaseResponse<List<AddressBean>>> getAddress() {
-        return HttpHelper.getService(AddressServer.class)
+    public Observable<BaseResponse<List<DeliveryBean>>> getAddress() {
+        return HttpHelper.getService(DeliveryService.class)
                 .getAddress()
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
     public Observable<BaseResponse> deleteAddress() {
-        return HttpHelper.getService(AddressServer.class)
+        return HttpHelper.getService(DeliveryService.class)
                 .deleteAddress("123")
                 .subscribeOn(Schedulers.io());
     }
