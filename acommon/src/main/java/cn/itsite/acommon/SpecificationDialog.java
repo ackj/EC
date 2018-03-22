@@ -9,11 +9,13 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import cn.itsite.abase.common.DialogHelper;
 import cn.itsite.abase.utils.DensityUtils;
+import cn.itsite.acommon.contract.SkusContract;
+import cn.itsite.acommon.presenter.SkusPresenter;
+import cn.itsite.adialog.dialog.LoadingDialog;
 import cn.itsite.adialog.dialogfragment.BaseDialogFragment;
 
 /**
@@ -21,17 +23,27 @@ import cn.itsite.adialog.dialogfragment.BaseDialogFragment;
  * Email： liujia95me@126.com
  */
 
-public class SpecificationDialog extends BaseDialogFragment {
+public class SpecificationDialog extends BaseDialogFragment implements SkusContract.View {
 
     private RecyclerView mRecyclerView;
     private GoodsCounterView mTvGoodsCounter;
 
+    private SkusPresenter mPresenter = new SkusPresenter(this);
+    private LoadingDialog loadingDialog;
+    private SpecificationRVAdapter mAdapter;
+    private TextView mTvName;
+    private TextView mTvStockQuantity;
+    private TextView mTvSku;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_specification,null);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_specification, null);
         mRecyclerView = view.findViewById(R.id.recyclerView);
         mTvGoodsCounter = view.findViewById(R.id.view_goods_counter);
+        mTvName = view.findViewById(R.id.tv_name);
+        mTvSku = view.findViewById(R.id.tv_sku);
+        mTvStockQuantity = view.findViewById(R.id.tv_stock_quantity);
         return view;
     }
 
@@ -45,24 +57,53 @@ public class SpecificationDialog extends BaseDialogFragment {
     }
 
     private void initData() {
-        mTvGoodsCounter.setCountWidth(DensityUtils.dp2px(getContext(),65));
+        mTvGoodsCounter.setCountWidth(DensityUtils.dp2px(getContext(), 65));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        SpecificationRVAdapter mAdapter = new SpecificationRVAdapter();
+        mAdapter = new SpecificationRVAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
-        List<String> data = new ArrayList<>();
-        for (int i = 0; i < 15; i++) {
-            StringBuilder sb = new StringBuilder();
-            for (int j = 0; j < Math.random() * 3; j++) {
-                sb.append("哈哈哈");
-            }
-            data.add(sb.toString());
-        }
-        mAdapter.setNewData(data);
+        mPresenter.getSkus("123");
     }
 
     @Override
     public void onStart() {
         super.onStart();
+    }
+
+    public void showLoading(String message) {
+        if (loadingDialog == null) {
+            loadingDialog = new LoadingDialog(getContext());
+            loadingDialog.setDimAmount(0);
+        } else {
+            loadingDialog.setText(message);
+        }
+        loadingDialog.show();
+    }
+
+    public void dismissLoading() {
+        if (loadingDialog != null) {
+            loadingDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void start(Object response) {
+        showLoading("玩命加载中...");
+    }
+
+    @Override
+    public void error(String errorMessage) {
+        dismissLoading();
+        DialogHelper.errorSnackbar(getView(), errorMessage);
+    }
+
+    @Override
+    public void complete(Object response) {
+        dismissLoading();
+    }
+
+    @Override
+    public void responseGetSkus(SkusBean bean) {
+        mAdapter.setNewData(bean.getAttributes());
     }
 }

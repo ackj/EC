@@ -8,7 +8,6 @@
         android:id="@+id/iv_icon"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/red"
         app:layout_constraintBottom_toBottomOf="@+id/line"
         app:layout_constraintDimensionRatio="w,1:1"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -106,7 +106,7 @@ public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> i
             }
         });
         mAdapter.setNewData(mDatas);
-        mPresenter.getCarts("123",mParams);
+        mPresenter.getCarts("123");
     }
 
     private void initListener() {
@@ -211,7 +211,7 @@ public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> i
     public void responseGetCartsSuccess(List<StoreBean> data) {
         mDatas = data;
         //查推荐
-        mPresenter.getRecommendGoods();
+        mPresenter.getRecommendGoods(mParams);
     }
 
     @Override

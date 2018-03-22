@@ -16,10 +16,10 @@ import rx.Observable;
 
 public interface MenuService {
 
-    @GET("/v1/categories")
+    @GET("v1/categories")
     Observable<BaseResponse<List<MenuBean>>> getGategories(@Query("params") String params);
 
-    @GET("/v1/products")
+    @GET("v1/products")
     Observable<BaseResponse<List<ProductBean>>> getProducts(@Query("params") String params);
 
 }

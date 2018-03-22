@@ -15,30 +15,28 @@ import cn.itsite.abase.mvp.view.base.BaseRecyclerViewAdapter;
  * Email： liujia95me@126.com
  */
 
-public class SpecificationRVAdapter extends BaseRecyclerViewAdapter<String, BaseViewHolder> {
+public class SpecificationRVAdapter extends BaseRecyclerViewAdapter<SkusBean.AttributesBean, BaseViewHolder> {
 
     public SpecificationRVAdapter() {
         super(R.layout.item_specification);
     }
 
     @Override
-    protected void convert(final BaseViewHolder helper, String item) {
+    protected void convert(final BaseViewHolder helper, SkusBean.AttributesBean item) {
+        helper.setText(R.id.tv_attribute, item.getAttribute());
         FlexboxLayout flexboxLayout = helper.getView(R.id.flexboxLayout);
         if (flexboxLayout.getChildCount() == 0) {
-            for (int i = 0; i < Math.random() * 15; i++) {
+            for (int i = 0; i < item.getValues().size(); i++) {
                 View view = LayoutInflater.from(BaseApp.mContext).inflate(R.layout.view_specification_text, null);
                 final TextView textView = view.findViewById(R.id.textView);
-                StringBuilder sb = new StringBuilder();
-                for (int j = 0; j < Math.random() * 4; j++) {
-                    sb.append("哈哈");
-                }
-                if(i%4==0){
-                    textView.setEnabled(false);
-                }
-                textView.setText(sb.toString());
+                textView.setText(item.getValues().get(i).getValue());
                 textView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //点击它的时候要做：
+                        //1、遍历其他规格下的选项是否与选中的这一项有skuuid的交集
+                        //2、如果没有，则该项不可点击，否则可点击
+                        //3、刷新整个列表
                         textView.setSelected(!textView.isSelected());
                     }
                 });

@@ -83,8 +83,8 @@ public class CartPresenter extends BasePresenter<CartContract.View, CartContract
     }
 
     @Override
-    public void getCarts(String cartsUID,Params params) {
-        mRxManager.add(mModel.getCarts(cartsUID,params)
+    public void getCarts(String cartsUID) {
+        mRxManager.add(mModel.getCarts(cartsUID)
                 .map((Func1<BaseResponse<List<StorePojo>>, List<StoreBean>>) response -> {
                     List<StorePojo> data = response.getData();
                     List<StoreBean> resultData = new ArrayList<>();
@@ -126,8 +126,8 @@ public class CartPresenter extends BasePresenter<CartContract.View, CartContract
     }
 
     @Override
-    public void getRecommendGoods() {
-        mRxManager.add(mModel.getRecommendGoods()
+    public void getRecommendGoods(Params params) {
+        mRxManager.add(mModel.getRecommendGoods(params)
                 .map(new Func1<BaseResponse<List<RecommendGoodsBean>>, List<StoreBean>>() {
                     @Override
                     public List<StoreBean> call(BaseResponse<List<RecommendGoodsBean>> listBaseResponse) {

@@ -19,19 +19,19 @@ import rx.Observable;
 
 public interface DeliveryService {
     //获取地址列表
-    @GET("/v1/deliveries")
+    @GET("v1/deliveries")
     Observable<BaseResponse<List<DeliveryBean>>> getAddress();
 
     //添加一个地址
-    @POST("/v1/deliveries")
+    @POST("v1/deliveries")
     Observable<BaseResponse> postAddress(@Body RequestBean bean);
 
     //修改一个地址
-    @POST("/v1/deliveries/{uid}")
+    @POST("v1/deliveries/{uid}")
     Observable<BaseResponse> putAddress(@Path("uid")String uid,@Body RequestBean bean);
 
     //删除一个地址
-    @DELETE("/v1/deliveries/{uid}")
+    @DELETE("v1/deliveries/{uid}")
     Observable<BaseResponse> deleteAddress(@Path("uid")String uid);
 
 

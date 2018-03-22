@@ -19,7 +19,7 @@ public interface KeywordService {
     @GET("v1/keywords")
     Observable<BaseResponse<List<KeywordBean>>> getKeywords(@Query("params") String params);
 
-    @GET("/v1/search/products")
+    @GET("v1/search/products")
     Observable<BaseResponse<List<GoodsBean>>> getProducts(@Query("params") String params);
 
 }

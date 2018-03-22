@@ -44,6 +44,7 @@
         app:layout_constraintTop_toTopOf="@id/view_bg" />
 
     <TextView
+        android:id="@+id/tv_stock_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -56,6 +57,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_price" />
 
     <TextView
+        android:id="@+id/tv_sku"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"

@@ -19,23 +19,23 @@ import rx.Observable;
 public interface CartService {
 
     //删除一个商品
-    @HTTP(method = "DELETE",path = "/v1/carts/{cartsUID}/products/{productUID}",hasBody = true)
+    @HTTP(method = "DELETE",path = "v1/carts/{cartsUID}/products/{productUID}",hasBody = true)
     Observable<BaseResponse<List<UidBean>>> deleteProduct(@Path("cartsUID") String cartsUID, @Path("productUID") String productUID, @Body RequestBean body);
 
     //增加一个商品
-    @POST("/v1/carts/{cartsUID}/products/{productUID}")
+    @POST("v1/carts/{cartsUID}/products/{productUID}")
     Observable<BaseResponse<List<UidBean>>> postProduct(@Path("cartsUID") String cartsUID, @Path("productUID") String productUID, @Body RequestBean body);
 
     //
-    @POST("/v1/carts/{cartsUID}/products/{productUID}")
+    @POST("v1/carts/{cartsUID}/products/{productUID}")
     Observable<BaseResponse<List<UidBean>>> putProduct(@Path("cartsUID") String cartsUID, @Path("productUID") String productUID, @Body RequestBean body);
 
     //获取购物车列表
-    @GET("/v1/carts/{cartsUID}")
-    Observable<BaseResponse<List<StorePojo>>> getCarts(@Path("cartsUID") String cartsUID, @Query("params")String params);
+    @GET("v1/carts/{cartsUID}")
+    Observable<BaseResponse<List<StorePojo>>> getCarts(@Path("cartsUID") String cartsUID);
 
     //获取推荐商品列表
-    @GET("/v1/products")
-    Observable<BaseResponse<List<RecommendGoodsBean>>> getRecommendGoods();
+    @GET("v1/products")
+    Observable<BaseResponse<List<RecommendGoodsBean>>> getRecommendGoods(@Query("params")String params);
 
 }

@@ -17,14 +17,14 @@ import rx.Observable;
 public interface OrderService {
 
     //获取订单分类字符串
-    @GET("/v1/categories")
+    @GET("v1/categories")
     Observable<BaseResponse<List<CategoryBean>>> getCategories(@Query("params")String params);
 
     //获取订单列表
-    @GET("/v1/orders")
+    @GET("v1/orders")
     Observable<BaseResponse<List<OrderBean>>> getOrder(@Query("params")String params);
 
     //获取订单详情
-    @GET("/v1/orders/{uid}")
+    @GET("v1/orders/{uid}")
     Observable<BaseResponse<OrderDetailBean>> getOrderDetail(@Query("params")String params);
 }

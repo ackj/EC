@@ -1,5 +1,6 @@
 package cn.itsite.goodssearch;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -93,12 +95,15 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsPresenter> impleme
     }
 
     private void initData() {
+        showSoftInputFromWindow(_mActivity,mEtInput);
+
         mRecyclerView.setLayoutManager(new GridLayoutManager(_mActivity, 6));
         mSearchGoodsAdapter = new SearchGoodsRVAdapter();
         mRecyclerView.setAdapter(mSearchGoodsAdapter);
 
         //获取热门搜索
         mPresenter.getKeywords(mParmas);
+
     }
 
     private void refreshData(final List<SearchGoodsBean> data) {
@@ -165,6 +170,13 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsPresenter> impleme
                 return false;
             }
         });
+    }
+
+    public static void showSoftInputFromWindow(Activity activity, EditText editText) {
+        editText.setFocusable(true);
+        editText.setFocusableInTouchMode(true);
+        editText.requestFocus();
+        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
     }
 
     private void search(){

@@ -32,15 +32,15 @@ public interface CartContract {
         void deleteProduct(String cartsUID,String productUID);
         void postProduct(String cartsUID,String productUID);
         void putProduct(String cartsUID,String productUID);
-        void getCarts(String cartsUID,Params params);
-        void getRecommendGoods();
+        void getCarts(String cartsUID);
+        void getRecommendGoods(Params params);
     }
 
     interface Model extends BaseContract.Model {
         Observable<BaseResponse<List<UidBean>>> deleteProduct(String shopUID, String productUID);
         Observable<BaseResponse<List<UidBean>>> postProduct(String shopUID, String productUID);
         Observable<BaseResponse<List<UidBean>>> putProduct(String shopUID, String productUID);
-        Observable<BaseResponse<List<StorePojo>>> getCarts(String shopUID,Params params);
-        Observable<BaseResponse<List<RecommendGoodsBean>>> getRecommendGoods();
+        Observable<BaseResponse<List<StorePojo>>> getCarts(String shopUID);
+        Observable<BaseResponse<List<RecommendGoodsBean>>> getRecommendGoods(Params params);
     }
 }

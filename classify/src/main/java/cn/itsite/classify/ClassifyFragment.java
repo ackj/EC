@@ -1,6 +1,7 @@
 package cn.itsite.classify;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,8 +13,11 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -62,6 +66,7 @@ public class ClassifyFragment extends BaseFragment<MenuContract.Presenter> imple
     private static final int ANIMATION_DURATION = 400;
     //    private int maxUnfoldHeight;//展开的最大高度，不能超过(ONE_UNFOLD_LINE_HEIGHT)的4倍高
     private boolean subMenuCanScroll = false;//控制三级菜单能否滚动
+    private TextView mTvSearch;
 
     public static ClassifyFragment newInstance() {
         return new ClassifyFragment();
@@ -89,6 +94,7 @@ public class ClassifyFragment extends BaseFragment<MenuContract.Presenter> imple
         mRvSubMenu = view.findViewById(R.id.rv_sub_menu);
         mLlStretchable = view.findViewById(R.id.ll_stretchable);
         mIvStretchMenu = view.findViewById(R.id.iv_stretch);
+        mTvSearch = view.findViewById(R.id.tv_input);
         return attachToSwipeBack(view);
     }
 
@@ -130,7 +136,10 @@ public class ClassifyFragment extends BaseFragment<MenuContract.Presenter> imple
         mParams.category = "123";
         mPresenter.getGategories(mParams);
 
+
     }
+
+
 
     @SuppressLint("ClickableViewAccessibility")
     private void initListener() {
@@ -193,6 +202,14 @@ public class ClassifyFragment extends BaseFragment<MenuContract.Presenter> imple
                 mPresenter.getProducts(mParams);
             }
         });
+
+        mTvSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = (Fragment) ARouter.getInstance().build("/goodssearch/searchgoodsfragment").navigation();
+                start((BaseFragment) fragment);
+            }
+        });
     }
 
     //点击一级菜单
@@ -213,6 +230,7 @@ public class ClassifyFragment extends BaseFragment<MenuContract.Presenter> imple
         mAdapterSubMenu.setNewData(null);
         mAdapterSubMenu.addData(allBean);
         mAdapterSubMenu.addData(menuBean.getChildren());
+        mAdapterSubMenu.setSelectedPosition(0);
         //逻辑按点击“全部”一致，请求网络
         mParams.uid = menuBean.getUid();
         mPresenter.getProducts(mParams);

@@ -64,16 +64,16 @@ public class CartModel extends BaseModel implements CartContract.Model {
     }
 
     @Override
-    public Observable<BaseResponse<List<StorePojo>>> getCarts(String shopUID,Params params) {
+    public Observable<BaseResponse<List<StorePojo>>> getCarts(String shopUID) {
          return HttpHelper.getService(CartService.class)
-                .getCarts(shopUID, params.toString())
+                .getCarts(shopUID)
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Observable<BaseResponse<List<RecommendGoodsBean>>> getRecommendGoods() {
+    public Observable<BaseResponse<List<RecommendGoodsBean>>> getRecommendGoods(Params params) {
         return HttpHelper.getService(CartService.class)
-                .getRecommendGoods()
+                .getRecommendGoods(params.toString())
                 .subscribeOn(Schedulers.io());
     }
 }
