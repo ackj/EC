@@ -40,6 +40,7 @@ public class SkusBean {
         private String attribute;
         private List<ValuesBean> values;
 
+
         public String getAttribute() {
             return attribute;
         }
@@ -66,7 +67,24 @@ public class SkusBean {
             private int stockQuantity;
             private String value;
             private List<String> skus;
+            private boolean hasIntersection; //自己加的，与后台数据无关
+            private boolean selected;//是否选中
 
+            public boolean isSelected() {
+                return selected;
+            }
+
+            public void setSelected(boolean selected) {
+                this.selected = selected;
+            }
+
+            public boolean isHasIntersection() {
+                return hasIntersection;
+            }
+
+            public void setHasIntersection(boolean hasIntersection) {
+                this.hasIntersection = hasIntersection;
+            }
             public int getStockQuantity() {
                 return stockQuantity;
             }

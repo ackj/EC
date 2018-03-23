@@ -13,6 +13,7 @@ import cn.itsite.abase.network.http.BaseResponse;
 import cn.itsite.albs.location.LocationFragment;
 import cn.itsite.classify.ClassifyFragment;
 import cn.itsite.delivery.SelectShoppingAddressFragment;
+import cn.itsite.goodsdetail.GoodsDetailFragment;
 import cn.itsite.goodshome.StoreHomeFragment;
 import cn.itsite.goodssearch.SearchGoodsFragment;
 import cn.itsite.login.LoginFragment;
@@ -65,6 +66,7 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
         getView().findViewById(R.id.btn_9).setOnClickListener(this);
         getView().findViewById(R.id.btn_10).setOnClickListener(this);
         getView().findViewById(R.id.btn_11).setOnClickListener(this);
+        getView().findViewById(R.id.btn_12).setOnClickListener(this);
     }
 
     @Override
@@ -108,8 +110,10 @@ public class MainFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.btn_11:
                 start(MineFragment.newInstance());
-
                 net();
+                break;
+            case R.id.btn_12:
+                start(GoodsDetailFragment.newInstance());
                 break;
             default:
         }
