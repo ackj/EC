@@ -53,7 +53,17 @@ public class ShoppingCartRVAdapter extends BaseMultiItemQuickAdapter<StoreBean, 
                             }
                         })
                         .addOnClickListener(R.id.tv_specification)
-                        .addOnClickListener(R.id.tv_confirm);
+                        .addOnClickListener(R.id.tv_confirm)
+                        .setText(R.id.tv_name, item.getProductsBean().getTitle())
+                        .setText(R.id.tv_desc, item.getProductsBean().getDescription())
+                        .setText(R.id.tv_price, item.getProductsBean().getPay().getCurrency() + " " + item.getProductsBean().getPay().getCost());
+
+                ImageView ivIcon = helper.getView(R.id.iv_icon);
+                Glide.with(ivIcon.getContext())
+                        .load(item.getProductsBean().getIcon())
+                        .into(ivIcon);
+
+
                 break;
             case StoreBean.TYPE_RECOMMEND_TITLE:
                 break;

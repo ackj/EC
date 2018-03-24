@@ -64,7 +64,6 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_marginLeft="12dp"
-            android:background="@color/red"
             app:layout_constraintBottom_toTopOf="@+id/line"
             app:layout_constraintLeft_toRightOf="@id/checkBox"
             app:layout_constraintTop_toTopOf="parent" />

@@ -51,6 +51,7 @@ public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> i
     private boolean isEditModel;//是编辑模式吗
 //    private GoodsCounterView mCurrentCounterView;//当前计数的view
     List<StoreBean> mDatas = new ArrayList<>();
+
     private Params mParams =new Params();
 
     public static ShoppingCartFragment newInstance() {
@@ -244,8 +245,14 @@ public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> i
             //删除
             mPresenter.deleteProduct("123","123");
         } else {
+            //把
             //结算
             ToastUtils.showToast(_mActivity, "结算");
+            Fragment fragment = (Fragment) ARouter.getInstance().build("/shoppingcart/shoppingcartfragment").navigation();
+            Bundle bundle = new Bundle();
+//            bundle.putSerializable();
+            fragment.setArguments(bundle);
+            start((BaseFragment) fragment);
         }
     }
 

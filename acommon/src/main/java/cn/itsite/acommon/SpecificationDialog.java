@@ -357,6 +357,8 @@ public class SpecificationDialog extends BaseDialogFragment implements SkusContr
             for (int j = 0; j < attributesBean.getValues().size(); j++) {
                 boolean hasIntersection = hasIntersection(attributesBean.getValues().get(j).getSkus(), mSkuUids);
                 attributesBean.getValues().get(j).setHasIntersection(hasIntersection);
+
+
             }
         }
     }
