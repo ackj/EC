@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.gson.Gson;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +33,8 @@ import cn.itsite.adialog.dialogfragment.BaseDialogFragment;
 
 public class SpecificationDialog extends BaseDialogFragment implements SkusContract.View {
 
+    private static final String TAG = SpecificationDialog.class.getSimpleName();
+
     private RecyclerView mRecyclerView;
     private GoodsCounterView mTvGoodsCounter;
 
@@ -44,6 +47,7 @@ public class SpecificationDialog extends BaseDialogFragment implements SkusContr
     private HashMap<Integer, SkusBean.AttributesBean.ValuesBean> mPositions = new HashMap<>();//已选的Position集
     private List<String> mInterselectionSkus = new ArrayList<>();//选中的skus交集，最后只会剩下一个值
     private List<String> mSkuUids = new ArrayList<>();//所有可能性的skus的uid
+    private HashMap<String, List<SkusBean.AttributesBean.ValuesBean>> mExCludeList = new HashMap<>();//每一个标签对应着其他列表相斥的标签集
 
     private String testJson = "{\n" +
             "        \"attributes\": [\n" +
@@ -305,45 +309,116 @@ public class SpecificationDialog extends BaseDialogFragment implements SkusContr
         mAdapter.setOnSpecificationClickListener(new SpecificationRVAdapter.OnSpecificationClickListener() {
             @Override
             public void onItemClick(SkusBean.AttributesBean.ValuesBean valuesBean, int position, boolean isSelected, FlexboxLayout flexboxLayout) {
+                //向相斥集中添加选中的那一项
+                List<SkusBean.AttributesBean> data = mAdapter.getData();
+                if (isSelected) {
+                    List<SkusBean.AttributesBean.ValuesBean> excludeList = new ArrayList<>();
+                    for (int i = 0; i < data.size(); i++) {
+                        if (i == position) {
+                            continue;
+                        }
+                        List<SkusBean.AttributesBean.ValuesBean> values = data.get(i).getValues();
+                        for (int i1 = 0; i1 < values.size(); i1++) {
+                            if (!hasIntersection(values.get(i1).getSkus(), valuesBean.getSkus())) {
+                                excludeList.add(values.get(i1));
+                            }
+                        }
+                    }
+                    mExCludeList.put(position + "", excludeList);
+                } else {
+                    StringBuilder sbKey = new StringBuilder();
+                    for (int i = 0; i < mAdapter.getData().size(); i++) {
+                        if (mPositions.containsKey(i)) {
+                            sbKey.append(i);
+                        }
+                    }
+                    mExCludeList.remove(sbKey.toString());
+                }
                 if (isSelected) {
                     mPositions.put(position, valuesBean);
                 } else {
                     mPositions.remove(position);
                 }
 
-                //把positions对应的skus交集求出来
-                if (mPositions.size() == 0) {
-                    refreshSkus();
-                } else {
-                    if (mPositions.size() == 1) {
-                        for (SkusBean.AttributesBean.ValuesBean value : mPositions.values()) {
-                            mInterselectionSkus = value.getSkus();
-                        }
-                        refreshSkus();
-                    } else {
-                        List<String> newInterselection = new ArrayList<>();
-                        for (int i = 0; i < valuesBean.getSkus().size(); i++) {
-                            String sku = valuesBean.getSkus().get(i);
-                            for (int j = 0; j < mInterselectionSkus.size(); j++) {
-                                if (mInterselectionSkus.get(j).equals(sku)) {
-                                    newInterselection.add(sku);
-                                }
-                            }
-                        }
-                        for (SkusBean.AttributesBean.ValuesBean value : mPositions.values()) {
-                            value.getSkus();
-                        }
-                        mInterselectionSkus = newInterselection;
-                        for (int i = 0; i < mAdapter.getData().size(); i++) {
-                            SkusBean.AttributesBean attributesBean = mAdapter.getData().get(i);
-                            for (int j = 0; j < attributesBean.getValues().size(); j++) {
-                                boolean hasIntersection = hasIntersection(attributesBean.getValues().get(j).getSkus(), mInterselectionSkus);
-                                attributesBean.getValues().get(j).setHasIntersection(hasIntersection);
-                            }
+                for (int i = 0; i < data.size(); i++) {
+                    List<SkusBean.AttributesBean.ValuesBean> values = data.get(i).getValues();
+                    for (int i1 = 0; i1 < values.size(); i1++) {
+                        values.get(i1).setHasIntersection(true);
+                    }
+                }
 
+                List<String> intersection = new ArrayList<>();
+                boolean isFirst = true;
+                for (SkusBean.AttributesBean.ValuesBean bean : mPositions.values()) {
+                    if (isFirst) {
+                        intersection.addAll(bean.getSkus());
+                        isFirst = false;
+                    } else {
+                        intersection.retainAll(bean.getSkus());
+                    }
+                }
+                for (String s : intersection) {
+                    Logger.e(TAG + "----intersection:" + s);
+                }
+                List<SkusBean.AttributesBean.ValuesBean> intersectionValues = new ArrayList<>();
+                if (intersection.size() > 0) {
+                    for (int i = 0; i < data.size(); i++) {
+                        if (mPositions.containsKey(i)) {
+                            continue;
+                        }
+                        List<SkusBean.AttributesBean.ValuesBean> values = data.get(i).getValues();
+                        for (int i1 = 0; i1 < values.size(); i1++) {
+                            if (!hasIntersection(values.get(i1).getSkus(), intersection)) {
+                                intersectionValues.add(values.get(i1));
+                            }
                         }
                     }
                 }
+                StringBuilder sbKey = new StringBuilder();
+                for (int i = 0; i < mAdapter.getData().size(); i++) {
+                    if (mPositions.containsKey(i)) {
+                        sbKey.append(i);
+                    }
+                }
+                mExCludeList.put(sbKey.toString(), intersectionValues);
+                for (List<SkusBean.AttributesBean.ValuesBean> value : mExCludeList.values()) {
+                    for (SkusBean.AttributesBean.ValuesBean bean : value) {
+                        bean.setHasIntersection(false);
+                    }
+                }
+                //把positions对应的skus交集求出来
+//                if (mPositions.size() == 0) {
+//                    refreshSkus();
+//                } else {
+//                    if (mPositions.size() == 1) {
+//                        for (SkusBean.AttributesBean.ValuesBean value : mPositions.values()) {
+//                            mInterselectionSkus = value.getSkus();
+//                        }
+//                        refreshSkus();
+//                    } else {
+//                        List<String> newInterselection = new ArrayList<>();
+//                        for (int i = 0; i < valuesBean.getSkus().size(); i++) {
+//                            String sku = valuesBean.getSkus().get(i);
+//                            for (int j = 0; j < mInterselectionSkus.size(); j++) {
+//                                if (mInterselectionSkus.get(j).equals(sku)) {
+//                                    newInterselection.add(sku);
+//                                }
+//                            }
+//                        }
+//                        for (SkusBean.AttributesBean.ValuesBean value : mPositions.values()) {
+//                            value.getSkus();
+//                        }
+//                        mInterselectionSkus = newInterselection;
+//                        for (int i = 0; i < mAdapter.getData().size(); i++) {
+//                            SkusBean.AttributesBean attributesBean = mAdapter.getData().get(i);
+//                            for (int j = 0; j < attributesBean.getValues().size(); j++) {
+//                                boolean hasIntersection = hasIntersection(attributesBean.getValues().get(j).getSkus(), mInterselectionSkus);
+//                                attributesBean.getValues().get(j).setHasIntersection(hasIntersection);
+//                            }
+//
+//                        }
+//                    }
+//                }
 
                 mAdapter.notifyDataSetChanged();
                 refreshProduct();
@@ -357,8 +432,6 @@ public class SpecificationDialog extends BaseDialogFragment implements SkusContr
             for (int j = 0; j < attributesBean.getValues().size(); j++) {
                 boolean hasIntersection = hasIntersection(attributesBean.getValues().get(j).getSkus(), mSkuUids);
                 attributesBean.getValues().get(j).setHasIntersection(hasIntersection);
-
-
             }
         }
     }

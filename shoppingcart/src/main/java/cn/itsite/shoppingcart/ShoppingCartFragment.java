@@ -27,6 +27,7 @@ import cn.itsite.abase.utils.ScreenUtils;
 import cn.itsite.abase.utils.ToastUtils;
 import cn.itsite.acommon.Params;
 import cn.itsite.acommon.SpecificationDialog;
+import cn.itsite.acommon.StorePojo;
 import cn.itsite.shoppingcart.contract.CartContract;
 import cn.itsite.shoppingcart.presenter.CartPresenter;
 
@@ -209,8 +210,25 @@ public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> i
     }
 
     @Override
-    public void responseGetCartsSuccess(List<StoreBean> data) {
-        mDatas = data;
+    public void responseGetCartsSuccess(List<StorePojo> data) {
+        List<StoreBean> resultData = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            StoreBean shopBean = new StoreBean();
+            shopBean.setItemType(StoreBean.TYPE_STORE_TITLE);
+            shopBean.setShopBean(data.get(i).getShop());
+            //设置商品个数，为刷新用
+            shopBean.setGoodsCount(data.get(i).getProducts().size());
+            shopBean.setSpanSize(2);
+            resultData.add(shopBean);
+            for (int j = 0; j < data.get(i).getProducts().size(); j++) {
+                StoreBean productBean = new StoreBean();
+                productBean.setItemType(StoreBean.TYPE_STORE_GOODS);
+                productBean.setProductsBean(data.get(i).getProducts().get(j));
+                productBean.setSpanSize(2);
+                resultData.add(productBean);
+            }
+        }
+        mDatas = resultData;
         //查推荐
         mPresenter.getRecommendGoods(mParams);
     }
@@ -245,12 +263,11 @@ public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> i
             //删除
             mPresenter.deleteProduct("123","123");
         } else {
-            //把
             //结算
             ToastUtils.showToast(_mActivity, "结算");
             Fragment fragment = (Fragment) ARouter.getInstance().build("/shoppingcart/shoppingcartfragment").navigation();
             Bundle bundle = new Bundle();
-//            bundle.putSerializable();
+            //bundle.putSerializable();
             fragment.setArguments(bundle);
             start((BaseFragment) fragment);
         }
@@ -264,6 +281,5 @@ public class ShoppingCartFragment extends BaseFragment<CartContract.Presenter> i
             clickSubmit();
         }
     }
-
 
 }

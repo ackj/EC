@@ -47,7 +47,6 @@ public class StoreHomeFragment extends BaseFragment {
     private FloatingActionButton mFabSearch;
     private MagicIndicator mMagicIndicator;
 
-
     public static StoreHomeFragment newInstance() {
         return new StoreHomeFragment();
     }
@@ -97,6 +96,8 @@ public class StoreHomeFragment extends BaseFragment {
                 .setBadgeTextColor(0x99FFFFFF)
                 .setBadgeNumber(2);
     }
+
+
 
     private void initListener() {
         mIvShopCart.setOnClickListener(new View.OnClickListener() {

@@ -2,6 +2,8 @@ package cn.itsite.shoppingcart;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
+import cn.itsite.acommon.StorePojo;
+
 /**
  * @author liujia
  * @version v0.0.0
@@ -18,10 +20,8 @@ public class StoreBean implements MultiItemEntity {
     public static final int TYPE_RECOMMEND_GOODS = 4;
 
     private boolean isChecked;
-
     //关于局部刷新的实现：商店存储商品的个数，然后只需刷新adapter.range(position,商品个数)即可
     private int goodsCount;
-
     private int itemType;
     private int spanSize;
 

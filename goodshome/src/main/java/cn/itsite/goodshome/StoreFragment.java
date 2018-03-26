@@ -22,6 +22,11 @@ import cn.itsite.abase.mvp.view.base.BaseFragment;
 import cn.itsite.acommon.Params;
 import cn.itsite.goodshome.contract.HomeContract;
 import cn.itsite.goodshome.presenter.HomePresenter;
+import cn.itsite.statemanager.BaseViewHolder;
+import cn.itsite.statemanager.StateLayout;
+import cn.itsite.statemanager.StateListener;
+import cn.itsite.statemanager.StateManager;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
  * Author： Administrator on 2018/1/30 0030.
@@ -40,6 +45,8 @@ public class StoreFragment extends BaseFragment<HomeContract.Presenter> implemen
     private List<Object> mBannerImages;
     private List<String> mBannerTitles;
     private Params mParmas = new Params();
+    private StateManager mStateManager;
+    private PtrFrameLayout mPtrFrameLayout;
 
     public static StoreFragment newInstance() {
         return new StoreFragment();
@@ -61,14 +68,17 @@ public class StoreFragment extends BaseFragment<HomeContract.Presenter> implemen
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recyclerview, container, false);
         mRecyclerView = view.findViewById(R.id.recyclerView);
+        mPtrFrameLayout = view.findViewById(R.id.ptrFrameLayout);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initStateManager();
         initData();
         initListener();
+        initPtrFrameLayout(mPtrFrameLayout, mRecyclerView);
     }
 
     private void initData() {
@@ -86,8 +96,23 @@ public class StoreFragment extends BaseFragment<HomeContract.Presenter> implemen
         });
 
         mParmas.type = "shop";
-
         mPresenter.getHome(mParmas);
+    }
+
+    private void initStateManager() {
+        mStateManager = StateManager.builder(_mActivity)
+                .setContent(mRecyclerView)
+                .setEmptyView(R.layout.state_layout)
+                .setEmptyImage(R.drawable.ic_prompt_dingwei_01)
+                .setErrorOnClickListener(v -> mPtrFrameLayout.autoRefresh())
+                .setConvertListener(new StateListener.ConvertListener() {
+                    @Override
+                    public void convert(BaseViewHolder holder, StateLayout stateLayout) {
+                        holder.setText(R.id.bt_empty_state, "切换地址");
+                    }
+                })
+                .setEmptyText("当前暂无商品，请切换地址试试吧！")
+                .build();
     }
 
     private void initListener() {
@@ -97,7 +122,7 @@ public class StoreFragment extends BaseFragment<HomeContract.Presenter> implemen
                 StoreItemGridBean item = mAdatper.getItem(position);
                 switch (item.getItemType()) {
                     case StoreItemGridBean.TYPE_BANNER:
-                        if(view.getId()==R.id.ll_location){
+                        if (view.getId() == R.id.ll_location) {
                             Fragment addressFragment = (Fragment) ARouter.getInstance().build("/delivery/selectshoppingaddressfragment").navigation();
                             ((StoreHomeFragment) getParentFragment()).start((BaseFragment) addressFragment);
                         }
@@ -118,10 +143,14 @@ public class StoreFragment extends BaseFragment<HomeContract.Presenter> implemen
     }
 
     @Override
-    public void responseGetHome(List<StoreItemGridBean> list) {
-        mDatas = list;
+    public void responseGetHome(List<StoreItemGridBean> data) {
+        mPtrFrameLayout.refreshComplete();
+        if (data == null || data.isEmpty()) {
+            mStateManager.showEmpty();
+        } else {
+            mStateManager.showContent();
+        }
+        mDatas = data;
         mAdatper.setNewData(mDatas);
     }
-
-
 }

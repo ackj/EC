@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 针对下拉刷新的header -->
+    <color name="a">#F00</color>
+    <color name="b">#FF375BF1</color>
+    <color name="c">#FFFF00</color>
+    <color name="d">#008000</color>
+</resources>

@@ -1,4 +1,4 @@
-package cn.itsite.shoppingcart;
+package cn.itsite.acommon;
 
 import java.util.List;
 

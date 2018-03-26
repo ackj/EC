@@ -1,6 +1,5 @@
 package cn.itsite.goodssearch;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,7 +13,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,6 +31,10 @@ import cn.itsite.abase.utils.ScreenUtils;
 import cn.itsite.acommon.Params;
 import cn.itsite.goodssearch.contract.KeywordsContract;
 import cn.itsite.goodssearch.presenter.KeywordsPresenter;
+import cn.itsite.statemanager.BaseViewHolder;
+import cn.itsite.statemanager.StateLayout;
+import cn.itsite.statemanager.StateListener;
+import cn.itsite.statemanager.StateManager;
 
 /**
  * Author： Administrator on 2018/1/30 0030.
@@ -54,6 +56,7 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsPresenter> impleme
     private List<SearchGoodsBean> mProductsDatas;
 
     private Params mParmas = new Params();
+    private StateManager mStateManager;
 
     public static SearchGoodsFragment newInstance() {
         return new SearchGoodsFragment();
@@ -86,8 +89,24 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsPresenter> impleme
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initStatusBar();
+        initStateManager();
         initData();
         initListener();
+    }
+
+    private void initStateManager() {
+        mStateManager = StateManager.builder(_mActivity)
+                .setContent(mRecyclerView)
+                .setEmptyView(R.layout.state_layout)
+                .setEmptyImage(R.drawable.ic_prompt_search_01)
+                .setConvertListener(new StateListener.ConvertListener() {
+                    @Override
+                    public void convert(BaseViewHolder holder, StateLayout stateLayout) {
+                        holder.setVisible(R.id.bt_empty_state, false);
+                    }
+                })
+                .setEmptyText("抱歉，搜无此商品~")
+                .build();
     }
 
     private void initStatusBar() {
@@ -95,7 +114,6 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsPresenter> impleme
     }
 
     private void initData() {
-        showSoftInputFromWindow(_mActivity,mEtInput);
 
         mRecyclerView.setLayoutManager(new GridLayoutManager(_mActivity, 6));
         mSearchGoodsAdapter = new SearchGoodsRVAdapter();
@@ -103,7 +121,6 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsPresenter> impleme
 
         //获取热门搜索
         mPresenter.getKeywords(mParmas);
-
     }
 
     private void refreshData(final List<SearchGoodsBean> data) {
@@ -114,6 +131,7 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsPresenter> impleme
             }
         });
         mSearchGoodsAdapter.setNewData(data);
+        mStateManager.showContent();
     }
 
     private void initListener() {
@@ -164,7 +182,7 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsPresenter> impleme
         mEtInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_SEARCH){
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     search();
                 }
                 return false;
@@ -172,14 +190,7 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsPresenter> impleme
         });
     }
 
-    public static void showSoftInputFromWindow(Activity activity, EditText editText) {
-        editText.setFocusable(true);
-        editText.setFocusableInTouchMode(true);
-        editText.requestFocus();
-        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-    }
-
-    private void search(){
+    private void search() {
         String input = mEtInput.getText().toString();
         if (!TextUtils.isEmpty(input)) {
             super.start("");
@@ -205,6 +216,7 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsPresenter> impleme
 
     @Override
     public void responseGetKeywords(List<KeywordBean> datas) {
+        mStateManager.showContent();
         mKeywordsDatas = new ArrayList<>();
         for (int i = 0; i < datas.size(); i++) {
             SearchGoodsBean keywordBean = new SearchGoodsBean();
@@ -218,8 +230,8 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsPresenter> impleme
 
     @Override
     public void responseGetHotKeywords(List<KeywordBean> datas) {
+        mStateManager.showContent();
         mHotKeywordsDatas = new ArrayList<>();
-
         //从本地获取历史搜索记录，塞到list中
         List<String> keyword2Local = mPresenter.getKeyword2Local();
         if (keyword2Local.size() > 0) {
@@ -252,18 +264,25 @@ public class SearchGoodsFragment extends BaseFragment<KeywordsPresenter> impleme
             mHotKeywordsDatas.add(keywordBean);
         }
         refreshData(mHotKeywordsDatas);
+
     }
 
     @Override
     public void responseGetProducts(List<GoodsBean> data) {
-        mProductsDatas = new ArrayList<>();
-        for (int i = 0; i < data.size(); i++) {
-            SearchGoodsBean product = new SearchGoodsBean();
-            product.setSpanSize(3);
-            product.setItemType(SearchGoodsBean.TYPE_SEARCH_GOODS);
-            product.setGoodsBean(data.get(i));
-            mProductsDatas.add(product);
+        if (data == null || data.isEmpty()) {
+            mStateManager.showEmpty();
+        } else {
+            mProductsDatas = new ArrayList<>();
+            for (int i = 0; i < data.size(); i++) {
+                SearchGoodsBean product = new SearchGoodsBean();
+                product.setSpanSize(3);
+                product.setItemType(SearchGoodsBean.TYPE_SEARCH_GOODS);
+                product.setGoodsBean(data.get(i));
+                mProductsDatas.add(product);
+            }
+            refreshData(mProductsDatas);
         }
-        refreshData(mProductsDatas);
+        //todo:待删
+        mStateManager.showEmpty();
     }
 }

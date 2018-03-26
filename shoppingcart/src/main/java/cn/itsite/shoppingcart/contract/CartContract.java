@@ -5,9 +5,9 @@ import java.util.List;
 import cn.itsite.abase.mvp.contract.base.BaseContract;
 import cn.itsite.abase.network.http.BaseResponse;
 import cn.itsite.acommon.Params;
+import cn.itsite.acommon.StorePojo;
 import cn.itsite.shoppingcart.RecommendGoodsBean;
 import cn.itsite.shoppingcart.StoreBean;
-import cn.itsite.shoppingcart.StorePojo;
 import cn.itsite.shoppingcart.UidBean;
 import rx.Observable;
 
@@ -24,7 +24,7 @@ public interface CartContract {
         void responseDeleteSuccess(List<UidBean> data);
         void responsePostSuccess(List<UidBean> data);
         void responsePutSuccess(List<UidBean> data);
-        void responseGetCartsSuccess(List<StoreBean> data);
+        void responseGetCartsSuccess(List<StorePojo> data);
         void responseRecommendGoodsSuccess(List<StoreBean> data);
     }
 

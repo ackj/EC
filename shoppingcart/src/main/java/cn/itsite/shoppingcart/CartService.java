@@ -3,6 +3,7 @@ package cn.itsite.shoppingcart;
 import java.util.List;
 
 import cn.itsite.abase.network.http.BaseResponse;
+import cn.itsite.acommon.StorePojo;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
@@ -15,7 +16,6 @@ import rx.Observable;
  * Author： Administrator on 2018/3/12 0012.
  * Email： liujia95me@126.com
  */
-
 public interface CartService {
 
     //删除一个商品

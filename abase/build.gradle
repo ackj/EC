@@ -111,6 +111,8 @@ dependencies {
     //下拉刷新框架
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-5'
     api 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-5'//没有使用特殊Header，可以不加这行
+    //下拉刷新框架(由于之前版本多出使用，暂时先不舍弃)
+    api 'in.srain.cube:ultra-ptr:1.0.11'
     //Banner
     api 'com.youth.banner:banner:1.4.10'
     //角标View

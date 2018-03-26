@@ -62,8 +62,6 @@ public class ShoppingCartRVAdapter extends BaseMultiItemQuickAdapter<StoreBean, 
                 Glide.with(ivIcon.getContext())
                         .load(item.getProductsBean().getIcon())
                         .into(ivIcon);
-
-
                 break;
             case StoreBean.TYPE_RECOMMEND_TITLE:
                 break;
